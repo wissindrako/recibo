@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link rel="stylesheet" href="{{asset('css/reporte.css')}}">
+	<title>Recibo</title>
+    @include('components.styles')
+</head>
+<body>
+    <header style="width: 100%;">
+        <table>
+            <tr class="cabecera">
+                @php
+                    $fecha = explode('-', $recibo->fecha);
+                @endphp
+                <td align="center" width="30px">
+                    <small>DIA</small><br>
+                    <b style="font-size: 14px;">{{$fecha[2]}}</b>
+                </td>
+                <td align="center" width="30px">
+                    <small>MES</small><br>
+                    <b style="font-size: 14px;">{{$fecha[1]}}</b>
+                </td>
+                <td align="center" width="40px">
+                    <small>AÑO</small><br>
+                    <b style="font-size: 14px;">{{$fecha[0]}}</b>
+                </td>
+                <td class="titulo" style="font-size: 36px;font-style: bold;">
+                    <p>RECIBO</p>
+                </td>
+                <td>
+                    <div class="nro_serie">
+                        <div class="espacio_serie">
+                            <small>N° </small>
+                            <span style="font-size: 16px;">{{ $recibo->nro_serie }} </span>
+                        </div>
+                    </div>
+                </td>
+            </tr>
+        </table>
+    </header>
+
+    <footer style="width: 100%;">
+        <table>
+            <tr>
+                <td align="center" width="250px">
+                    <small>ENTREGADO POR:</small><br>
+                    <b>{{ $recibo->cliente->nombres }} {{ $recibo->cliente->ap_paterno }} {{ $recibo->cliente->ap_materno }}</b><br><br>
+
+                    <span style="color:darkgray;">.............................</span><br>
+                    <small style="color:darkgray;">Firma</small>
+                </td>
+                <td align="center" width="200px">
+                    <small>RECIBIDO POR:</small><br>
+                    <b>{{ $recibo->usuario->name }}</b><br><br>
+                    <span style="color:darkgray;">.............................</span><br>
+                    <small style="color:darkgray;">Firma</small>
+                </td>
+            </tr>
+        </table>
+    </footer>
+    <div class="nivel">
+        <p>
+            <b>He recibido de {{$recibo->cliente->genero == 'M' ? 'el' : ''}} {{$recibo->cliente->genero == 'F' ? 'la' : ''}}: </b> {{ $recibo->cliente->titulo }} {{ $recibo->cliente->nombres }} {{ $recibo->cliente->ap_paterno }} {{ $recibo->cliente->ap_materno }} <br>
+            <b>La suma de: </b> {{ $recibo->cantidad_literal }} <br>
+            <b>Por concepto de:</b> {{ $recibo->concepto }}
+        </p>
+    </div>
+    <div style="text-align: right;padding-right:10; padding-top:15px;line-height: 0cm;">
+        <p><b>Total:</b> {{ $recibo->cantidad }}</p>
+    </div>
+</body>
+</html>
