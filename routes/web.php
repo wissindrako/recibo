@@ -2,16 +2,10 @@
 
 use App\Http\Controllers\Admin\RoleController;
 use App\Http\Controllers\Admin\UserController;
-use App\Http\Controllers\EstudianteController;
-use App\Http\Controllers\EvaluacionController;
 use App\Http\Controllers\InicioController;
-use App\Http\Controllers\MateriaController;
-use App\Http\Controllers\MateriaNotaController;
-use App\Http\Controllers\NotaController;
 use App\Http\Controllers\PersonaController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\ReciboController;
-use App\Http\Controllers\UnidadEducativaController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -68,13 +62,16 @@ Route::middleware('splade')->group(function () {
         Route::get('/recibos', [ReciboController::class, 'index'])->name('recibos');
 
         Route::get('/recibo/create', [ReciboController::class, 'create'])->name('recibo.create');
-        Route::get('/recibo/{id}', [ReciboController::class, 'show'])->name('recibo.show');
+        Route::withoutMiddleware('splade')->group(function () {
+            Route::get('/recibo/{id}', [ReciboController::class, 'show'])->name('recibo.show');
+        });
         Route::post('/recibo', [ReciboController::class, 'store'])->name('recibo.store');
         Route::get('/recibo/{id}/edit', [ReciboController::class, 'edit'])->name('recibo.edit');
         Route::put('/recibo/{id}', [ReciboController::class, 'update'])->name('recibo.update');
 
 
     });
+
 
 
 

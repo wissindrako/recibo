@@ -13,6 +13,7 @@ use Spatie\QueryBuilder\AllowedFilter;
 use Spatie\QueryBuilder\QueryBuilder;
 
 use App\Helpers\NumberToWords;
+use App\Models\User;
 use Barryvdh\DomPDF\Facade\Pdf;
 use Carbon\Carbon;
 
@@ -68,7 +69,8 @@ class ReciboController extends Controller
     public function create()
     {
         $clientes = Persona::get();
-        return view('recibo.create', compact('clientes'));
+        $usuarios = User::get();
+        return view('recibo.create', compact('clientes', 'usuarios'));
     }
 
     /**
@@ -101,7 +103,12 @@ class ReciboController extends Controller
             $recibo->concepto = $request->concepto;
 
             $recibo->observaciones = $request->observaciones;
-            $recibo->user_id = auth()->user()->id;
+
+            if ($request->user_id) {
+                $recibo->user_id = $request->user_id;
+            }else{
+                $recibo->user_id = auth()->user()->id;
+            }
 
             $recibo->save();
 
@@ -128,17 +135,21 @@ class ReciboController extends Controller
         $recibo = Recibo::findOrFail($id);
         $recibo->load(['usuario', 'cliente']);
 
+        // return Pdf::loadView('recibo.reporte', ['recibo' => $recibo])->save(public_path().'/myfile.pdf')->stream('download.pdf', array("Attachment" => 0));
+
         // Conversion de Pulgadas a Puntos tipograficos
         // 4.251969 x 5.51181 pulg. = 306.1 x 396.85 puntos
         $carta_en_cuatro = array(0,0,306.1,396.85);
 
         if ($request->has('reporte')) {
             if ($request->reporte == 'pdf') {
+                // ob_end_clean();
                 $pdf = Pdf::loadView('recibo.reporte', ['recibo' => $recibo])
                 ->setPaper($carta_en_cuatro, 'landscape');
-                return $pdf->stream('Recibo.pdf');
+                $pdf->render();
+                return $pdf->stream('Recibo.pdf', array("Attachment" => false));
             } else {
-                return view('recibo.reporte', compact('recibo'));
+                return view('recibo.show', compact('recibo'));
             }
 
         }
@@ -154,8 +165,9 @@ class ReciboController extends Controller
     public function edit($id)
     {
         $clientes = Persona::get();
+        $usuarios = User::get();
         $recibo = Recibo::findOrFail($id);
-        return view('recibo.edit', compact('recibo', 'clientes'));
+        return view('recibo.edit', compact('recibo', 'clientes', 'usuarios'));
     }
 
     /**
@@ -178,7 +190,7 @@ class ReciboController extends Controller
             DB::beginTransaction();
 
             $literal = new NumberToWords();
-            $literal->conector = ''; // ['y', 'con', '']
+            $literal->conector = 'con'; // ['y', 'con', ''] default 'con'
 
             $recibo = Recibo::findOrFail($id);
             $recibo->cliente_id = $request->cliente_id;
@@ -188,7 +200,12 @@ class ReciboController extends Controller
             $recibo->concepto = $request->concepto;
 
             $recibo->observaciones = $request->observaciones;
-            $recibo->user_id = auth()->user()->id;
+
+            if ($request->user_id) {
+                $recibo->user_id = $request->user_id;
+            }else{
+                $recibo->user_id = auth()->user()->id;
+            }
 
             $recibo->update();
 
