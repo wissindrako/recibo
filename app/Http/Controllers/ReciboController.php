@@ -13,6 +13,7 @@ use Spatie\QueryBuilder\AllowedFilter;
 use Spatie\QueryBuilder\QueryBuilder;
 
 use App\Helpers\NumberToWords;
+use App\Helpers\FormatoFecha;
 use App\Models\User;
 use Barryvdh\DomPDF\Facade\Pdf;
 use Carbon\Carbon;
@@ -28,20 +29,38 @@ class ReciboController extends Controller
     {
         $user_id = auth()->user()->id;
 
+        // dd(DB::table('personas')
+        // ->select('nombres')
+        // ->first()
+        // );
+
         $globalSearch = AllowedFilter::callback('global', function ($query, $value) {
             $query->where(function ($query) use ($value) {
                 Collection::wrap($value)->each(function ($value) use ($query) {
                     $query
-                        ->orWhere('concepto', 'LIKE', "%{$value}%");
+                        ->orWhere('concepto', 'LIKE', "%{$value}%")
+                        ->orWhere('cantidad', '=', "{$value}")
+                        ->orWhere('cliente_id', function($subquery) use ($value){
+                            $subquery
+                                ->select('id')
+                                ->from('personas')
+                                ->where('nombres', 'LIKE', "%{$value}%")
+                                ->orWhere('ap_paterno', 'LIKE', "%{$value}%")
+                                ->orWhere('ap_materno', 'LIKE', "%{$value}%")
+                                ->first();
+                            }
+                        );
                 });
             });
         });
 
-        $mis_recibos = Recibo::orderBy('created_at');
+        $mis_recibos = Recibo::orderBy('created_at', 'desc');
         $mis_recibos->with(['cliente']);
 
+        $fecha = new FormatoFecha();
+
         $recibos = QueryBuilder::for($mis_recibos)
-        ->defaultSort('-created_at', 'updated_at')
+        ->defaultSort('created_at', 'updated_at')
         ->allowedSorts(['cantidad', 'concepto', 'created_at'])
         ->allowedFilters(['cantidad', 'concepto', 'created_at', $globalSearch])
         ->paginate()
@@ -49,9 +68,14 @@ class ReciboController extends Controller
         return view('recibo.index', [
             'recibos' => SpladeTable::for($recibos)
             ->withGlobalSearch()
-            ->column('cliente.nombre_completo', label:'Cliente')
-            ->column('fecha', sortable: true, searchable: true)
-            ->column('cantidad_literal', sortable: true, searchable: true, label:'La suma de:')
+            ->column(key: 'key', label:'Nº')
+            ->column('cliente.nombre_completo', searchable: true, label:'Cliente')
+            //->column('fecha', sortable: false, searchable: true)
+            ->column(
+                key: 'fecha',
+                as: fn ($email) => $fecha->fecha_dmy($email),
+                label: 'Fecha pago'
+            )
             ->column('cantidad', sortable: true, searchable: true, label:'Monto')
             ->column('concepto', sortable: true, searchable: true)
             ->column('action')

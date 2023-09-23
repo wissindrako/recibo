@@ -96,7 +96,7 @@ td.datos {
     font-size: 16px;
     overflow: hidden;
     line-height: 0.7cm;
-    height: 130px;
+    height: 160px;
 }
 
 
@@ -105,13 +105,13 @@ td.datos {
 }
 
 
-@page { margin: 100px 55px; }
+@page { margin: 100px 15px 100px 85px; }
 header {
     position: fixed; left: 0px; top: -70px; right: 0px; height: 80px; text-align: center;
 }
 footer {
     position: fixed;
-    bottom: -40px;
+    bottom: -80px;
     left: -20px;
     right: 0px;
     height: 60px;

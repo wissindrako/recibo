@@ -14,7 +14,15 @@
                     </Link>
                 </div>
                 <div class="p-6 bg-white border-b border-gray-200">
-                    <x-splade-table :for="$recibos">
+                    <x-splade-table :for="$recibos" as="$recibo" striped auto>
+                        <x-splade-cell key>
+                            <p class="text-black-500 font-bold"> {{ $key + 1 }}</p>
+                        </x-splade-cell>
+                        <x-splade-cell concepto class=" break-words">
+                            <div class="break-words">
+                                <p class="text-cyan-700 font-bold">{{$recibo->concepto}}</p>
+                            </div>
+                        </x-splade-cell>
                         @cell('action', $recibo)
                                 <div class="h-full flex">
                                     {{-- <div

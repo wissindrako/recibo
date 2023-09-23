@@ -46,17 +46,14 @@
         <table>
             <tr>
                 <td align="center" width="250px">
-                    <small>ENTREGADO POR:</small><br>
-                    <b>{{ $recibo->cliente->nombres }} {{ $recibo->cliente->ap_paterno }} {{ $recibo->cliente->ap_materno }}</b><br><br>
-
                     <span style="color:darkgray;">.............................</span><br>
-                    <small style="color:darkgray;">Firma</small>
+                    <b>{{ $recibo->cliente->nombres }} {{ $recibo->cliente->ap_paterno }} {{ $recibo->cliente->ap_materno }}</b><br>
+                    <small>ENTREGADO POR:</small>
                 </td>
                 <td align="center" width="200px">
-                    <small>RECIBIDO POR:</small><br>
-                    <b>{{ $recibo->usuario->name }}</b><br><br>
                     <span style="color:darkgray;">.............................</span><br>
-                    <small style="color:darkgray;">Firma</small>
+                    <b>{{ $recibo->usuario->name }}</b><br>
+                    <small>RECIBIDO POR:</small>
                 </td>
             </tr>
         </table>
@@ -68,7 +65,7 @@
             <b>Por concepto de:</b> {{ $recibo->concepto }}
         </p>
     </div>
-    <div style="text-align: right;padding-right:10; padding-top:15px;line-height: 0cm;">
+    <div style="text-align: right;padding-right:10; margin-top:-10px;line-height: 0.5cm;font-size: 18px;">
         <p><b>Total:</b> {{ $recibo->cantidad }}</p>
     </div>
 </body>
