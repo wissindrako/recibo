@@ -50,12 +50,12 @@
                                                 </div>
                                                 <div class="px-2">
                                                     <a target="_blank" href="{{ route('recibo.show', [$recibo->id, 'reporte' => 'pdf']) }}" class="font-bold text-indigo-500">
-                                                        <x-icon-file-download color="#114ff1" ancho="24" alto="24"/>
+                                                        <x-icon-file-download color="#114ff1" ancho="48" alto="48"/>
                                                     </a>
                                                 </div>
                                                 <div class="px-2">
                                                     <a target="_blank" href="{{ route('recibo.show', [$recibo->id, 'reporte' => 'html']) }}" class="font-bold text-indigo-500">
-                                                        <x-icon-file color="#7985f1" ancho="24" alto="24"/>
+                                                        <x-icon-file color="#7985f1" ancho="48" alto="48"/>
                                                     </a>
                                                 </div>
                                             </div>
