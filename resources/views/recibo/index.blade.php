@@ -65,41 +65,6 @@
                             </tbody>
                         </x-slot>
                     </x-splade-table>
-                    <x-splade-table :for="$recibos" as="$recibo" striped auto>
-                        <x-splade-cell key>
-                            <p class="text-black-500 font-bold"> {{ $key + 1 }}</p>
-                        </x-splade-cell>
-                        <x-splade-cell concepto>
-                            <div class="w-1/2 hover:w-full">
-                                <p class="code" style="white-space: pre-line;background:red;">{{$recibo->concepto}}</p>
-                            </div>
-                        </x-splade-cell>
-                        @cell('action', $recibo)
-                                <div class="h-full flex">
-                                    {{-- <div
-                                        class="flex h-full items-center">
-                                        <div class="mx-2">
-                                            <Link href="/recibo/crear" class="font-bold text-gray-500">
-                                                Nueva Institución
-                                            </Link>
-                                        </div>
-                                        <div class=" h-8 w-px bg-gray-300"></div>
-                                    </div> --}}
-                                    <div class="mx-2">
-                                        <Link href="{{ route('recibo.edit', $recibo->id) }}" class="font-bold text-indigo-500">
-                                            Editar
-                                        </Link>
-                                        <a target="_blank" href="{{ route('recibo.show', [$recibo->id, 'reporte' => 'pdf']) }}" class="font-bold text-indigo-500">
-                                            <x-icon-file-download color="#114ff1" ancho="24" alto="24"/>
-                                        </a>
-                                        <a target="_blank" href="{{ route('recibo.show', [$recibo->id, 'reporte' => 'html']) }}" class="font-bold text-indigo-500">
-                                            <x-icon-file color="#7985f1" ancho="24" alto="24"/>
-                                        </a>
-                                    </div>
-
-                                </div>
-                        @endcell
-                    </x-splade-table>
                 </div>
             </div>
         </div>
