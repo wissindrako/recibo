@@ -33,6 +33,9 @@
                                         <td class="px-2 text-center">
                                             <p class="text-slate-500 font-semi-bold">{{ $key + 1 }}</p>
                                         </td>
+                                        <td width=50px; class="text-slate-800">
+                                            {{$recibo->id}}
+                                        </td>
                                         <td width=200px; class="text-slate-800 font-bold">
                                             {{$recibo->cliente->nombre_completo}}
                                         </td>

@@ -40,14 +40,16 @@ class ReciboController extends Controller
                     $query
                         ->orWhere('concepto', 'LIKE', "%{$value}%")
                         ->orWhere('cantidad', '=', "{$value}")
-                        ->orWhere('cliente_id', function($subquery) use ($value){
-                            $subquery
-                                ->select('id')
-                                ->from('personas')
-                                ->where('nombres', 'LIKE', "%{$value}%")
-                                ->orWhere('ap_paterno', 'LIKE', "%{$value}%")
-                                ->orWhere('ap_materno', 'LIKE', "%{$value}%")
-                                ->first();
+                        ->orWhere(
+                            'cliente_id',
+                            function ($subquery) use ($value) {
+                                $subquery
+                                    ->select('id')
+                                    ->from('personas')
+                                    ->where('nombres', 'LIKE', "%{$value}%")
+                                    ->orWhere('ap_paterno', 'LIKE', "%{$value}%")
+                                    ->orWhere('ap_materno', 'LIKE', "%{$value}%")
+                                    ->first();
                             }
                         );
                 });
@@ -60,25 +62,26 @@ class ReciboController extends Controller
         $fecha = new FormatoFecha();
 
         $recibos = QueryBuilder::for($mis_recibos)
-        ->defaultSort('created_at', 'updated_at')
-        ->allowedSorts(['cantidad', 'concepto', 'created_at'])
-        ->allowedFilters(['cantidad', 'concepto', 'created_at', $globalSearch])
-        ->paginate()
-        ->withQueryString();
+            ->defaultSort('created_at', 'updated_at')
+            ->allowedSorts(['cantidad', 'concepto', 'created_at'])
+            ->allowedFilters(['cantidad', 'concepto', 'created_at', $globalSearch])
+            ->paginate()
+            ->withQueryString();
         return view('recibo.index', [
             'recibos' => SpladeTable::for($recibos)
-            ->withGlobalSearch()
-            ->column(key: 'key', label:'Nº')
-            ->column('cliente.nombre_completo', searchable: true, label:'Cliente')
-            //->column('fecha', sortable: false, searchable: true)
-            ->column(
-                key: 'fecha',
-                as: fn ($email) => $fecha->fecha_dmy($email),
-                label: 'Fecha pago'
-            )
-            ->column('cantidad', sortable: true, searchable: true, label:'Monto')
-            ->column('concepto', sortable: true, searchable: true)
-            ->column('action')
+                ->withGlobalSearch()
+                ->column(key: 'key', label: 'Nº')
+                ->column('id', label: 'Código', sortable: true, searchable: true)
+                ->column('cliente.nombre_completo', searchable: true, label: 'Cliente')
+                //->column('fecha', sortable: false, searchable: true)
+                ->column(
+                    key: 'fecha',
+                    as: fn($email) => $fecha->fecha_dmy($email),
+                    label: 'Fecha pago'
+                )
+                ->column('cantidad', sortable: true, searchable: true, label: 'Monto')
+                ->column('concepto', sortable: true, searchable: true)
+                ->column('action')
             // ->rowLink(function(User $user){
             //     return route('users.show', $user);
             // })
@@ -130,7 +133,7 @@ class ReciboController extends Controller
 
             if ($request->user_id) {
                 $recibo->user_id = $request->user_id;
-            }else{
+            } else {
                 $recibo->user_id = auth()->user()->id;
             }
 
@@ -141,7 +144,6 @@ class ReciboController extends Controller
             Splade::toast('Recibo creado correctamente!')->autoDismiss(5);
 
             return redirect()->route('recibos');
-
         } catch (\Throwable $th) {
             DB::rollBack();
             return $th;
@@ -163,19 +165,18 @@ class ReciboController extends Controller
 
         // Conversion de Pulgadas a Puntos tipograficos
         // 4.251969 x 5.51181 pulg. = 306.1 x 396.85 puntos
-        $carta_en_cuatro = array(0,0,306.1,396.85);
+        $carta_en_cuatro = array(0, 0, 306.1, 396.85);
 
         if ($request->has('reporte')) {
             if ($request->reporte == 'pdf') {
                 // ob_end_clean();
                 $pdf = Pdf::loadView('recibo.reporte', ['recibo' => $recibo])
-                ->setPaper($carta_en_cuatro, 'landscape');
+                    ->setPaper($carta_en_cuatro, 'landscape');
                 $pdf->render();
                 return $pdf->stream('Recibo.pdf', array("Attachment" => false));
             } else {
                 return view('recibo.show', compact('recibo'));
             }
-
         }
         return response()->json(['data' => $recibo], 200);
     }
@@ -227,7 +228,7 @@ class ReciboController extends Controller
 
             if ($request->user_id) {
                 $recibo->user_id = $request->user_id;
-            }else{
+            } else {
                 $recibo->user_id = auth()->user()->id;
             }
 
@@ -238,7 +239,6 @@ class ReciboController extends Controller
             Splade::toast('Recibo actualizado correctamente!')->autoDismiss(5);
 
             return redirect()->route('recibos');
-
         } catch (\Throwable $th) {
             DB::rollBack();
             return $th;
