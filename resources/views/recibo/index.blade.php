@@ -41,14 +41,14 @@
                                         <td width=400px; class="border">
                                             <p class="text-sky-600 font-bold">{{$recibo->concepto}}</p>
                                             <br>
-                                            <p> {{$recibo->id}} <span class="italic">- {{$recibo->hash}}</span> </p>
+                                            <p> {{$recibo->nroSerie}} <span class="italic">- {{$recibo->hash}}</span> </p>
                                         </td>
                                         <td class="text-center border">{{$recibo->estadoTexto }}</td>
                                         <td width=150px; class="border">
                                             <div class="flex flex-row items-center h-14">
                                                 @if ($recibo->estado === 1)
                                                  <div class="px-1">
-                                                    <Link href="{{ route('recibo.edit', $recibo->nroSerie) }}" class="font-bold text-indigo-500">
+                                                    <Link href="{{ route('recibo.edit', $recibo->id) }}" class="font-bold text-indigo-500">
                                                         Editar
                                                     </Link>
                                                 </div>

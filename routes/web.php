@@ -42,8 +42,14 @@ Route::middleware('splade')->group(function () {
         Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 
         Route::group(['prefix' => 'admin'], function () {
-            Route::get('/users', UserController::class)->name('users');
+            Route::get('/users', UserController::class)->name('users')->middleware('can:users');
+            Route::get('/user/create', [UserController::class, 'create'])->name('user.create')->middleware('can:user.create');
+            Route::post('/user', [UserController::class, 'store'])->name('user.store')->middleware('can:user.store');
             Route::get('/user/{id}', [UserController::class, 'show'])->name('user.show');
+            Route::get('/user/{id}/edit', [UserController::class, 'edit'])->name('user.edit');
+            Route::put('/user/{id}', [UserController::class, 'update'])->name('user.update');
+            Route::get('/user/{id}/email_confirm', [UserController::class, 'email_confirm'])->name('user.email_confirm');
+            Route::get('/user/{id}/active', [UserController::class, 'active'])->name('user.active');
 
             Route::get('/roles', RoleController::class)->name('roles');
             Route::get('/rol/{rol}', [RoleController::class, 'show'])->name('rol.show');
@@ -68,12 +74,10 @@ Route::middleware('splade')->group(function () {
         Route::post('/recibo', [ReciboController::class, 'store'])->name('recibo.store');
         Route::get('/recibo/{id}/edit', [ReciboController::class, 'edit'])->name('recibo.edit');
         Route::put('/recibo/{id}', [ReciboController::class, 'update'])->name('recibo.update');
-
-
     });
 
 
 
 
-    require __DIR__.'/auth.php';
+    require __DIR__ . '/auth.php';
 });

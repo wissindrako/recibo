@@ -15,19 +15,20 @@ class FormatoFecha
      */
 
 
-    function fecha($date){
+    function fecha($date)
+    {
         if ($date) {
-            $meses = array("Enero","Febrero","Marzo","Abril","Mayo","Junio","Julio","Agosto","Septiembre","Octubre","Noviembre","Diciembre");
+            $meses = array("Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre");
             $fecha = Carbon::parse($date);
             $mes = $meses[($fecha->format('n')) - 1];
             return $fecha->format('d') . ' de ' . $mes . ' de ' . $fecha->format('Y');
         } else {
             return "";
         }
-
     }
 
-    function fecha_dmy($date){
+    function fecha_dmy($date)
+    {
         $format = 'd/m/Y';
         if ($date) {
             $fecha = Carbon::parse($date);
@@ -35,30 +36,36 @@ class FormatoFecha
         } else {
             return "";
         }
-
     }
 
-    function gestion($date){
+    function fecha_dmyhm($date)
+    {
+        $format = 'd/m/Y h:m';
+        if ($date) {
+            $fecha = Carbon::parse($date);
+            return $fecha->format($format);
+        } else {
+            return "";
+        }
+    }
+
+    function gestion($date)
+    {
         if ($date) {
             $fecha = Carbon::parse($date);
             return $fecha->year;
         } else {
             return "20__";
         }
-
     }
 
-    function hora($date){
+    function hora($date)
+    {
         if ($date) {
             $fecha = Carbon::parse($date);
             return $fecha->toTimeString();
         } else {
             return "";
         }
-
     }
-
 }
-
-
-

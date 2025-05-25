@@ -35,18 +35,12 @@ class Recibo extends Model
         return $numero + 1;
     }
 
-    /**
-     * Obtener el nro_serie con relleno de ceros a la izquierda.
-     *
-     * @return \Illuminate\Database\Eloquent\Casts\Attribute
-     */
-
-    protected function nroSerie(): Attribute
+    protected function getNroSerieAttribute()
     {
-        return Attribute::make(
-            get: fn($value, $attributes) => FormatoTexto::zero_fill_left($attributes['nro_serie'], 4)
-        );
+        return FormatoTexto::zero_fill_left($this->attributes['nro_serie'], 4);
+        //return str_pad($this->attributes['nro_serie'], 4, '0', STR_PAD_LEFT);
     }
+
     // Mutador para establecer el estado
     public function setEstadoAttribute($value)
     {
