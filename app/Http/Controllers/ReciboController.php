@@ -71,7 +71,6 @@ class ReciboController extends Controller
             'recibos' => SpladeTable::for($recibos)
                 ->withGlobalSearch()
                 ->column(key: 'key', label: 'Nº')
-                ->column('id', label: 'Código', sortable: true, searchable: true)
                 ->column('cliente.nombre_completo', searchable: true, label: 'Cliente')
                 //->column('fecha', sortable: false, searchable: true)
                 ->column(
@@ -81,6 +80,7 @@ class ReciboController extends Controller
                 )
                 ->column('cantidad', sortable: true, searchable: true, label: 'Monto')
                 ->column('concepto', sortable: true, searchable: true)
+                ->column('estado', sortable: true, searchable: true)
                 ->column('action')
             // ->rowLink(function(User $user){
             //     return route('users.show', $user);

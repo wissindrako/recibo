@@ -33,12 +33,32 @@
     </header>
 
     <div class="py-12">
-        <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
-            <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
-                <div class="p-6 bg-white border-b border-gray-200">
-                    {{-- Materia: <b>{{$materia->nombre}}</b> --}}
-                </div>
-            </div>
+        <div class="nivel">
+            <p>
+                <b>He recibido de {{$recibo->cliente->genero == 'M' ? 'el' : ''}} {{$recibo->cliente->genero == 'F' ? 'la' : ''}}: </b> {{ $recibo->cliente->titulo }} {{ $recibo->cliente->nombres }} {{ $recibo->cliente->ap_paterno }} {{ $recibo->cliente->ap_materno }} <br>
+                <b>La suma de: </b> {{ $recibo->cantidad_literal }} <br>
+                <b>Por concepto de:</b> {{ $recibo->concepto }}
+            </p>
         </div>
+        <div style="text-align: right;padding-right:10; margin-top:-10px;line-height: 0.5cm;font-size: 18px;">
+            <p><b>Total:</b> {{ $recibo->cantidad }}</p>
+        </div>
+        <p>{{ $recibo->estadoTexto }}</p>
     </div>
+        <footer style="width: 100%;">
+        <table>
+            <tr>
+                <td align="center" width="250px">
+                    <span style="color:darkgray;">.............................</span><br>
+                    <b>{{ $recibo->cliente->nombres }} {{ $recibo->cliente->ap_paterno }} {{ $recibo->cliente->ap_materno }}</b><br>
+                    <small>ENTREGADO POR:</small>
+                </td>
+                <td align="center" width="200px">
+                    <span style="color:darkgray;">.............................</span><br>
+                    <b>{{ $recibo->usuario->name }}</b><br>
+                    <small>RECIBIDO POR:</small>
+                </td>
+            </tr>
+        </table>
+    </footer>
 </x-app-layout>

@@ -41,10 +41,32 @@ class Recibo extends Model
      * @return \Illuminate\Database\Eloquent\Casts\Attribute
      */
 
-     protected function nroSerie(): Attribute
-     {
-         return Attribute::make(
-             get: fn ($value, $attributes) => FormatoTexto::zero_fill_left($attributes['nro_serie'], 4)
-             );
-     }
+    protected function nroSerie(): Attribute
+    {
+        return Attribute::make(
+            get: fn($value, $attributes) => FormatoTexto::zero_fill_left($attributes['nro_serie'], 4)
+        );
+    }
+    // Mutador para establecer el estado
+    public function setEstadoAttribute($value)
+    {
+        $valoresPermitidos = [0, 1, 2];
+        if (in_array($value, $valoresPermitidos)) {
+            $this->attributes['estado'] = $value;
+        } else {
+            throw new \InvalidArgumentException('Valor de estado no válido.');
+        }
+    }
+
+    // Accesor para obtener el estado como texto
+    public function getEstadoTextoAttribute()
+    {
+        $estados = [
+            0 => 'Anulado',
+            1 => 'Registrado',
+            2 => 'Aprobado',
+        ];
+
+        return $estados[$this->estado] ?? 'Desconocido';
+    }
 }

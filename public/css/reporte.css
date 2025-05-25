@@ -13,13 +13,13 @@ text {
     position: fixed;
     opacity: 0.15;
 
-    bottom:   10cm;
-    left:     3.5cm;
+    bottom: 10cm;
+    left: 3.5cm;
 
-    width:    12cm;
-    height:   12cm;
+    width: 12cm;
+    height: 12cm;
 
-    z-index:  -1000;
+    z-index: -1000;
 }
 
 .datos {
@@ -31,7 +31,6 @@ text {
 }
 
 .cabecera {
-
     background-color: rgba(21, 238, 17, 0.251);
     border-left: 6px solid rgba(50, 235, 17, 0.676);
     margin-bottom: 0px;
@@ -47,20 +46,27 @@ text {
     float: right;
     text-align: right;
     padding: 5px;
+    margin-top: 5px;
     margin-bottom: 0px;
-    text-size: 15px;
+    font-size: 15px;
 }
 
 .espacio_serie {
-    padding-top: 10px;
-    padding-boton: 10px;
+    padding-top: 23px;
+    padding-bottom: 10px;
     padding-left: 10px;
+    font-size: 20px;
+    font-style: bold;
+    line-height: 0;
 }
 
 .titulo {
     width: 200px;
-    float: left;
+    padding-top: 30;
     text-align: center;
+    font-size: 32px;
+    font-style: bold;
+    line-height: 0;
 }
 
 .fecha {
@@ -75,7 +81,7 @@ td.datos {
 
 .espacio {
     padding-top: 10px;
-    padding-boton: 10px;
+    padding-bottom: 10px;
     padding-left: 10px;
 }
 
@@ -85,16 +91,18 @@ td.datos {
 }
 
 .supidc {
-    vertical-align: super; /*superindice*/
+    vertical-align: super;
+    /*superindice*/
 }
 
 .subidc {
-    vertical-align: sub; /*subindice*/
+    vertical-align: sub;
+    /*subindice*/
 }
 
 .nivel {
     font-size: 16px;
-    overflow: hidden;
+
     line-height: 0.7cm;
     height: 160px;
 }
@@ -105,10 +113,19 @@ td.datos {
 }
 
 
-@page { margin: 100px 15px 100px 85px; }
-header {
-    position: fixed; left: 0px; top: -70px; right: 0px; height: 80px; text-align: center;
+@page {
+    margin: 100px 15px 100px 70px;
 }
+
+header {
+    position: fixed;
+    left: 0px;
+    top: -70px;
+    right: 0px;
+    height: 80px;
+    text-align: center;
+}
+
 footer {
     position: fixed;
     bottom: -80px;
