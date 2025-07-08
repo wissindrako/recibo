@@ -69,6 +69,11 @@
                                                         <x-icon-file-download color="#114ff1" ancho="36" alto="36"/>
                                                     </a>
                                                 </div>
+                                                <div class="px-1">
+                                                    <a target="_blank" href="{{ route('recibo.show', [$recibo->id, 'reporte' => 'pdf-codigo']) }}" class="font-bold text-indigo-500">
+                                                        <x-icon-file-download color="#114ff1" ancho="36" alto="36"/>
+                                                    </a>
+                                                </div>
                                             </div>
                                         </td>
                                     </tr>

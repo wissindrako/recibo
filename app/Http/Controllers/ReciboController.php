@@ -167,10 +167,17 @@ class ReciboController extends Controller
         // 4.251969 x 5.51181 pulg. = 306.1 x 396.85 puntos
         $carta_en_cuatro = array(0, 0, 306.1, 396.85);
 
+
+
         if ($request->has('reporte')) {
             if ($request->reporte == 'pdf') {
                 // ob_end_clean();
                 $pdf = Pdf::loadView('recibo.reporte', ['recibo' => $recibo])
+                    ->setPaper($carta_en_cuatro, 'landscape');
+                $pdf->render();
+                return $pdf->stream('Recibo.pdf', array("Attachment" => false));
+            } elseif ($request->reporte == 'pdf-codigo') {
+                $pdf = Pdf::loadView('recibo.reporte-codigo', ['recibo' => $recibo])
                     ->setPaper($carta_en_cuatro, 'landscape');
                 $pdf->render();
                 return $pdf->stream('Recibo.pdf', array("Attachment" => false));
