@@ -229,6 +229,25 @@ class ReciboController extends Controller
     }
 
     /**
+     * Show the form for editing the specified resource.
+     *
+     * @param  \App\Models\Recibo  $recibo
+     * @return \Illuminate\Http\Response
+     */
+    public function editEstado($id)
+    {
+        // Solo admin puede acceder
+        if (!auth()->user() || !auth()->user()->hasRole('admin')) {
+            abort(403, 'No autorizado para esta acción.');
+        }
+        $recibo = Recibo::findOrFail($id);
+        $recibo->estado = $recibo->estado == 1 ? 2 : 1;
+        $recibo->update();
+        Splade::toast('Estado del recibo actualizado correctamente!')->autoDismiss(5);
+        return redirect()->route('recibos');
+    }
+
+    /**
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
@@ -237,6 +256,9 @@ class ReciboController extends Controller
      */
     public function update(Request $request, $id)
     {
+        if (!auth()->user() || !auth()->user()->hasRole('admin')) {
+            abort(403, 'No autorizado para esta acción.');
+        }
         $data = $request->validate([
             'cliente_id' => 'required|integer',
             'fecha' => 'required|date_format:Y-m-d',

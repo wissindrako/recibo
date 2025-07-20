@@ -37,26 +37,42 @@
                                             {{$recibo->cliente->nombre_completo}}
                                         </td>
                                         <td class="text-center border">{{f_formato($recibo->fecha)}}</td>
-                                        <td class="text-center border"><p class="underline decoration-sky-600 hover:decoration-blue-400">{{$recibo->cantidad}}</p></td>
+                                        <td class="text-center border"><p class="underline decoration-sky-600 hover:decoration-blue-400"><strong>{{$recibo->cantidad}}</strong></p></td>
                                         <td width=400px; class="border">
-                                            <p class="text-sky-600 font-bold">{{$recibo->concepto}}</p>
+                                            <p class="text-rose-600 font-bold">{{$recibo->concepto}}</p>
                                             <br>
                                             <p> {{$recibo->nroSerie}} <span class="italic">- {{$recibo->hash}}</span> </p>
                                         </td>
-                                        <td class="text-center border">{{$recibo->estadoTexto }}</td>
+                                        <td class="text-center border">
+                                            @if ($recibo->estado === 1)
+                                                <span class="text-sky-600 font-bold">{{$recibo->estadoTexto }}</span>
+                                            @else
+                                                <span class="text-emerald-500 font-bold">{{$recibo->estadoTexto }}</span>
+                                            @endif
+                                        </td>
                                         <td width=150px; class="border">
                                             <div class="flex flex-row items-center h-14">
                                                 @if ($recibo->estado === 1)
-                                                 <div class="px-1">
+                                                <div class="px-1">
+                                                    <a href="{{ route('recibo.edit-estado', $recibo->id) }}" class="font-bold text-indigo-500">
+                                                        <x-icon-unlock color="#114ff1" ancho="36" alto="36"/>
+                                                    </a>
+                                                </div>
+                                                <div class="px-1">
                                                     <Link href="{{ route('recibo.edit', $recibo->id) }}" class="font-bold text-indigo-500">
                                                         Editar
                                                     </Link>
                                                 </div>
                                                 @else
                                                 <div class="px-1">
-                                                    <Link class="font-bold text-slate-500">
+                                                    <a href="{{ route('recibo.edit-estado', $recibo->id) }}" class="font-bold text-indigo-500">
+                                                        <x-icon-chat-locked color="#04b834" ancho="36" alto="36"/>
+                                                    </a>
+                                                </div>
+                                                <div class="px-1">
+                                                    <a href="#" onclick="return false;" class="font-bold text-slate-500">
                                                         Editar
-                                                    </Link>
+                                                    </a>
                                                 </div>
                                                 @endif
                                                 <div class="px-1">

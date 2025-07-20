@@ -74,6 +74,7 @@ Route::middleware('splade')->group(function () {
         });
         Route::post('/recibo', [ReciboController::class, 'store'])->name('recibo.store');
         Route::get('/recibo/{id}/edit', [ReciboController::class, 'edit'])->name('recibo.edit');
+        Route::get('/recibo/{id}/edit-estado', [ReciboController::class, 'editEstado'])->name('recibo.edit-estado');
         Route::put('/recibo/{id}', [ReciboController::class, 'update'])->name('recibo.update');
     });
 
