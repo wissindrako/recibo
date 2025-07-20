@@ -29,6 +29,7 @@ Route::middleware('splade')->group(function () {
     Route::get('/', function () {
         return view('welcome');
     });
+    Route::get('/verificar/{hash}', [ReciboController::class, 'verificar'])->name('recibo.verificar');
 
     Route::middleware('auth')->group(function () {
         Route::get('/dashboard', function () {

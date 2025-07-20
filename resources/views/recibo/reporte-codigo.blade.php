@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <link rel="stylesheet" href="{{asset('css/app.css')}}">
     <link rel="stylesheet" href="{{asset('css/reporte.css')}}">
-	<title>Recibo</title>
+    <title>Recibo</title>
 </head>
 <body>   
     <header style="width: 100%;">
@@ -44,9 +44,10 @@
     <footer style="width: 100%;">
         <table>
             <tr>
+                <td width="70px"></td>
                 <td align="center" width="450px">
                     <span>{{ $recibo->hash }}</span><br>
-                    <small style="color:rgb(66, 66, 66);">[Código de Verificación]</small>
+                    <small style="color:rgb(66, 66, 66);">[Escanéa el Código QR para su Verificación]</small>
                 </td>
             </tr>
         </table>
@@ -61,5 +62,10 @@
     <div style="text-align: right;padding-right:10; margin-top:-10px;line-height: 0.5cm;font-size: 18px;">
         <p>Total Bs.: <b>{{ $recibo->cantidad }}</b></p>
     </div>
+        @if(isset($qr_base64))
+        <div id="watermark">
+            <img src="{{ $qr_base64 }}" alt="QR de verificación" style="width:120px; height:120px;">
+        </div>
+    @endif
 </body>
 </html>

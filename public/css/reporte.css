@@ -11,13 +11,13 @@ text {
 
 #watermark {
     position: fixed;
-    opacity: 0.15;
+    opacity: 1.0;
 
-    bottom: 10cm;
-    left: 3.5cm;
+    bottom: -2cm;
+    /*left: 3.5cm;
 
     width: 12cm;
-    height: 12cm;
+    height: 12cm; */
 
     z-index: -1000;
 }

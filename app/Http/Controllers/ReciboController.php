@@ -17,6 +17,8 @@ use App\Helpers\FormatoFecha;
 use App\Models\User;
 use Barryvdh\DomPDF\Facade\Pdf;
 use Carbon\Carbon;
+use chillerlan\QRCode\QRCode;
+use chillerlan\QRCode\QROptions;
 
 class ReciboController extends Controller
 {
@@ -167,7 +169,17 @@ class ReciboController extends Controller
         // 4.251969 x 5.51181 pulg. = 306.1 x 396.85 puntos
         $carta_en_cuatro = array(0, 0, 306.1, 396.85);
 
+        // URL de verificación
+        $url = url('/verificar/' . $recibo->hash);
 
+        // Generar QR en base64 usando chillerlan/php-qrcode
+        $options = new QROptions([
+            'outputType' => QRCode::OUTPUT_IMAGE_PNG,
+            'scale' => 4, // tamaño del QR
+            'imageBase64' => false,
+        ]);
+        $qr = (new QRCode($options))->render($url);
+        $qr_base64 = 'data:image/png;base64,' . base64_encode($qr);
 
         if ($request->has('reporte')) {
             if ($request->reporte == 'pdf') {
@@ -177,8 +189,10 @@ class ReciboController extends Controller
                 $pdf->render();
                 return $pdf->stream('Recibo.pdf', array("Attachment" => false));
             } elseif ($request->reporte == 'pdf-codigo') {
-                $pdf = Pdf::loadView('recibo.reporte-codigo', ['recibo' => $recibo])
-                    ->setPaper($carta_en_cuatro, 'landscape');
+                $pdf = Pdf::loadView('recibo.reporte-codigo', [
+                    'recibo' => $recibo,
+                    'qr_base64' => $qr_base64
+                ])->setPaper($carta_en_cuatro, 'landscape');
                 $pdf->render();
                 return $pdf->stream('Recibo.pdf', array("Attachment" => false));
             } else {
@@ -186,6 +200,18 @@ class ReciboController extends Controller
             }
         }
         return response()->json(['data' => $recibo], 200);
+    }
+
+    /**
+     * Verifica un recibo por hash y muestra información básica.
+     */
+    public function verificar($hash)
+    {
+        $recibo = Recibo::where('hash', $hash)->with(['cliente'])->first();
+        if (!$recibo) {
+            abort(404, 'Recibo no encontrado');
+        }
+        return view('recibo.verificar', compact('recibo'));
     }
 
     /**
