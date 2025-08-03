@@ -122,9 +122,11 @@ class ReciboController extends Controller
 
             $literal = new NumberToWords();
 
+            $nro_serie = Recibo::nextNumeroSerie();
+
             $recibo = new Recibo();
-            $recibo->nro_serie = Recibo::nextNumeroSerie();
-            $recibo->hash = md5($request->fecha . $request->cliente_id . $request->cantidad . $request->concepto);
+            $recibo->nro_serie = $nro_serie;
+            $recibo->hash = md5($nro_serie . $request->fecha . $request->cliente_id . $request->cantidad . $request->concepto);
             $recibo->cliente_id = $request->cliente_id;
             $recibo->fecha = $request->fecha;
             $recibo->cantidad = $request->cantidad;
@@ -274,7 +276,7 @@ class ReciboController extends Controller
 
             $recibo = Recibo::findOrFail($id);
             $recibo->cliente_id = $request->cliente_id;
-            $recibo->hash = md5($request->fecha . $request->cliente_id . $request->cantidad . $request->concepto);
+            $recibo->hash = md5($recibo->nro_serie . $request->fecha . $request->cliente_id . $request->cantidad . $request->concepto);
             $recibo->fecha = $request->fecha;
             $recibo->cantidad = $request->cantidad;
             $recibo->cantidad_literal = $literal->toInvoice($request->cantidad, 2, 'Bs');
