@@ -53,7 +53,7 @@
             </div>
             
           </div>
-          <div class="result-option result-option-verbal" style="display: flex; align-items: flex-start; min-height: 60px;">
+          <div class="result-option result-option-verbal" style="display: flex; align-items: flex-start; min-height: 120px;">
             <div class="result-box"><span>Detalle: </span></div>
             <div style="margin-left:auto; text-align:right; max-width:250px; min-height:40px; white-space:pre-line; word-break:break-word; display:flex; align-items:flex-start;">
               <span class="verbal-icon-text">{{ $recibo->concepto }}</span>
