@@ -47,20 +47,20 @@
         <div class="heading-secondary heading-secondary--blue">Resumen</div>
         <div class="summary-result-options">
           <div class="result-option result-option-reaction">
-            <div class="result-box"><span>Cliente</span> :</div>
+            <div class="result-box"><span>Cliente: </span></div>
             <div class="icon-box">
               <span class="reaction-icon-text">{{ $recibo->cliente->titulo }} {{ $recibo->cliente->nombres }} {{ $recibo->cliente->ap_paterno }} {{ $recibo->cliente->ap_materno }}</span>
             </div>
             
           </div>
-          <div class="result-option result-option-verbal" style="display: flex; align-items: center;">
-            <div class="result-box"><span>Detalle</span> :</div>
-            <div style="margin-left:auto; text-align:right; max-width:250px;">
+          <div class="result-option result-option-verbal" style="display: flex; align-items: flex-start; min-height: 60px;">
+            <div class="result-box"><span>Detalle: </span></div>
+            <div style="margin-left:auto; text-align:right; max-width:250px; min-height:40px; white-space:pre-line; word-break:break-word; display:flex; align-items:flex-start;">
               <span class="verbal-icon-text">{{ $recibo->concepto }}</span>
             </div>
           </div>
           <div class="result-option result-option-Visual">
-            <div class="result-box"><span>Monto</span> :</div>
+            <div class="result-box"><span>Monto:</span></div>
             <div class="icon-box">
               <span class="visual-icon-text"><strong> {{ $recibo->cantidad }}</strong></span>
             </div>
