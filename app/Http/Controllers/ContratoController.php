@@ -74,7 +74,8 @@ class ContratoController extends Controller
             'tipo'               => 'required|in:alquiler,venta,otro',
             'arrendador_id'      => 'required|integer|exists:users,id',
             'persona_id'         => 'required|integer|exists:personas,id',
-            'descripcion_bien'   => 'required|string',
+            'descripcion_inmueble'  => 'required|string',
+            'descripcion_alquiler'  => 'required|string',
             'fecha_inicio'       => 'required|date',
             'fecha_fin'          => 'nullable|date|after_or_equal:fecha_inicio',
             'monto'              => 'required|numeric|min:0',
@@ -93,7 +94,8 @@ class ContratoController extends Controller
             $contrato->tipo              = $request->tipo;
             $contrato->arrendador_id     = $request->arrendador_id;
             $contrato->persona_id        = $request->persona_id;
-            $contrato->descripcion_bien  = $request->descripcion_bien;
+            $contrato->descripcion_inmueble = $request->descripcion_inmueble;
+            $contrato->descripcion_alquiler = $request->descripcion_alquiler;
             $contrato->fecha_inicio      = $request->fecha_inicio;
             $contrato->fecha_fin         = $request->fecha_fin;
             $contrato->monto             = $request->monto;
@@ -149,7 +151,8 @@ class ContratoController extends Controller
             'tipo'               => 'required|in:alquiler,venta,otro',
             'arrendador_id'      => 'required|integer|exists:users,id',
             'persona_id'         => 'required|integer|exists:personas,id',
-            'descripcion_bien'   => 'required|string',
+            'descripcion_inmueble'  => 'required|string',
+            'descripcion_alquiler'  => 'required|string',
             'fecha_inicio'       => 'required|date',
             'fecha_fin'          => 'nullable|date|after_or_equal:fecha_inicio',
             'monto'              => 'required|numeric|min:0',
@@ -166,7 +169,8 @@ class ContratoController extends Controller
             $contrato->tipo              = $request->tipo;
             $contrato->arrendador_id     = $request->arrendador_id;
             $contrato->persona_id        = $request->persona_id;
-            $contrato->descripcion_bien  = $request->descripcion_bien;
+            $contrato->descripcion_inmueble = $request->descripcion_inmueble;
+            $contrato->descripcion_alquiler = $request->descripcion_alquiler;
             $contrato->fecha_inicio      = $request->fecha_inicio;
             $contrato->fecha_fin         = $request->fecha_fin;
             $contrato->monto             = $request->monto;

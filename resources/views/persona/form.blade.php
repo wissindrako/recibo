@@ -10,8 +10,7 @@
         </div>
     </div>
     <x-splade-transition show="toggled">
-        <x-splade-input name="rude" type="number" min="9999" max="999999999999" label="Rude del estudiante"/>
-        <div class="-mx-3 md:flex my-2">
+<div class="-mx-3 md:flex my-2">
             <div class="md:w-1/3 px-3">
                 {{-- <label class="block uppercase tracking-wide text-grey-darker text-xs font-bold mb-2" for="grid-city">
                 City
@@ -32,6 +31,7 @@
                     <option value="PA">PA</option>
                     <option value="TJ">TJ</option>
                     <option value="CH">CH</option>
+                    <option value="QR">QR</option>
                 </x-splade-select>
             </div>
         </div>

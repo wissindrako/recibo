@@ -35,6 +35,7 @@
         <option value="PA">PA</option>
         <option value="TJ">TJ</option>
         <option value="CH">CH</option>
+        <option value="QR">QR</option>
     </x-splade-select>
 </div>
 

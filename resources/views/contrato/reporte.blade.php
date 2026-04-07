@@ -66,9 +66,9 @@
 <p>
     <strong>PRIMERA.-</strong>
     @if($arrEsFemenino)
-        LA ARRENDADORA es propietaria del inmueble o bien descrito como: {{ $contrato->descripcion_bien }}.
+        LA ARRENDADORA es propietaria del inmueble o bien descrito como: {{ $contrato->descripcion_inmueble }}.
     @else
-        EL ARRENDADOR es propietario del inmueble o bien descrito como: {{ $contrato->descripcion_bien }}.
+        EL ARRENDADOR es propietario del inmueble o bien descrito como: {{ $contrato->descripcion_inmueble }}.
     @endif
 </p>
 
@@ -77,7 +77,7 @@
     @if($arrEsFemenino) LA ARRENDADORA @else EL ARRENDADOR @endif
     da en {{ strtolower($contrato->tipoTexto) }} a
     @if($contrato->persona->genero === 'F') LA ARRENDATARIA @else EL ARRENDATARIO @endif
-    {{ $contrato->descripcion_bien }}, a partir del
+    {{ $contrato->descripcion_alquiler }}, a partir del
     @php $mesesN = ['Enero','Febrero','Marzo','Abril','Mayo','Junio','Julio','Agosto','Septiembre','Octubre','Noviembre','Diciembre']; @endphp
     <strong>{{ $contrato->fecha_inicio->format('d') }} de {{ $mesesN[$contrato->fecha_inicio->month - 1] }} de {{ $contrato->fecha_inicio->format('Y') }}</strong>
     @if($contrato->fecha_fin)

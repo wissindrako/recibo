@@ -17,9 +17,14 @@
 </div>
 
 <div class="mb-4">
-    <x-splade-textarea name="descripcion_bien" label="Descripción del bien (qué se alquila/vende)" rows="4"
-    placeholder="Ej: Inmueble ubicado en la Urbanización San Pedro, Av. Mejillones No. 24 en la ciudad de El Alto y deja constancia que el inmueble al que se refiere se encuentra desocupado, en buen estado de habitabilidad el cual cuenta con los servicios básicos (agua, luz y gas domiciliario)."
-    required/>
+    <x-splade-textarea name="descripcion_inmueble" label="Descripción del inmueble (PRIMERA cláusula)" rows="3"
+        placeholder="Ej: Inmueble ubicado en la Urbanización San Pedro, Av. Mejillones No. 24 en la ciudad de El Alto, en buen estado de habitabilidad, con servicios básicos (agua, luz y gas domiciliario)."
+        required/>
+</div>
+<div class="mb-4">
+    <x-splade-textarea name="descripcion_alquiler" label="Lo que se alquila / vende (SEGUNDA cláusula)" rows="2"
+        placeholder="Ej: tres cuartos  |  dos piezas (un cuarto y una cocina)"
+        required/>
 </div>
 
 <hr class="my-4"/>
