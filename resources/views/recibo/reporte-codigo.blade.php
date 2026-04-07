@@ -52,9 +52,13 @@
             </tr>
         </table>
     </footer>
+    @php $pagador = $recibo->pagadorEfectivo; @endphp
     <div class="nivel">
         <p>
-            <b>Se recibió de {{$recibo->cliente->genero == 'M' ? 'el' : ''}} {{$recibo->cliente->genero == 'F' ? 'la' : ''}}: </b> {{ $recibo->cliente->titulo }} {{ $recibo->cliente->nombres }} {{ $recibo->cliente->ap_paterno }} {{ $recibo->cliente->ap_materno }} <br>
+            <b>Se recibió de {{$pagador->genero == 'M' ? 'el' : ''}} {{$pagador->genero == 'F' ? 'la' : ''}}: </b> {{ $pagador->titulo }} {{ $pagador->nombres }} {{ $pagador->ap_paterno }} {{ $pagador->ap_materno }} <br>
+            @if($recibo->pagador_id && $recibo->pagador_id != $recibo->cliente_id)
+            <b>En representación de: </b> {{ $recibo->cliente->titulo }} {{ $recibo->cliente->nombres }} {{ $recibo->cliente->ap_paterno }} {{ $recibo->cliente->ap_materno }} <br>
+            @endif
             <b>La suma de: </b> {{ $recibo->cantidad_literal }} <br>
             <b>Por concepto de:</b> {{ $recibo->concepto }}
         </p>

@@ -1,2528 +1,566 @@
+-- phpMyAdmin SQL Dump
+-- version 5.2.2
+-- https://www.phpmyadmin.net/
+--
+-- Servidor: localhost:3306
+-- Tiempo de generación: 05-04-2026 a las 21:08:39
+-- Versión del servidor: 10.11.16-MariaDB-log
+-- Versión de PHP: 8.4.19
+
+SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
+START TRANSACTION;
+SET time_zone = "+00:00";
+
+
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
 /*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
-/*!40101 SET NAMES utf8 */;
-/*!40014 SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0 */;
-/*!40101 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO' */;
-/*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
+/*!40101 SET NAMES utf8mb4 */;
 
-# ------------------------------------------------------------
-# SCHEMA DUMP FOR TABLE: biye
-# ------------------------------------------------------------
+--
+-- Base de datos: `flynowwe_recibo`
+--
 
-DROP TABLE IF EXISTS `biye`;
-CREATE TABLE `biye` (
-  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
-  `name` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `designation` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `address` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
-  PRIMARY KEY (`id`)
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `failed_jobs`
+--
+
+CREATE TABLE `failed_jobs` (
+  `id` bigint(20) UNSIGNED NOT NULL,
+  `uuid` varchar(255) NOT NULL,
+  `connection` text NOT NULL,
+  `queue` text NOT NULL,
+  `payload` longtext NOT NULL,
+  `exception` longtext NOT NULL,
+  `failed_at` timestamp NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
-# ------------------------------------------------------------
-# SCHEMA DUMP FOR TABLE: branches
-# ------------------------------------------------------------
+-- --------------------------------------------------------
 
-DROP TABLE IF EXISTS `branches`;
-CREATE TABLE `branches` (
-  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
-  `branch_name` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `created_at` timestamp NULL DEFAULT NULL,
-  `updated_at` timestamp NULL DEFAULT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+--
+-- Estructura de tabla para la tabla `migrations`
+--
 
-# ------------------------------------------------------------
-# SCHEMA DUMP FOR TABLE: categories
-# ------------------------------------------------------------
-
-DROP TABLE IF EXISTS `categories`;
-CREATE TABLE `categories` (
-  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
-  `name` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `status` tinyint(4) NOT NULL DEFAULT '1',
-  `created_at` timestamp NULL DEFAULT NULL,
-  `updated_at` timestamp NULL DEFAULT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-
-# ------------------------------------------------------------
-# SCHEMA DUMP FOR TABLE: companies
-# ------------------------------------------------------------
-
-DROP TABLE IF EXISTS `companies`;
-CREATE TABLE `companies` (
-  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
-  `name` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `phone` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `address` text COLLATE utf8mb4_unicode_ci NOT NULL,
-  `created_at` timestamp NULL DEFAULT NULL,
-  `updated_at` timestamp NULL DEFAULT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-
-# ------------------------------------------------------------
-# SCHEMA DUMP FOR TABLE: customers
-# ------------------------------------------------------------
-
-DROP TABLE IF EXISTS `customers`;
-CREATE TABLE `customers` (
-  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
-  `customer_name` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `email` varchar(191) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `phone` varchar(191) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `address` text COLLATE utf8mb4_unicode_ci,
-  `status` tinyint(4) NOT NULL DEFAULT '1',
-  `created_at` timestamp NULL DEFAULT NULL,
-  `updated_at` timestamp NULL DEFAULT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=17 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-
-# ------------------------------------------------------------
-# SCHEMA DUMP FOR TABLE: menus
-# ------------------------------------------------------------
-
-DROP TABLE IF EXISTS `menus`;
-CREATE TABLE `menus` (
-  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
-  `parent_id` int(11) NOT NULL DEFAULT '0',
-  `name` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `icon` varchar(191) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `menu_url` varchar(191) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `status` tinyint(4) NOT NULL DEFAULT '0',
-  `created_at` timestamp NULL DEFAULT NULL,
-  `updated_at` timestamp NULL DEFAULT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=16 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-
-# ------------------------------------------------------------
-# SCHEMA DUMP FOR TABLE: migrations
-# ------------------------------------------------------------
-
-DROP TABLE IF EXISTS `migrations`;
 CREATE TABLE `migrations` (
-  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
-  `migration` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `batch` int(11) NOT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=17 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-
-# ------------------------------------------------------------
-# SCHEMA DUMP FOR TABLE: password_resets
-# ------------------------------------------------------------
-
-DROP TABLE IF EXISTS `password_resets`;
-CREATE TABLE `password_resets` (
-  `email` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `token` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `created_at` timestamp NULL DEFAULT NULL,
-  KEY `password_resets_email_index` (`email`)
+  `id` int(10) UNSIGNED NOT NULL,
+  `migration` varchar(255) NOT NULL,
+  `batch` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
-# ------------------------------------------------------------
-# SCHEMA DUMP FOR TABLE: payments
-# ------------------------------------------------------------
+--
+-- Volcado de datos para la tabla `migrations`
+--
 
-DROP TABLE IF EXISTS `payments`;
-CREATE TABLE `payments` (
-  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
-  `sell_id` int(11) NOT NULL,
-  `customer_id` int(11) NOT NULL,
-  `user_id` int(11) NOT NULL,
-  `date` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `paid_in` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `bank_information` text COLLATE utf8mb4_unicode_ci,
-  `amount` double NOT NULL,
-  `created_at` timestamp NULL DEFAULT NULL,
-  `updated_at` timestamp NULL DEFAULT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES
+(1, '2014_10_12_000000_create_users_table', 1),
+(2, '2014_10_12_100000_create_password_resets_table', 1),
+(3, '2019_08_19_000000_create_failed_jobs_table', 1),
+(4, '2019_12_14_000001_create_personal_access_tokens_table', 1),
+(5, '2022_12_18_140919_create_permission_tables', 1),
+(6, '2023_01_04_201350_create_personas_table', 1),
+(7, '2023_03_18_032857_create_recibos_table', 1),
+(8, '2025_05_24_201408_add_estado_column_to_recibos_table', 2),
+(9, '2025_05_25_001135_add_is_active_column_to_users_table', 2);
 
-# ------------------------------------------------------------
-# SCHEMA DUMP FOR TABLE: permissions
-# ------------------------------------------------------------
+-- --------------------------------------------------------
 
-DROP TABLE IF EXISTS `permissions`;
+--
+-- Estructura de tabla para la tabla `model_has_permissions`
+--
+
+CREATE TABLE `model_has_permissions` (
+  `permission_id` bigint(20) UNSIGNED NOT NULL,
+  `model_type` varchar(255) NOT NULL,
+  `model_id` bigint(20) UNSIGNED NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `model_has_roles`
+--
+
+CREATE TABLE `model_has_roles` (
+  `role_id` bigint(20) UNSIGNED NOT NULL,
+  `model_type` varchar(255) NOT NULL,
+  `model_id` bigint(20) UNSIGNED NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Volcado de datos para la tabla `model_has_roles`
+--
+
+INSERT INTO `model_has_roles` (`role_id`, `model_type`, `model_id`) VALUES
+(1, 'App\\Models\\User', 1);
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `password_resets`
+--
+
+CREATE TABLE `password_resets` (
+  `email` varchar(255) NOT NULL,
+  `token` varchar(255) NOT NULL,
+  `created_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `permissions`
+--
+
 CREATE TABLE `permissions` (
-  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
-  `role_id` int(11) NOT NULL,
-  `menu_id` int(11) NOT NULL,
+  `id` bigint(20) UNSIGNED NOT NULL,
+  `name` varchar(255) NOT NULL,
+  `guard_name` varchar(255) NOT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Volcado de datos para la tabla `permissions`
+--
+
+INSERT INTO `permissions` (`id`, `name`, `guard_name`, `created_at`, `updated_at`) VALUES
+(1, 'users', 'web', '2025-05-25 03:23:26', '2025-05-25 03:23:26'),
+(2, 'user.create', 'web', '2025-05-25 03:23:26', '2025-05-25 03:23:26'),
+(3, 'user.edit', 'web', '2025-05-25 03:23:26', '2025-05-25 03:23:26'),
+(4, 'user.update', 'web', '2025-05-25 03:23:26', '2025-05-25 03:23:26'),
+(5, 'user.store', 'web', '2025-05-25 03:23:26', '2025-05-25 03:23:26'),
+(6, 'user.destroy', 'web', '2025-05-25 03:23:26', '2025-05-25 03:23:26'),
+(7, 'user.show', 'web', '2025-05-25 03:23:26', '2025-05-25 03:23:26'),
+(8, 'profile.edit', 'web', '2025-05-25 03:23:26', '2025-05-25 03:23:26'),
+(9, 'profile.update', 'web', '2025-05-25 03:23:26', '2025-05-25 03:23:26'),
+(10, 'profile.destroy', 'web', '2025-05-25 03:23:26', '2025-05-25 03:23:26');
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `personal_access_tokens`
+--
+
+CREATE TABLE `personal_access_tokens` (
+  `id` bigint(20) UNSIGNED NOT NULL,
+  `tokenable_type` varchar(255) NOT NULL,
+  `tokenable_id` bigint(20) UNSIGNED NOT NULL,
+  `name` varchar(255) NOT NULL,
+  `token` varchar(64) NOT NULL,
+  `abilities` text DEFAULT NULL,
+  `last_used_at` timestamp NULL DEFAULT NULL,
+  `expires_at` timestamp NULL DEFAULT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `personas`
+--
+
+CREATE TABLE `personas` (
+  `id` bigint(20) UNSIGNED NOT NULL,
+  `nombres` varchar(40) NOT NULL,
+  `ap_paterno` varchar(30) DEFAULT NULL,
+  `ap_materno` varchar(30) DEFAULT NULL,
+  `ci` bigint(20) DEFAULT NULL,
+  `complemento` varchar(7) DEFAULT NULL,
+  `expedido` varchar(3) DEFAULT NULL,
+  `fecha_nacimiento` date DEFAULT NULL,
+  `genero` varchar(20) DEFAULT NULL,
+  `titulo` varchar(10) DEFAULT NULL,
+  `ocupacion_profesion` varchar(50) DEFAULT NULL,
+  `domicilio` varchar(255) DEFAULT NULL,
+  `telefono` varchar(15) DEFAULT NULL,
+  `foto` varchar(255) DEFAULT NULL,
+  `active` tinyint(1) NOT NULL DEFAULT 0,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=744 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+  `deleted_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
-# ------------------------------------------------------------
-# SCHEMA DUMP FOR TABLE: products
-# ------------------------------------------------------------
+--
+-- Volcado de datos para la tabla `personas`
+--
 
-DROP TABLE IF EXISTS `products`;
-CREATE TABLE `products` (
-  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
-  `category_id` int(11) NOT NULL,
-  `product_name` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `details` text COLLATE utf8mb4_unicode_ci,
-  `status` tinyint(4) NOT NULL DEFAULT '1',
+INSERT INTO `personas` (`id`, `nombres`, `ap_paterno`, `ap_materno`, `ci`, `complemento`, `expedido`, `fecha_nacimiento`, `genero`, `titulo`, `ocupacion_profesion`, `domicilio`, `telefono`, `foto`, `active`, `created_at`, `updated_at`, `deleted_at`) VALUES
+(1, 'Basilia', 'Llica', '', NULL, NULL, NULL, NULL, NULL, 'Sra.', NULL, NULL, NULL, NULL, 0, '2024-03-17 02:15:20', '2024-03-17 02:15:20', NULL),
+(2, 'Miguel A.', 'Lima', 'Yupanqui', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, '2024-03-17 02:48:43', '2024-03-17 02:48:43', NULL),
+(3, 'Victoria', 'Aquise', 'Zapana', NULL, NULL, NULL, NULL, NULL, 'Sra.', NULL, NULL, NULL, NULL, 0, '2024-05-28 01:36:08', '2024-05-28 01:36:08', NULL),
+(4, 'Freddy', 'Lima', 'Yupanqui', NULL, NULL, NULL, NULL, NULL, 'Sr.', NULL, NULL, NULL, NULL, 0, '2024-07-22 00:49:22', '2024-07-22 00:49:22', NULL),
+(5, 'Marcos Ivan', 'Cori', 'Parada', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, '2024-07-27 22:52:52', '2024-07-27 22:52:52', NULL),
+(6, 'Meylin', 'Lecon', 'Ayaviri', NULL, NULL, NULL, NULL, NULL, 'Sra.', NULL, NULL, NULL, NULL, 0, '2025-03-10 00:53:01', '2025-03-10 00:53:01', NULL),
+(7, 'Juan Eloy', 'Carvajal', 'Ayaviri', NULL, NULL, NULL, NULL, NULL, 'Sr.', NULL, NULL, NULL, NULL, 0, '2025-09-13 17:09:47', '2025-09-13 17:09:47', NULL),
+(8, 'Julia', 'Quispe', 'Mamani', NULL, NULL, NULL, NULL, NULL, 'Sra.', 'Estudiante', NULL, NULL, NULL, 0, '2025-09-27 12:54:59', '2025-09-27 13:07:10', NULL),
+(9, 'Freddy Gabriel', 'Anze', 'Moreira', NULL, NULL, NULL, NULL, NULL, 'Sr.', NULL, NULL, NULL, NULL, 0, '2025-12-12 12:59:25', '2025-12-12 12:59:25', NULL),
+(10, 'Alex', 'Rojas', 'Ayaviri', NULL, NULL, NULL, NULL, NULL, 'Sr.', NULL, NULL, NULL, NULL, 0, '2026-03-21 15:43:31', '2026-03-21 15:43:31', NULL);
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `recibos`
+--
+
+CREATE TABLE `recibos` (
+  `id` bigint(20) UNSIGNED NOT NULL,
+  `nro_serie` int(11) NOT NULL,
+  `hash` varchar(255) NOT NULL,
+  `fecha` date NOT NULL,
+  `cliente_id` int(11) NOT NULL,
+  `moneda` varchar(10) NOT NULL DEFAULT 'BS',
+  `cantidad` decimal(8,2) NOT NULL,
+  `cantidad_literal` varchar(255) DEFAULT NULL,
+  `concepto` varchar(255) NOT NULL,
+  `observaciones` varchar(255) DEFAULT NULL,
+  `estado` tinyint(3) UNSIGNED NOT NULL DEFAULT 1 COMMENT '0 = Anulado, 1 = Registrado, 2 = Aprobado',
+  `user_id` varchar(255) NOT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
-  `updated_at` timestamp NULL DEFAULT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=16 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+  `updated_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
-# ------------------------------------------------------------
-# SCHEMA DUMP FOR TABLE: roles
-# ------------------------------------------------------------
+--
+-- Volcado de datos para la tabla `recibos`
+--
 
-DROP TABLE IF EXISTS `roles`;
+INSERT INTO `recibos` (`id`, `nro_serie`, `hash`, `fecha`, `cliente_id`, `moneda`, `cantidad`, `cantidad_literal`, `concepto`, `observaciones`, `estado`, `user_id`, `created_at`, `updated_at`) VALUES
+(31, 31, '8b4d240e900141f4841021d57f9add15', '2024-01-13', 2, 'BS', 600.00, 'Seiscientos con 00/100 Bs', 'Alquiler del mes de enero (tres cuartos)', NULL, 1, '2', '2024-03-17 02:52:23', '2024-03-17 03:01:50'),
+(32, 32, '046c937d3bc95aaf1c76099679194c45', '2024-02-11', 2, 'BS', 600.00, 'Seiscientos con 00/100 Bs', 'Alquiler del mes de febrero (tres cuartos)', NULL, 1, '2', '2024-03-17 03:01:36', '2024-03-17 03:01:36'),
+(33, 33, '7f449a6713da448b296cba4393e3c55b', '2024-02-23', 1, 'BS', 560.00, 'Quinientos sesenta con 00/100 Bs', 'Pago de alquiler y servicios básicos correspondientes al mes de Enero', NULL, 1, '1', '2024-03-17 03:07:44', '2024-03-17 03:07:44'),
+(34, 34, '1c321347d818a6325f7ff75a65577e68', '2024-03-17', 2, 'BS', 850.00, 'Ochocientos cincuenta con 00/100 Bs', 'Alquiler del mes de marzo (cuatro cuartos)', NULL, 1, '2', '2024-03-17 17:00:09', '2024-03-17 17:00:09'),
+(35, 35, 'b34e1629412615b86c113e1499f3e3e6', '2024-04-21', 2, 'BS', 850.00, 'Ochocientos cincuenta con 00/100 Bs', 'Alquiler del mes de abril (cuatro cuartos)', NULL, 1, '2', '2024-04-21 19:21:08', '2024-04-21 19:21:22'),
+(36, 36, 'a89337020bb9e1205acc71b3517376ba', '2024-04-25', 1, 'BS', 560.00, 'Quinientos sesenta con 00/100 Bs', 'Pago de alquiler y servicios básicos correspondientes al mes de Febrero', NULL, 1, '1', '2024-04-27 17:18:28', '2024-04-27 17:18:28'),
+(37, 37, '154ecd4433547f55b1c60a8b831e1d1d', '2024-04-28', 3, 'BS', 550.00, 'Quinientos cincuenta con 00/100 Bs', 'Garantía un cuarto y una cocina', NULL, 1, '2', '2024-05-28 01:42:42', '2024-05-28 01:42:42'),
+(38, 38, '154ecd4433547f55b1c60a8b831e1d1d', '2024-04-28', 3, 'BS', 550.00, 'Quinientos cincuenta con 00/100 Bs', 'Pago de alquiler (1 cuarto y 1 cocina) y servicios básicos correspondientes al mes de Mayo', NULL, 1, '2', '2024-05-28 01:44:21', '2024-05-28 01:44:21'),
+(39, 39, 'be515843731df2a9bb0e5b22689e4275', '2024-05-27', 1, 'BS', 560.00, 'Quinientos sesenta con 00/100 Bs', 'Pago de alquiler y servicios básicos correspondientes al mes de Marzo', NULL, 1, '1', '2024-05-28 01:44:59', '2024-05-28 01:44:59'),
+(40, 40, 'be515843731df2a9bb0e5b22689e4275', '2024-05-27', 1, 'BS', 560.00, 'Quinientos sesenta con 00/100 Bs', 'Pago de alquiler y servicios básicos correspondientes al mes de Abril', NULL, 1, '1', '2024-05-28 01:45:27', '2024-05-28 01:45:27'),
+(41, 41, '23659606173ac1ad128228fa3a1361a1', '2024-06-02', 2, 'BS', 850.00, 'Ochocientos cincuenta con 00/100 Bs', 'Alquiler del mes de mayo (cuatro cuartos)', NULL, 1, '1', '2024-06-04 22:11:07', '2024-06-04 22:11:07'),
+(42, 42, '3d0f4968e6c074e1e720aa3ea8db6e00', '2024-06-28', 1, 'BS', 560.00, 'Quinientos sesenta con 00/100 Bs', 'Pago de alquiler y servicios básicos correspondientes al mes de Mayo', NULL, 1, '1', '2024-06-30 00:06:23', '2024-06-30 00:06:23'),
+(43, 43, '86dfd752c3f1aa9cf459f37811425c4f', '2024-07-02', 4, 'BS', 430.00, 'Cuatrocientos treinta con 00/100 Bs', 'Alquiler del mes de julio (dos cuartos)', NULL, 1, '3', '2024-07-22 00:34:12', '2024-07-22 00:50:59'),
+(44, 44, '86dfd752c3f1aa9cf459f37811425c4f', '2024-07-21', 2, 'BS', 650.00, 'Seiscientos cincuenta con 00/100 Bs', 'Alquiler del mes de junio (tres cuartos)', NULL, 1, '3', '2024-07-22 00:34:50', '2024-07-22 00:58:18'),
+(45, 45, '86dfd752c3f1aa9cf459f37811425c4f', '2024-07-21', 2, 'BS', 650.00, 'Seiscientos cincuenta con 00/100 Bs', 'Alquiler del mes de julio (tres cuartos)', NULL, 1, '3', '2024-07-22 00:51:45', '2024-07-22 00:51:45'),
+(46, 46, '4a49fd7661b612999d48ccc5b97e8814', '2024-07-25', 5, 'BS', 500.00, 'Quinientos con 00/100 Bs', 'Garantía un cuarto y una cocina', NULL, 1, '2', '2024-07-27 22:53:45', '2024-07-27 22:53:45'),
+(47, 47, '4a49fd7661b612999d48ccc5b97e8814', '2024-07-25', 5, 'BS', 500.00, 'Quinientos con 00/100 Bs', 'Alquiler mes de agosto un cuarto y una cocina', NULL, 1, '2', '2024-07-27 22:54:28', '2024-07-27 22:54:28'),
+(48, 48, 'a49bb7136fd9c1e4edeb92e3189dd399', '2024-08-02', 1, 'BS', 560.00, 'Quinientos sesenta con 00/100 Bs', 'Pago de alquiler y servicios básicos correspondientes al mes de Junio', NULL, 1, '1', '2024-08-04 00:20:36', '2024-08-04 00:20:36'),
+(49, 49, '411cb93f2a7b439f0225741ca39bd7c4', '2024-08-10', 1, 'BS', 560.00, 'Quinientos sesenta con 00/100 Bs', 'Pago de alquiler y servicios básicos correspondientes al mes de Julio', NULL, 1, '1', '2024-08-11 15:10:47', '2024-08-11 15:10:47'),
+(50, 50, '1ca4006409fab0e78381eadfcfeff599', '2024-08-10', 4, 'BS', 430.00, 'Cuatrocientos treinta con 00/100 Bs', 'Alquiler del mes de agosto (dos cuartos)', NULL, 1, '1', '2024-08-11 15:13:34', '2024-08-11 15:13:34'),
+(51, 51, '01707a05a6c134c3871495a4078a07f5', '2024-08-24', 2, 'BS', 650.00, 'Seiscientos cincuenta con 00/100 Bs', 'Alquiler del mes de agosto (tres cuartos)', NULL, 1, '2', '2024-08-24 22:40:32', '2024-09-15 16:15:21'),
+(52, 52, '87ea1f9882b18a2734569c4ef168f235', '2024-09-11', 4, 'BS', 430.00, 'Cuatrocientos treinta con 00/100 Bs', 'Alquiler del mes de septiembre (dos cuartos)', NULL, 1, '1', '2024-09-12 01:24:47', '2024-09-12 01:24:47'),
+(53, 53, 'd0f87617a1f61d992371efbd95f6ddf7', '2024-09-15', 2, 'BS', 650.00, 'Seiscientos cincuenta con 00/100 Bs', 'Alquiler del mes de septiembre (tres cuartos)', NULL, 1, '1', '2024-09-15 16:15:56', '2024-09-15 16:15:56'),
+(54, 54, '36ddd3974ab3e9df60c5c86fef8b6fea', '2024-09-29', 1, 'BS', 560.00, 'Quinientos sesenta con 00/100 Bs', 'Pago de alquiler y servicios básicos correspondientes al mes de Agosto', NULL, 1, '1', '2024-09-29 12:42:42', '2024-09-29 12:42:42'),
+(55, 55, '4ea59dc16c0c0daa7715963352ff0b9d', '2024-09-07', 5, 'BS', 500.00, 'Quinientos con 00/100 Bs', 'Alquiler mes de septiembre un cuarto y una cocina', NULL, 1, '3', '2024-10-13 20:26:06', '2024-10-13 20:26:06'),
+(56, 56, 'df0fb7e7e1dbb0638529f5bcc59f5e16', '2024-10-06', 5, 'BS', 500.00, 'Quinientos con 00/100 Bs', 'Alquiler mes de octubre un cuarto y una cocina', NULL, 1, '3', '2024-10-13 20:26:52', '2024-10-13 20:26:52'),
+(57, 57, 'c3a7c5a69ec855d2db55123a06732e18', '2024-10-17', 4, 'BS', 430.00, 'Cuatrocientos treinta con 00/100 Bs', 'Alquiler del mes de octubre (dos cuartos)', NULL, 1, '1', '2024-10-18 02:20:42', '2024-10-18 02:20:42'),
+(58, 58, '92b5525872d71a5c9115b120e2b306c3', '2024-10-20', 2, 'BS', 650.00, 'Seiscientos cincuenta con 00/100 Bs', 'Alquiler del mes de octubre (tres cuartos)', NULL, 1, '1', '2024-10-20 15:56:11', '2024-10-20 15:56:11'),
+(59, 59, '122aa018a523327213b9e81faaa3c524', '2024-11-07', 5, 'BS', 500.00, 'Quinientos con 00/100 Bs', 'Alquiler mes de noviembre un cuarto y una cocina', NULL, 1, '3', '2024-11-08 01:05:40', '2024-11-08 01:05:40'),
+(60, 60, '0994be0fcd1efd4f9fabe188c21b702e', '2024-11-15', 4, 'BS', 430.00, 'Cuatrocientos treinta con 00/100 Bs', 'Alquiler del mes de noviembre (dos cuartos)', NULL, 1, '1', '2024-11-16 13:47:35', '2024-11-16 13:47:35'),
+(61, 61, '34282b7151f0f4923b8483e4189543ca', '2024-11-24', 2, 'BS', 650.00, 'Seiscientos cincuenta con 00/100 Bs', 'Alquiler del mes de noviembre (tres cuartos)', NULL, 1, '1', '2024-11-24 16:40:24', '2024-11-24 16:43:17'),
+(62, 62, '136e16388371c31db3329b0833227a6a', '2024-12-01', 1, 'BS', 560.00, 'Quinientos sesenta con 00/100 Bs', 'Pago de alquiler y servicios básicos correspondientes al mes de Septiembre', NULL, 1, '1', '2024-12-05 00:22:57', '2024-12-05 00:22:57'),
+(63, 63, '136e16388371c31db3329b0833227a6a', '2024-12-01', 1, 'BS', 560.00, 'Quinientos sesenta con 00/100 Bs', 'Pago de alquiler y servicios básicos correspondientes al mes de Octubre', NULL, 1, '1', '2024-12-05 00:23:22', '2024-12-05 00:23:22'),
+(64, 64, '84993ba4fdbe97769d0db54fdd6a25ec', '2024-12-24', 1, 'BS', 560.00, 'Quinientos sesenta con 00/100 Bs', 'Pago de alquiler y servicios básicos correspondientes al mes de Noviembre', NULL, 1, '1', '2024-12-26 02:47:32', '2024-12-26 02:47:32'),
+(65, 65, 'cd392c93b0e551a819559983b3139986', '2024-12-25', 2, 'BS', 650.00, 'Seiscientos cincuenta con 00/100 Bs', 'Alquiler del mes de diciembre (tres cuartos)', NULL, 1, '1', '2024-12-26 02:48:12', '2024-12-26 02:48:41'),
+(66, 66, '8082d3e0929c32a8b59bcabf1b00fab3', '2024-12-30', 4, 'BS', 430.00, 'Cuatrocientos treinta con 00/100 Bs', 'Alquiler del mes de diciembre (dos cuartos)', NULL, 1, '2', '2025-01-02 00:11:10', '2025-01-02 00:11:10'),
+(67, 67, 'f45607d37922254dae7111f89c191946', '2025-01-22', 5, 'BS', 500.00, 'Quinientos con 00/100 Bs', 'Alquiler mes de diciembre un cuarto y una cocina', NULL, 1, '3', '2025-01-02 01:42:18', '2025-01-22 22:20:49'),
+(68, 68, '4bb8be028ef33b1b654f88cb1467f690', '2025-01-10', 1, 'BS', 560.00, 'Quinientos sesenta con 00/100 Bs', 'Pago de alquiler y servicios básicos correspondientes al mes de Diciembre', NULL, 1, '1', '2025-01-19 21:05:31', '2025-01-19 21:06:16'),
+(69, 69, '425ff4a6823f999146408040a3f53d2c', '2025-01-22', 2, 'BS', 700.00, 'Setecientos con 00/100 Bs', 'Alquiler del mes de enero (tres cuartos)', NULL, 1, '2', '2025-01-22 17:46:05', '2025-01-22 17:46:05'),
+(70, 70, 'a052018872ee610be5a6b5a994d0873c', '2025-01-23', 4, 'BS', 430.00, 'Cuatrocientos treinta con 00/100 Bs', 'Alquiler del mes de enero (dos cuartos)', NULL, 1, '2', '2025-02-17 01:09:49', '2025-03-08 12:46:23'),
+(71, 71, '681a70ad80f81fffbeb270d531f178ba', '2025-02-01', 5, 'BS', 500.00, 'Quinientos con 00/100 Bs', 'Pago de alquiler enero (cuarto y cocina)', NULL, 1, '3', '2025-03-08 12:34:02', '2025-03-08 12:56:36'),
+(72, 72, 'a052018872ee610be5a6b5a994d0873c', '2025-02-16', 4, 'BS', 430.00, 'Cuatrocientos treinta con 00/100 Bs', 'Alquiler del mes de febrero (dos cuartos)', NULL, 1, '2', '2025-03-08 12:57:45', '2025-04-14 22:52:31'),
+(73, 73, '681a70ad80f81fffbeb270d531f178ba', '2025-02-19', 1, 'BS', 560.00, 'Quinientos sesenta con 00/100 Bs', 'Pago de alquiler y servicios básicos correspondientes al mes de enero', NULL, 1, '1', '2025-03-08 12:58:40', '2025-03-08 14:08:09'),
+(74, 74, '8a095573d40417e0f18f5929308cbffc', '2025-02-21', 5, 'BS', 500.00, 'Quinientos con 00/100 Bs', 'Pago de alquiler febrero (cuarto y cocina)', NULL, 1, '3', '2025-03-08 13:03:00', '2025-03-08 14:06:38'),
+(75, 75, '8a095573d40417e0f18f5929308cbffc', '2025-03-01', 2, 'BS', 700.00, 'Setecientos con 00/100 Bs', 'Alquiler del mes de febrero (tres cuartos)', NULL, 1, '2', '2025-03-08 14:07:30', '2025-03-08 14:07:30'),
+(76, 76, 'b9ac0c9dd277c6815231d7f936b16dbd', '2025-03-08', 1, 'BS', 560.00, 'Quinientos sesenta con 00/100 Bs', 'Pago de alquiler y servicios básicos correspondientes al mes de febrero', NULL, 1, '2', '2025-03-08 14:09:00', '2025-03-08 14:09:00'),
+(77, 77, 'ebf13bef416926411fd709d4e305ccc4', '2025-03-09', 6, 'BS', 360.00, 'Trescientos sesenta con 00/100 Bs', 'Alquiler de los meses de marzo, abril y mayo (Un cuarto)', NULL, 1, '1', '2025-03-10 00:53:28', '2025-03-10 00:53:28'),
+(78, 78, '4419e87cacfa2b3fcd67beef939ea853', '2025-04-15', 4, 'BS', 500.00, 'Quinientos con 00/100 Bs', 'Alquiler del mes de marzo (dos cuartos)', NULL, 1, '2', '2025-04-16 00:29:13', '2025-04-16 00:29:13'),
+(79, 79, 'b0b8a6b8103abd1eb69d3167ed4e2b14', '2025-04-24', 2, 'BS', 700.00, 'Setecientos con 00/100 Bs', 'Alquiler del mes de marzo (tres cuartos)', NULL, 1, '2', '2025-04-24 23:50:20', '2025-04-24 23:50:20'),
+(80, 80, 'b0b8a6b8103abd1eb69d3167ed4e2b14', '2025-04-24', 2, 'BS', 700.00, 'Setecientos con 00/100 Bs', 'Alquiler del mes de abril (tres cuartos)', NULL, 1, '2', '2025-04-24 23:50:56', '2025-04-24 23:50:56'),
+(81, 81, 'a72a97298e83ae03d2917f1cee40168b', '2025-04-12', 5, 'BS', 500.00, 'Quinientos con 00/100 Bs', 'Pago de alquiler marzo (cuarto y cocina)', NULL, 1, '3', '2025-05-17 19:01:43', '2025-05-17 19:01:43'),
+(82, 82, 'ff9e3b68c56c3eb5bf7bd57b0734c4c5', '2025-05-05', 5, 'BS', 500.00, 'Quinientos con 00/100 Bs', 'Pago de alquiler abril (cuarto y cocina)', NULL, 1, '3', '2025-05-17 19:03:04', '2025-05-17 19:03:04'),
+(83, 83, '38de938f501e6244caa918220f5c8a15', '2025-05-15', 4, 'BS', 500.00, 'Quinientos con 00/100 Bs', 'Alquiler del mes de abril (dos cuartos)', NULL, 1, '2', '2025-05-17 19:07:31', '2025-05-17 19:08:03'),
+(84, 84, 'cddca38a2dd733b02910ecc8b7f429a0', '2025-04-17', 1, 'BS', 560.00, 'Quinientos sesenta con 00/100 Bs', 'Pago de alquiler y servicios básicos correspondientes al mes de marzo', NULL, 1, '2', '2025-05-24 13:16:15', '2025-05-24 13:16:15'),
+(85, 85, 'ca4ef916d990ce64a6f450e3d10ae4dd', '2025-05-17', 1, 'BS', 560.00, 'Quinientos sesenta con 00/100 Bs', 'Pago de alquiler y servicios básicos correspondientes al mes de abril', NULL, 1, '1', '2025-05-24 13:21:51', '2025-05-24 13:21:51'),
+(86, 86, '6fab2913d27c6383671624a8c4ea4252', '2025-06-17', 1, 'BS', 560.00, 'Quinientos sesenta con 00/100 Bs', 'Pago de alquiler y servicios básicos correspondientes al mes de mayo', NULL, 1, '2', '2025-06-21 14:17:49', '2025-06-24 13:24:47'),
+(87, 87, '6d3d7e02721a52e5378b82cb84763066', '2025-06-21', 4, 'BS', 500.00, 'Quinientos con 00/100 Bs', 'Alquiler del mes de mayo (dos cuartos)', NULL, 1, '2', '2025-06-22 12:12:32', '2025-06-22 12:12:32'),
+(88, 88, 'fe84f463d7533cd0c5d0236d3e7c03e2', '2025-08-02', 1, 'BS', 560.00, 'Quinientos sesenta con 00/100 Bs', 'Pago de alquiler y servicios básicos correspondientes al mes de junio', NULL, 2, '1', '2025-08-03 01:12:07', '2025-08-04 09:33:40'),
+(89, 89, '1d8cabe811bcfadaae44abe3f3f16f5e', '2025-08-02', 1, 'BS', 560.00, 'Quinientos sesenta con 00/100 Bs', 'Pago de alquiler y servicios básicos correspondientes al mes de julio', NULL, 2, '1', '2025-08-03 01:13:22', '2025-09-05 22:50:14'),
+(90, 90, '3ddd958d5a735a25a8f87d6edc6283c0', '2025-05-17', 5, 'BS', 500.00, 'Quinientos con 00/100 Bs', 'Pago de alquiler mayo (cuarto y cocina)', NULL, 1, '3', '2025-09-05 23:23:48', '2025-09-06 16:12:07'),
+(91, 91, '593f529833b5f446d25ed66e719d6ed0', '2025-07-14', 4, 'BS', 500.00, 'Quinientos con 00/100 Bs', 'Alquiler del mes de junio (dos cuartos)', NULL, 1, '2', '2025-09-05 23:25:15', '2025-09-13 00:14:59'),
+(92, 92, '79052357433a985b0220c9cfc1cfa1cd', '2025-08-04', 2, 'BS', 700.00, 'Setecientos con 00/100 Bs', 'Alquiler del mes de mayo (tres cuartos)', NULL, 1, '2', '2025-09-08 01:48:54', '2025-09-08 01:49:54'),
+(93, 93, '2d79f2f4960c7e00a6d78dcf83b0151e', '2025-08-04', 2, 'BS', 700.00, 'Setecientos con 00/100 Bs', 'Alquiler del mes de junio (tres cuartos)', NULL, 1, '2', '2025-09-08 01:50:48', '2025-09-08 01:50:48'),
+(94, 94, '455f7a31a91902102ed98f750861b128', '2025-08-02', 4, 'BS', 500.00, 'Quinientos con 00/100 Bs', 'Alquiler del mes de julio (dos cuartos)', NULL, 2, '2', '2025-09-08 01:54:16', '2025-09-13 00:20:15'),
+(95, 95, 'd9ef2be9fb1f685f590a077af5874102', '2025-09-10', 5, 'BS', 500.00, 'Quinientos con 00/100 Bs', 'Pago de alquiler junio (cuarto y cocina) - Borrador', NULL, 1, '3', '2025-09-12 23:39:01', '2025-09-12 23:39:01'),
+(96, 96, 'd90c313842108735bfe20e3f9385ba5b', '2025-09-10', 5, 'BS', 500.00, 'Quinientos con 00/100 Bs', 'Pago de alquiler julio (cuarto y cocina)', NULL, 1, '3', '2025-09-12 23:40:35', '2025-09-12 23:40:35'),
+(97, 97, 'a8922e3c5ea0447f7b4e6d190875fdd8', '2025-09-10', 2, 'BS', 700.00, 'Setecientos con 00/100 Bs', 'Alquiler del mes de julio (tres cuartos)', NULL, 2, '2', '2025-09-12 23:42:01', '2025-09-13 00:20:47'),
+(98, 98, '1d894dccf6abbde7b15ba788aec70746', '2025-09-10', 2, 'BS', 700.00, 'Setecientos con 00/100 Bs', 'Alquiler del mes de agosto (tres cuartos)', NULL, 2, '2', '2025-09-12 23:43:17', '2025-09-13 00:20:59'),
+(99, 99, '59018d43763cd1451df84f7ecbf94f2b', '2025-09-05', 4, 'BS', 500.00, 'Quinientos con 00/100 Bs', 'Alquiler del mes de agosto (dos cuartos)', NULL, 2, '2', '2025-09-13 00:17:46', '2025-09-13 00:20:24'),
+(100, 100, '513b35970af4961461bac0820a28fb71', '2025-09-12', 7, 'BS', 500.00, 'Quinientos con 00/100 Bs', 'Alquiler junio - julio (2 cuartos)', NULL, 2, '2', '2025-09-13 17:10:43', '2025-09-27 13:09:45'),
+(101, 101, '61084cdaa447b7a4cf3440e90614f679', '2025-09-19', 8, 'BS', 2000.00, 'Dos mil con 00/100 Bs', 'Alquiler tienda - B y cocina (8 meses)', NULL, 1, '2', '2025-09-26 00:49:02', '2025-09-27 13:08:09'),
+(102, 102, '5d7c90bbae171513d356d753ffde02b8', '2025-09-24', 1, 'BS', 560.00, 'Quinientos sesenta con 00/100 Bs', 'Pago de alquiler y servicios básicos correspondientes al mes de agosto', NULL, 2, '1', '2025-09-27 12:49:33', '2025-09-27 13:08:25'),
+(103, 103, 'ee7104f0b32da644185d123c2dbb2bf3', '2025-10-09', 4, 'BS', 500.00, 'Quinientos con 00/100 Bs', 'Alquiler del mes de septiembre (dos cuartos)', NULL, 2, '2', '2025-10-11 13:17:54', '2025-10-19 00:03:15'),
+(104, 104, '296dd2518b9f55f5adeb78ffa92698a2', '2025-10-18', 7, 'BS', 500.00, 'Quinientos con 00/100 Bs', 'Alquiler agosto - septiembre (2 cuartos)', NULL, 2, '2', '2025-10-19 00:02:57', '2025-12-28 12:07:06'),
+(105, 105, 'e858bedc26584b3e3a03269b42382be3', '2025-10-19', 6, 'BS', 480.00, 'Cuatrocientos ochenta con 00/100 Bs', 'Alquiler de junio - septiembre (Un cuarto)', NULL, 1, '1', '2025-10-19 14:10:07', '2025-10-19 14:10:07'),
+(106, 106, '6b7795147eb366d2c4e3422fbf01478b', '2025-10-23', 1, 'BS', 560.00, 'Quinientos sesenta con 00/100 Bs', 'Pago de alquiler y servicios básicos correspondientes al mes de septiembre', NULL, 2, '1', '2025-10-25 19:32:15', '2025-11-24 15:29:31'),
+(107, 107, '64ca4ad9b4ea53d48db34d5baefb90a9', '2025-10-22', 2, 'BS', 700.00, 'Setecientos con 00/100 Bs', 'Alquiler del mes de septiembre (tres cuartos)', NULL, 2, '2', '2025-10-25 19:38:24', '2025-10-29 22:55:57'),
+(108, 108, '667dbba04a9aaee99424e7e0c74f4280', '2025-10-22', 2, 'BS', 700.00, 'Setecientos con 00/100 Bs', 'Alquiler del mes de octubre (tres cuartos)', NULL, 2, '2', '2025-10-25 19:39:35', '2025-10-29 22:56:05'),
+(109, 109, 'f40ee42c67266b291d534e8e908b550e', '2025-11-24', 1, 'BS', 560.00, 'Quinientos sesenta con 00/100 Bs', 'Pago de alquiler y servicios básicos correspondientes al mes de octubre', NULL, 2, '1', '2025-11-24 15:30:16', '2025-12-12 12:59:47'),
+(110, 110, '0ad7d87231fab1f8fe1246f1ffe68955', '2025-12-12', 9, 'BS', 560.00, 'Quinientos sesenta con 00/100 Bs', 'Pago de alquiler y servicios básicos correspondientes al mes de noviembre', NULL, 2, '1', '2025-12-12 13:00:55', '2026-01-01 02:01:25'),
+(111, 111, 'cf8e7c9209df43fd11ee251875d34378', '2025-12-17', 7, 'BS', 500.00, 'Quinientos con 00/100 Bs', 'Alquiler octubre - noviembre (2 cuartos)', NULL, 2, '2', '2025-12-28 12:08:40', '2026-01-01 01:56:53'),
+(112, 112, 'a43566210dbf8c0013b37880091e2a0c', '2025-12-31', 4, 'BS', 500.00, 'Quinientos con 00/100 Bs', 'Alquiler del mes de octubre (dos cuartos)', NULL, 2, '2', '2026-01-01 01:56:33', '2026-01-01 02:01:21'),
+(113, 113, '86ff18d373154254641ce7533bffde83', '2025-12-31', 2, 'BS', 700.00, 'Setecientos con 00/100 Bs', 'Alquiler del mes de noviembre (tres cuartos)', NULL, 2, '2', '2026-01-01 01:59:43', '2026-01-01 02:01:15'),
+(114, 114, 'b6b8f7d8f3f566b1eeb8b4122ee43a34', '2025-12-31', 2, 'BS', 700.00, 'Setecientos con 00/100 Bs', 'Alquiler del mes de diciembre (tres cuartos)', NULL, 2, '2', '2026-01-01 02:00:42', '2026-01-01 02:01:18'),
+(115, 115, 'f1459f74fabe0a00a0d20adf4cc6eb2c', '2026-01-16', 1, 'BS', 560.00, 'Quinientos sesenta con 00/100 Bs', 'Pago de alquiler y servicios básicos correspondientes al mes de diciembre 2025', NULL, 2, '1', '2026-01-16 10:51:28', '2026-02-18 16:44:07'),
+(116, 116, '8ea5616d1aac7d07b0593a1dc5b5e1cf', '2026-02-02', 5, 'BS', 500.00, 'Quinientos con 00/100 Bs', 'Pago de alquiler febrero (cuarto y cocina)', NULL, 1, '2', '2026-02-18 16:43:59', '2026-02-18 16:43:59'),
+(117, 117, 'e021f725d633f52363afafd67f99635c', '2026-02-24', 1, 'BS', 560.00, 'Quinientos sesenta con 00/100 Bs', 'Pago de alquiler y servicios básicos correspondientes al mes de enero', NULL, 1, '1', '2026-02-24 22:30:12', '2026-02-24 22:30:12'),
+(118, 118, 'd54213d6b61ca5914e3ecad5e4695ef9', '2026-03-21', 10, 'BS', 70000.00, 'Setenta mil con 00/100 Bs', 'Venta de lote Llimphi', NULL, 1, '2', '2026-03-21 15:45:49', '2026-03-21 15:45:49');
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `roles`
+--
+
 CREATE TABLE `roles` (
-  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
-  `role_name` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `id` bigint(20) UNSIGNED NOT NULL,
+  `name` varchar(255) NOT NULL,
+  `guard_name` varchar(255) NOT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
-  `updated_at` timestamp NULL DEFAULT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+  `updated_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
-# ------------------------------------------------------------
-# SCHEMA DUMP FOR TABLE: sell_details
-# ------------------------------------------------------------
+--
+-- Volcado de datos para la tabla `roles`
+--
 
-DROP TABLE IF EXISTS `sell_details`;
-CREATE TABLE `sell_details` (
-  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
-  `stock_id` int(11) NOT NULL,
-  `sell_id` int(11) NOT NULL,
-  `product_id` int(11) NOT NULL,
-  `category_id` int(11) NOT NULL,
-  `vendor_id` int(11) NOT NULL,
-  `user_id` int(11) NOT NULL,
-  `chalan_no` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `selling_date` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `customer_id` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `sold_quantity` int(11) NOT NULL,
-  `buy_price` double NOT NULL,
-  `sold_price` double NOT NULL,
-  `total_buy_price` double NOT NULL,
-  `total_sold_price` double NOT NULL,
-  `discount` double NOT NULL,
-  `discount_type` tinyint(4) NOT NULL,
-  `discount_amount` double NOT NULL,
-  `created_at` timestamp NULL DEFAULT NULL,
-  `updated_at` timestamp NULL DEFAULT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+INSERT INTO `roles` (`id`, `name`, `guard_name`, `created_at`, `updated_at`) VALUES
+(1, 'admin', 'web', '2025-05-25 03:23:26', '2025-05-25 03:23:26'),
+(2, 'supervisor', 'web', '2025-05-25 03:23:26', '2025-05-25 03:23:26'),
+(3, 'vendedor', 'web', '2025-05-25 03:23:26', '2025-05-25 03:23:26'),
+(4, 'cliente', 'web', '2025-05-25 03:23:26', '2025-05-25 03:23:26');
 
-# ------------------------------------------------------------
-# SCHEMA DUMP FOR TABLE: sells
-# ------------------------------------------------------------
+-- --------------------------------------------------------
 
-DROP TABLE IF EXISTS `sells`;
-CREATE TABLE `sells` (
-  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
-  `user_id` int(11) NOT NULL,
-  `customer_id` int(11) NOT NULL,
-  `branch_id` int(11) NOT NULL DEFAULT '1',
-  `total_amount` double NOT NULL,
-  `paid_amount` double NOT NULL DEFAULT '0',
-  `sell_date` varchar(191) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `discount_amount` double NOT NULL DEFAULT '0',
-  `payment_method` tinyint(4) NOT NULL DEFAULT '0',
-  `payment_status` tinyint(4) NOT NULL DEFAULT '0',
-  `created_at` timestamp NULL DEFAULT NULL,
-  `updated_at` timestamp NULL DEFAULT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+--
+-- Estructura de tabla para la tabla `role_has_permissions`
+--
 
-# ------------------------------------------------------------
-# SCHEMA DUMP FOR TABLE: stocks
-# ------------------------------------------------------------
+CREATE TABLE `role_has_permissions` (
+  `permission_id` bigint(20) UNSIGNED NOT NULL,
+  `role_id` bigint(20) UNSIGNED NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
-DROP TABLE IF EXISTS `stocks`;
-CREATE TABLE `stocks` (
-  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
-  `product_code` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `product_id` int(11) NOT NULL,
-  `category_id` int(11) NOT NULL,
-  `vendor_id` int(11) NOT NULL,
-  `user_id` int(11) NOT NULL,
-  `chalan_no` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `buying_price` double NOT NULL,
-  `selling_price` double NOT NULL,
-  `discount` double NOT NULL DEFAULT '0',
-  `stock_quantity` int(11) NOT NULL,
-  `current_quantity` int(11) NOT NULL DEFAULT '0',
-  `note` text COLLATE utf8mb4_unicode_ci,
-  `status` tinyint(4) NOT NULL DEFAULT '1',
-  `created_at` timestamp NULL DEFAULT NULL,
-  `updated_at` timestamp NULL DEFAULT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+--
+-- Volcado de datos para la tabla `role_has_permissions`
+--
 
-# ------------------------------------------------------------
-# SCHEMA DUMP FOR TABLE: users
-# ------------------------------------------------------------
+INSERT INTO `role_has_permissions` (`permission_id`, `role_id`) VALUES
+(1, 1),
+(2, 1),
+(3, 1),
+(4, 1),
+(5, 1),
+(6, 1),
+(7, 1),
+(8, 1),
+(8, 2),
+(8, 3),
+(8, 4),
+(9, 1),
+(9, 2),
+(9, 3),
+(9, 4),
+(10, 1);
 
-DROP TABLE IF EXISTS `users`;
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `users`
+--
+
 CREATE TABLE `users` (
-  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
-  `name` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `email` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `password` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `branch_id` int(11) NOT NULL DEFAULT '1',
-  `role_id` int(11) NOT NULL DEFAULT '1',
-  `remember_token` varchar(100) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `id` bigint(20) UNSIGNED NOT NULL,
+  `name` varchar(255) NOT NULL,
+  `email` varchar(255) NOT NULL,
+  `email_verified_at` timestamp NULL DEFAULT NULL,
+  `is_active` tinyint(1) NOT NULL DEFAULT 0,
+  `password` varchar(255) NOT NULL,
+  `remember_token` varchar(100) DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
-  `updated_at` timestamp NULL DEFAULT NULL,
-  PRIMARY KEY (`id`),
-  UNIQUE KEY `users_email_unique` (`email`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+  `updated_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
-# ------------------------------------------------------------
-# SCHEMA DUMP FOR TABLE: vendors
-# ------------------------------------------------------------
+--
+-- Volcado de datos para la tabla `users`
+--
 
-DROP TABLE IF EXISTS `vendors`;
-CREATE TABLE `vendors` (
-  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
-  `name` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `phone` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `email` varchar(191) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `address` text COLLATE utf8mb4_unicode_ci,
-  `created_at` timestamp NULL DEFAULT NULL,
-  `updated_at` timestamp NULL DEFAULT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+INSERT INTO `users` (`id`, `name`, `email`, `email_verified_at`, `is_active`, `password`, `remember_token`, `created_at`, `updated_at`) VALUES
+(1, 'William Castro Ayaviri', 'william@gmail.com', NULL, 1, '$2y$10$ERiVZYiqoz24diG2DzV2g.lqRqjKMkZz1Qa6QPmbAUDTaSGrH0r6q', NULL, '2024-03-04 00:56:45', '2025-05-25 03:26:48'),
+(2, 'Florentino Castro Mamani', 'lalo@gmail.com', NULL, 0, '$2y$10$8WqSx6i6TOq4jRNtodPkr.HoGV.PorS7x6SfA/ltrVrGkqLAL8V6C', NULL, '2024-03-17 02:51:03', '2024-03-17 02:51:03'),
+(3, 'Yamil Castro Ayaviri', 'yamil@gmail.com', NULL, 0, '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', NULL, '2024-07-22 00:40:03', '2024-03-17 02:51:03');
 
-# ------------------------------------------------------------
-# DATA DUMP FOR TABLE: biye
-# ------------------------------------------------------------
+--
+-- Índices para tablas volcadas
+--
 
+--
+-- Indices de la tabla `failed_jobs`
+--
+ALTER TABLE `failed_jobs`
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `failed_jobs_uuid_unique` (`uuid`);
 
-# ------------------------------------------------------------
-# DATA DUMP FOR TABLE: branches
-# ------------------------------------------------------------
+--
+-- Indices de la tabla `migrations`
+--
+ALTER TABLE `migrations`
+  ADD PRIMARY KEY (`id`);
 
+--
+-- Indices de la tabla `model_has_permissions`
+--
+ALTER TABLE `model_has_permissions`
+  ADD PRIMARY KEY (`permission_id`,`model_id`,`model_type`),
+  ADD KEY `model_has_permissions_model_id_model_type_index` (`model_id`,`model_type`);
 
-# ------------------------------------------------------------
-# DATA DUMP FOR TABLE: categories
-# ------------------------------------------------------------
+--
+-- Indices de la tabla `model_has_roles`
+--
+ALTER TABLE `model_has_roles`
+  ADD PRIMARY KEY (`role_id`,`model_id`,`model_type`),
+  ADD KEY `model_has_roles_model_id_model_type_index` (`model_id`,`model_type`);
 
-INSERT INTO
-  `categories` (`id`, `name`, `status`, `created_at`, `updated_at`)
-VALUES
-  (
-    1,
-    'Ordenadores',
-    1,
-    '2023-04-16 03:14:24',
-    '2023-04-16 03:14:24'
-  );
-INSERT INTO
-  `categories` (`id`, `name`, `status`, `created_at`, `updated_at`)
-VALUES
-  (
-    2,
-    'Monitores',
-    1,
-    '2023-04-16 03:14:31',
-    '2023-04-16 03:14:31'
-  );
-INSERT INTO
-  `categories` (`id`, `name`, `status`, `created_at`, `updated_at`)
-VALUES
-  (
-    3,
-    'Periféricos',
-    1,
-    '2023-04-16 03:14:38',
-    '2023-04-16 03:14:38'
-  );
-INSERT INTO
-  `categories` (`id`, `name`, `status`, `created_at`, `updated_at`)
-VALUES
-  (
-    4,
-    'Componentes',
-    1,
-    '2023-04-16 03:14:44',
-    '2023-04-16 03:14:44'
-  );
-INSERT INTO
-  `categories` (`id`, `name`, `status`, `created_at`, `updated_at`)
-VALUES
-  (
-    5,
-    'Gaming & Streaming',
-    1,
-    '2023-04-16 03:14:50',
-    '2023-04-16 03:14:50'
-  );
+--
+-- Indices de la tabla `password_resets`
+--
+ALTER TABLE `password_resets`
+  ADD KEY `password_resets_email_index` (`email`);
 
-# ------------------------------------------------------------
-# DATA DUMP FOR TABLE: companies
-# ------------------------------------------------------------
+--
+-- Indices de la tabla `permissions`
+--
+ALTER TABLE `permissions`
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `permissions_name_guard_name_unique` (`name`,`guard_name`);
 
-INSERT INTO
-  `companies` (
-    `id`,
-    `name`,
-    `phone`,
-    `address`,
-    `created_at`,
-    `updated_at`
-  )
-VALUES
-  (
-    1,
-    'WhiteBoxLtda',
-    '70000000',
-    'Calle 10 #123, San Pedro, Código Postal 0000.',
-    NULL,
-    '2023-10-17 05:35:09'
-  );
+--
+-- Indices de la tabla `personal_access_tokens`
+--
+ALTER TABLE `personal_access_tokens`
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `personal_access_tokens_token_unique` (`token`),
+  ADD KEY `personal_access_tokens_tokenable_type_tokenable_id_index` (`tokenable_type`,`tokenable_id`);
 
-# ------------------------------------------------------------
-# DATA DUMP FOR TABLE: customers
-# ------------------------------------------------------------
+--
+-- Indices de la tabla `personas`
+--
+ALTER TABLE `personas`
+  ADD PRIMARY KEY (`id`);
 
-INSERT INTO
-  `customers` (
-    `id`,
-    `customer_name`,
-    `email`,
-    `phone`,
-    `address`,
-    `status`,
-    `created_at`,
-    `updated_at`
-  )
-VALUES
-  (
-    1,
-    'Juan Pérez',
-    'juan.perez@gmail.com',
-    '77771234',
-    'Calle 1, Centro, La Paz',
-    1,
-    '2023-04-17 02:08:05',
-    '2023-04-17 02:08:05'
-  );
-INSERT INTO
-  `customers` (
-    `id`,
-    `customer_name`,
-    `email`,
-    `phone`,
-    `address`,
-    `status`,
-    `created_at`,
-    `updated_at`
-  )
-VALUES
-  (
-    2,
-    'María Rodríguez',
-    'maria.rodriguez@gmail.com',
-    '77775678',
-    'Calle 2, Obrajes, La Paz',
-    1,
-    '2023-04-17 02:08:05',
-    '2023-04-17 02:08:05'
-  );
-INSERT INTO
-  `customers` (
-    `id`,
-    `customer_name`,
-    `email`,
-    `phone`,
-    `address`,
-    `status`,
-    `created_at`,
-    `updated_at`
-  )
-VALUES
-  (
-    3,
-    'Pedro García',
-    'pedro.garcia@gmail.com',
-    '77779876',
-    'Calle 3, Villa Aroma, La Paz',
-    1,
-    '2023-04-17 02:08:05',
-    '2023-04-17 02:08:05'
-  );
-INSERT INTO
-  `customers` (
-    `id`,
-    `customer_name`,
-    `email`,
-    `phone`,
-    `address`,
-    `status`,
-    `created_at`,
-    `updated_at`
-  )
-VALUES
-  (
-    4,
-    'Ana Hernández',
-    'ana.hernandez@gmail.com',
-    '5552468',
-    'Calle 4, Narvarte, Cochabamba',
-    1,
-    '2023-04-17 02:08:05',
-    '2023-04-17 04:36:26'
-  );
-INSERT INTO
-  `customers` (
-    `id`,
-    `customer_name`,
-    `email`,
-    `phone`,
-    `address`,
-    `status`,
-    `created_at`,
-    `updated_at`
-  )
-VALUES
-  (
-    5,
-    'Jorge Martínez',
-    'jorge.martinez@gmail.com',
-    '77773691',
-    'Calle 5, Santa Fe, El Alto',
-    1,
-    '2023-04-17 02:08:05',
-    '2023-04-17 02:08:05'
-  );
-INSERT INTO
-  `customers` (
-    `id`,
-    `customer_name`,
-    `email`,
-    `phone`,
-    `address`,
-    `status`,
-    `created_at`,
-    `updated_at`
-  )
-VALUES
-  (
-    6,
-    'Laura González',
-    'laura.gonzalez@gmail.com',
-    '77775555',
-    '5to anillo, Santa Cruz',
-    1,
-    '2023-04-17 02:08:05',
-    '2023-04-17 02:08:05'
-  );
-INSERT INTO
-  `customers` (
-    `id`,
-    `customer_name`,
-    `email`,
-    `phone`,
-    `address`,
-    `status`,
-    `created_at`,
-    `updated_at`
-  )
-VALUES
-  (
-    7,
-    'Miguel Álvarez',
-    'miguel.alvarez@gmail.com',
-    '77777777',
-    'Calle 7, Obrajes, La Paz',
-    1,
-    '2023-04-17 02:08:05',
-    '2023-04-17 02:08:05'
-  );
-INSERT INTO
-  `customers` (
-    `id`,
-    `customer_name`,
-    `email`,
-    `phone`,
-    `address`,
-    `status`,
-    `created_at`,
-    `updated_at`
-  )
-VALUES
-  (
-    8,
-    'Carmen Flores',
-    'carmen.flores@gmail.com',
-    '77771212',
-    'Calle 8, Alto Irpavi, La Paz',
-    1,
-    '2023-04-17 02:08:05',
-    '2023-04-17 02:08:05'
-  );
-INSERT INTO
-  `customers` (
-    `id`,
-    `customer_name`,
-    `email`,
-    `phone`,
-    `address`,
-    `status`,
-    `created_at`,
-    `updated_at`
-  )
-VALUES
-  (
-    9,
-    'José García',
-    'jose.garcia@gmail.com',
-    '77777777',
-    'Calle 9, Colonia Del Valle, La Paz',
-    1,
-    '2023-04-17 02:08:05',
-    '2023-04-17 02:08:05'
-  );
-INSERT INTO
-  `customers` (
-    `id`,
-    `customer_name`,
-    `email`,
-    `phone`,
-    `address`,
-    `status`,
-    `created_at`,
-    `updated_at`
-  )
-VALUES
-  (
-    10,
-    'Fernanda González',
-    'fernanda.gonzalez@gmail.com',
-    '77772345',
-    'Calle 10, San Miguel, La Paz',
-    1,
-    '2023-04-17 02:08:05',
-    '2023-04-17 02:08:05'
-  );
-INSERT INTO
-  `customers` (
-    `id`,
-    `customer_name`,
-    `email`,
-    `phone`,
-    `address`,
-    `status`,
-    `created_at`,
-    `updated_at`
-  )
-VALUES
-  (
-    11,
-    'Diego Torres',
-    'diego.torres@gmail.com',
-    '77774567',
-    'Calle 11, Santa María la Ribera, Chuquisaca',
-    1,
-    '2023-04-17 02:08:05',
-    '2023-04-17 02:08:05'
-  );
-INSERT INTO
-  `customers` (
-    `id`,
-    `customer_name`,
-    `email`,
-    `phone`,
-    `address`,
-    `status`,
-    `created_at`,
-    `updated_at`
-  )
-VALUES
-  (
-    12,
-    'Carla Hernández',
-    'carla.hernandez@gmail.com',
-    '77771111',
-    'Calle 12, Tembladerani, La Paz',
-    1,
-    '2023-04-17 02:08:05',
-    '2023-04-17 02:08:05'
-  );
-INSERT INTO
-  `customers` (
-    `id`,
-    `customer_name`,
-    `email`,
-    `phone`,
-    `address`,
-    `status`,
-    `created_at`,
-    `updated_at`
-  )
-VALUES
-  (
-    13,
-    'Raúl Díaz',
-    'raul.diaz@gmail.com',
-    '77772222',
-    'Calle 13, Calacoto, La Paz',
-    1,
-    '2023-04-17 02:08:05',
-    '2023-04-17 02:08:05'
-  );
-INSERT INTO
-  `customers` (
-    `id`,
-    `customer_name`,
-    `email`,
-    `phone`,
-    `address`,
-    `status`,
-    `created_at`,
-    `updated_at`
-  )
-VALUES
-  (
-    14,
-    'Sofía García',
-    'sofia.garcia@gmail.com',
-    '77773333',
-    'Calle 14, Irpavi, La Paz',
-    1,
-    '2023-04-17 02:08:05',
-    '2023-04-17 02:08:05'
-  );
-INSERT INTO
-  `customers` (
-    `id`,
-    `customer_name`,
-    `email`,
-    `phone`,
-    `address`,
-    `status`,
-    `created_at`,
-    `updated_at`
-  )
-VALUES
-  (
-    15,
-    'Héctor Jiménez',
-    'hector.jimenez@gmail.com',
-    '77774444',
-    'Calle 15, Miraflores, La Paz',
-    1,
-    '2023-04-17 02:08:05',
-    '2023-04-17 02:08:05'
-  );
-INSERT INTO
-  `customers` (
-    `id`,
-    `customer_name`,
-    `email`,
-    `phone`,
-    `address`,
-    `status`,
-    `created_at`,
-    `updated_at`
-  )
-VALUES
-  (
-    16,
-    'Diana Martínez',
-    'diana.martinez@gmail.com',
-    '77775555',
-    'Calle 16, Industrial, Oruro',
-    1,
-    '2023-04-17 02:08:05',
-    '2023-04-17 02:08:05'
-  );
+--
+-- Indices de la tabla `recibos`
+--
+ALTER TABLE `recibos`
+  ADD PRIMARY KEY (`id`);
 
-# ------------------------------------------------------------
-# DATA DUMP FOR TABLE: menus
-# ------------------------------------------------------------
+--
+-- Indices de la tabla `roles`
+--
+ALTER TABLE `roles`
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `roles_name_guard_name_unique` (`name`,`guard_name`);
 
-INSERT INTO
-  `menus` (
-    `id`,
-    `parent_id`,
-    `name`,
-    `icon`,
-    `menu_url`,
-    `status`,
-    `created_at`,
-    `updated_at`
-  )
-VALUES
-  (
-    1,
-    0,
-    'Clientes',
-    'contacts',
-    'customer.index',
-    0,
-    '2020-07-29 13:17:51',
-    '2020-07-29 13:17:56'
-  );
-INSERT INTO
-  `menus` (
-    `id`,
-    `parent_id`,
-    `name`,
-    `icon`,
-    `menu_url`,
-    `status`,
-    `created_at`,
-    `updated_at`
-  )
-VALUES
-  (
-    2,
-    0,
-    'Gestión de Productos',
-    'category',
-    NULL,
-    0,
-    '2020-07-29 13:17:53',
-    '2020-07-29 13:17:54'
-  );
-INSERT INTO
-  `menus` (
-    `id`,
-    `parent_id`,
-    `name`,
-    `icon`,
-    `menu_url`,
-    `status`,
-    `created_at`,
-    `updated_at`
-  )
-VALUES
-  (
-    3,
-    0,
-    'Movimientos',
-    'assignment',
-    NULL,
-    0,
-    '2020-07-29 13:17:52',
-    '2020-07-29 13:17:54'
-  );
-INSERT INTO
-  `menus` (
-    `id`,
-    `parent_id`,
-    `name`,
-    `icon`,
-    `menu_url`,
-    `status`,
-    `created_at`,
-    `updated_at`
-  )
-VALUES
-  (
-    4,
-    0,
-    'Gestión de usuarios',
-    'supervised_user_circle',
-    NULL,
-    0,
-    '2020-07-29 13:17:51',
-    '2020-07-29 13:17:56'
-  );
-INSERT INTO
-  `menus` (
-    `id`,
-    `parent_id`,
-    `name`,
-    `icon`,
-    `menu_url`,
-    `status`,
-    `created_at`,
-    `updated_at`
-  )
-VALUES
-  (
-    5,
-    0,
-    'Reportes',
-    'receipt_long',
-    'report.index',
-    0,
-    '2020-07-29 13:17:52',
-    '2020-07-29 13:17:55'
-  );
-INSERT INTO
-  `menus` (
-    `id`,
-    `parent_id`,
-    `name`,
-    `icon`,
-    `menu_url`,
-    `status`,
-    `created_at`,
-    `updated_at`
-  )
-VALUES
-  (
-    6,
-    0,
-    'Configuración',
-    'settings',
-    NULL,
-    0,
-    '2020-07-29 13:17:58',
-    '2020-07-29 13:17:57'
-  );
-INSERT INTO
-  `menus` (
-    `id`,
-    `parent_id`,
-    `name`,
-    `icon`,
-    `menu_url`,
-    `status`,
-    `created_at`,
-    `updated_at`
-  )
-VALUES
-  (
-    7,
-    2,
-    'Categorias',
-    NULL,
-    'category.index',
-    0,
-    '2020-07-29 13:17:50',
-    '2020-07-29 13:17:57'
-  );
-INSERT INTO
-  `menus` (
-    `id`,
-    `parent_id`,
-    `name`,
-    `icon`,
-    `menu_url`,
-    `status`,
-    `created_at`,
-    `updated_at`
-  )
-VALUES
-  (
-    8,
-    2,
-    'Productos',
-    NULL,
-    'product.index',
-    0,
-    '2020-07-29 13:17:49',
-    '2020-07-29 13:17:59'
-  );
-INSERT INTO
-  `menus` (
-    `id`,
-    `parent_id`,
-    `name`,
-    `icon`,
-    `menu_url`,
-    `status`,
-    `created_at`,
-    `updated_at`
-  )
-VALUES
-  (
-    9,
-    2,
-    'Proveedores',
-    NULL,
-    'supplier.index',
-    0,
-    '2020-07-29 13:17:49',
-    '2020-07-29 13:18:00'
-  );
-INSERT INTO
-  `menus` (
-    `id`,
-    `parent_id`,
-    `name`,
-    `icon`,
-    `menu_url`,
-    `status`,
-    `created_at`,
-    `updated_at`
-  )
-VALUES
-  (
-    10,
-    3,
-    'Ingresos',
-    NULL,
-    'stock.index',
-    0,
-    '2020-07-29 13:17:48',
-    '2020-07-29 13:18:00'
-  );
-INSERT INTO
-  `menus` (
-    `id`,
-    `parent_id`,
-    `name`,
-    `icon`,
-    `menu_url`,
-    `status`,
-    `created_at`,
-    `updated_at`
-  )
-VALUES
-  (
-    11,
-    3,
-    'Salidas / Ventas',
-    NULL,
-    'invoice.index',
-    0,
-    '2020-07-29 13:17:47',
-    '2020-07-29 13:18:01'
-  );
-INSERT INTO
-  `menus` (
-    `id`,
-    `parent_id`,
-    `name`,
-    `icon`,
-    `menu_url`,
-    `status`,
-    `created_at`,
-    `updated_at`
-  )
-VALUES
-  (
-    12,
-    4,
-    'Gestión de roles',
-    NULL,
-    'role.index',
-    0,
-    '2020-07-29 13:17:46',
-    '2020-07-29 13:17:46'
-  );
-INSERT INTO
-  `menus` (
-    `id`,
-    `parent_id`,
-    `name`,
-    `icon`,
-    `menu_url`,
-    `status`,
-    `created_at`,
-    `updated_at`
-  )
-VALUES
-  (
-    13,
-    4,
-    'Usuarios',
-    NULL,
-    'user.index',
-    0,
-    '2020-07-29 13:17:44',
-    '2020-07-29 13:17:44'
-  );
-INSERT INTO
-  `menus` (
-    `id`,
-    `parent_id`,
-    `name`,
-    `icon`,
-    `menu_url`,
-    `status`,
-    `created_at`,
-    `updated_at`
-  )
-VALUES
-  (
-    14,
-    6,
-    'Información de la empresa',
-    NULL,
-    'company.index',
-    0,
-    '2020-07-29 13:17:43',
-    '2020-07-29 13:17:45'
-  );
-INSERT INTO
-  `menus` (
-    `id`,
-    `parent_id`,
-    `name`,
-    `icon`,
-    `menu_url`,
-    `status`,
-    `created_at`,
-    `updated_at`
-  )
-VALUES
-  (
-    15,
-    6,
-    'Cambiar la contraseña',
-    NULL,
-    'password.index',
-    0,
-    '2020-07-29 13:17:42',
-    '2020-07-29 13:16:37'
-  );
+--
+-- Indices de la tabla `role_has_permissions`
+--
+ALTER TABLE `role_has_permissions`
+  ADD PRIMARY KEY (`permission_id`,`role_id`),
+  ADD KEY `role_has_permissions_role_id_foreign` (`role_id`);
 
-# ------------------------------------------------------------
-# DATA DUMP FOR TABLE: migrations
-# ------------------------------------------------------------
+--
+-- Indices de la tabla `users`
+--
+ALTER TABLE `users`
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `users_email_unique` (`email`);
 
-INSERT INTO
-  `migrations` (`id`, `migration`, `batch`)
-VALUES
-  (1, '2014_10_12_000000_create_users_table', 1);
-INSERT INTO
-  `migrations` (`id`, `migration`, `batch`)
-VALUES
-  (
-    2,
-    '2014_10_12_100000_create_password_resets_table',
-    1
-  );
-INSERT INTO
-  `migrations` (`id`, `migration`, `batch`)
-VALUES
-  (3, '2018_12_10_051212_create_products_table', 1);
-INSERT INTO
-  `migrations` (`id`, `migration`, `batch`)
-VALUES
-  (4, '2018_12_10_052440_create_vendors_table', 1);
-INSERT INTO
-  `migrations` (`id`, `migration`, `batch`)
-VALUES
-  (5, '2018_12_10_052501_create_customers_table', 1);
-INSERT INTO
-  `migrations` (`id`, `migration`, `batch`)
-VALUES
-  (6, '2018_12_10_052521_create_stocks_table', 1);
-INSERT INTO
-  `migrations` (`id`, `migration`, `batch`)
-VALUES
-  (7, '2018_12_10_052610_create_sells_table', 1);
-INSERT INTO
-  `migrations` (`id`, `migration`, `batch`)
-VALUES
-  (
-    8,
-    '2018_12_10_052631_create_sell_details_table',
-    1
-  );
-INSERT INTO
-  `migrations` (`id`, `migration`, `batch`)
-VALUES
-  (9, '2018_12_10_075236_create_branches_table', 1);
-INSERT INTO
-  `migrations` (`id`, `migration`, `batch`)
-VALUES
-  (10, '2018_12_31_160432_create_categories_table', 1);
-INSERT INTO
-  `migrations` (`id`, `migration`, `batch`)
-VALUES
-  (11, '2019_01_12_163604_create_payments_table', 1);
-INSERT INTO
-  `migrations` (`id`, `migration`, `batch`)
-VALUES
-  (12, '2019_01_19_152250_biye--tabl', 1);
-INSERT INTO
-  `migrations` (`id`, `migration`, `batch`)
-VALUES
-  (13, '2019_02_10_113651_create_roles_table', 1);
-INSERT INTO
-  `migrations` (`id`, `migration`, `batch`)
-VALUES
-  (
-    14,
-    '2019_02_10_114632_create_permissions_table',
-    1
-  );
-INSERT INTO
-  `migrations` (`id`, `migration`, `batch`)
-VALUES
-  (15, '2019_02_10_114735_create_menus_table', 1);
-INSERT INTO
-  `migrations` (`id`, `migration`, `batch`)
-VALUES
-  (16, '2019_02_14_130126_create_companies_table', 1);
+--
+-- AUTO_INCREMENT de las tablas volcadas
+--
 
-# ------------------------------------------------------------
-# DATA DUMP FOR TABLE: password_resets
-# ------------------------------------------------------------
+--
+-- AUTO_INCREMENT de la tabla `failed_jobs`
+--
+ALTER TABLE `failed_jobs`
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
 
+--
+-- AUTO_INCREMENT de la tabla `migrations`
+--
+ALTER TABLE `migrations`
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
 
-# ------------------------------------------------------------
-# DATA DUMP FOR TABLE: payments
-# ------------------------------------------------------------
+--
+-- AUTO_INCREMENT de la tabla `permissions`
+--
+ALTER TABLE `permissions`
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
 
-INSERT INTO
-  `payments` (
-    `id`,
-    `sell_id`,
-    `customer_id`,
-    `user_id`,
-    `date`,
-    `paid_in`,
-    `bank_information`,
-    `amount`,
-    `created_at`,
-    `updated_at`
-  )
-VALUES
-  (
-    1,
-    1,
-    8,
-    1,
-    '2023-10-16',
-    'efectivo',
-    NULL,
-    2100,
-    '2023-10-16 23:11:16',
-    '2023-10-16 23:11:16'
-  );
+--
+-- AUTO_INCREMENT de la tabla `personal_access_tokens`
+--
+ALTER TABLE `personal_access_tokens`
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
 
-# ------------------------------------------------------------
-# DATA DUMP FOR TABLE: permissions
-# ------------------------------------------------------------
+--
+-- AUTO_INCREMENT de la tabla `personas`
+--
+ALTER TABLE `personas`
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
 
-INSERT INTO
-  `permissions` (
-    `id`,
-    `role_id`,
-    `menu_id`,
-    `created_at`,
-    `updated_at`
-  )
-VALUES
-  (
-    124,
-    5,
-    1,
-    '2019-02-23 00:54:16',
-    '2019-02-23 00:54:16'
-  );
-INSERT INTO
-  `permissions` (
-    `id`,
-    `role_id`,
-    `menu_id`,
-    `created_at`,
-    `updated_at`
-  )
-VALUES
-  (
-    125,
-    5,
-    2,
-    '2019-02-23 00:54:16',
-    '2019-02-23 00:54:16'
-  );
-INSERT INTO
-  `permissions` (
-    `id`,
-    `role_id`,
-    `menu_id`,
-    `created_at`,
-    `updated_at`
-  )
-VALUES
-  (
-    126,
-    5,
-    3,
-    '2019-02-23 00:54:16',
-    '2019-02-23 00:54:16'
-  );
-INSERT INTO
-  `permissions` (
-    `id`,
-    `role_id`,
-    `menu_id`,
-    `created_at`,
-    `updated_at`
-  )
-VALUES
-  (
-    127,
-    5,
-    4,
-    '2019-02-23 00:54:16',
-    '2019-02-23 00:54:16'
-  );
-INSERT INTO
-  `permissions` (
-    `id`,
-    `role_id`,
-    `menu_id`,
-    `created_at`,
-    `updated_at`
-  )
-VALUES
-  (
-    128,
-    5,
-    5,
-    '2019-02-23 00:54:16',
-    '2019-02-23 00:54:16'
-  );
-INSERT INTO
-  `permissions` (
-    `id`,
-    `role_id`,
-    `menu_id`,
-    `created_at`,
-    `updated_at`
-  )
-VALUES
-  (
-    129,
-    5,
-    6,
-    '2019-02-23 00:54:16',
-    '2019-02-23 00:54:16'
-  );
-INSERT INTO
-  `permissions` (
-    `id`,
-    `role_id`,
-    `menu_id`,
-    `created_at`,
-    `updated_at`
-  )
-VALUES
-  (
-    130,
-    5,
-    9,
-    '2019-02-23 00:54:16',
-    '2019-02-23 00:54:16'
-  );
-INSERT INTO
-  `permissions` (
-    `id`,
-    `role_id`,
-    `menu_id`,
-    `created_at`,
-    `updated_at`
-  )
-VALUES
-  (
-    131,
-    5,
-    8,
-    '2019-02-23 00:54:16',
-    '2019-02-23 00:54:16'
-  );
-INSERT INTO
-  `permissions` (
-    `id`,
-    `role_id`,
-    `menu_id`,
-    `created_at`,
-    `updated_at`
-  )
-VALUES
-  (
-    132,
-    5,
-    7,
-    '2019-02-23 00:54:16',
-    '2019-02-23 00:54:16'
-  );
-INSERT INTO
-  `permissions` (
-    `id`,
-    `role_id`,
-    `menu_id`,
-    `created_at`,
-    `updated_at`
-  )
-VALUES
-  (
-    133,
-    5,
-    10,
-    '2019-02-23 00:54:16',
-    '2019-02-23 00:54:16'
-  );
-INSERT INTO
-  `permissions` (
-    `id`,
-    `role_id`,
-    `menu_id`,
-    `created_at`,
-    `updated_at`
-  )
-VALUES
-  (
-    134,
-    5,
-    11,
-    '2019-02-23 00:54:16',
-    '2019-02-23 00:54:16'
-  );
-INSERT INTO
-  `permissions` (
-    `id`,
-    `role_id`,
-    `menu_id`,
-    `created_at`,
-    `updated_at`
-  )
-VALUES
-  (
-    135,
-    5,
-    12,
-    '2019-02-23 00:54:16',
-    '2019-02-23 00:54:16'
-  );
-INSERT INTO
-  `permissions` (
-    `id`,
-    `role_id`,
-    `menu_id`,
-    `created_at`,
-    `updated_at`
-  )
-VALUES
-  (
-    136,
-    5,
-    15,
-    '2019-02-23 00:54:16',
-    '2019-02-23 00:54:16'
-  );
-INSERT INTO
-  `permissions` (
-    `id`,
-    `role_id`,
-    `menu_id`,
-    `created_at`,
-    `updated_at`
-  )
-VALUES
-  (
-    137,
-    6,
-    1,
-    '2019-02-23 03:25:01',
-    '2019-02-23 03:25:01'
-  );
-INSERT INTO
-  `permissions` (
-    `id`,
-    `role_id`,
-    `menu_id`,
-    `created_at`,
-    `updated_at`
-  )
-VALUES
-  (
-    138,
-    6,
-    3,
-    '2019-02-23 03:25:01',
-    '2019-02-23 03:25:01'
-  );
-INSERT INTO
-  `permissions` (
-    `id`,
-    `role_id`,
-    `menu_id`,
-    `created_at`,
-    `updated_at`
-  )
-VALUES
-  (
-    139,
-    6,
-    6,
-    '2019-02-23 03:25:01',
-    '2019-02-23 03:25:01'
-  );
-INSERT INTO
-  `permissions` (
-    `id`,
-    `role_id`,
-    `menu_id`,
-    `created_at`,
-    `updated_at`
-  )
-VALUES
-  (
-    140,
-    6,
-    15,
-    '2019-02-23 03:25:01',
-    '2019-02-23 03:25:01'
-  );
-INSERT INTO
-  `permissions` (
-    `id`,
-    `role_id`,
-    `menu_id`,
-    `created_at`,
-    `updated_at`
-  )
-VALUES
-  (
-    706,
-    4,
-    11,
-    '2020-07-31 17:30:54',
-    '2020-07-31 17:30:54'
-  );
-INSERT INTO
-  `permissions` (
-    `id`,
-    `role_id`,
-    `menu_id`,
-    `created_at`,
-    `updated_at`
-  )
-VALUES
-  (
-    707,
-    4,
-    2,
-    '2020-07-31 17:30:54',
-    '2020-07-31 17:30:54'
-  );
-INSERT INTO
-  `permissions` (
-    `id`,
-    `role_id`,
-    `menu_id`,
-    `created_at`,
-    `updated_at`
-  )
-VALUES
-  (
-    708,
-    4,
-    4,
-    '2020-07-31 17:30:54',
-    '2020-07-31 17:30:54'
-  );
-INSERT INTO
-  `permissions` (
-    `id`,
-    `role_id`,
-    `menu_id`,
-    `created_at`,
-    `updated_at`
-  )
-VALUES
-  (
-    709,
-    4,
-    15,
-    '2020-07-31 17:30:54',
-    '2020-07-31 17:30:54'
-  );
-INSERT INTO
-  `permissions` (
-    `id`,
-    `role_id`,
-    `menu_id`,
-    `created_at`,
-    `updated_at`
-  )
-VALUES
-  (
-    710,
-    4,
-    6,
-    '2020-07-31 17:30:54',
-    '2020-07-31 17:30:54'
-  );
-INSERT INTO
-  `permissions` (
-    `id`,
-    `role_id`,
-    `menu_id`,
-    `created_at`,
-    `updated_at`
-  )
-VALUES
-  (
-    721,
-    3,
-    1,
-    '2020-11-17 17:03:42',
-    '2020-11-17 17:03:42'
-  );
-INSERT INTO
-  `permissions` (
-    `id`,
-    `role_id`,
-    `menu_id`,
-    `created_at`,
-    `updated_at`
-  )
-VALUES
-  (
-    722,
-    3,
-    9,
-    '2020-11-17 17:03:42',
-    '2020-11-17 17:03:42'
-  );
-INSERT INTO
-  `permissions` (
-    `id`,
-    `role_id`,
-    `menu_id`,
-    `created_at`,
-    `updated_at`
-  )
-VALUES
-  (
-    723,
-    3,
-    8,
-    '2020-11-17 17:03:42',
-    '2020-11-17 17:03:42'
-  );
-INSERT INTO
-  `permissions` (
-    `id`,
-    `role_id`,
-    `menu_id`,
-    `created_at`,
-    `updated_at`
-  )
-VALUES
-  (
-    724,
-    3,
-    7,
-    '2020-11-17 17:03:42',
-    '2020-11-17 17:03:42'
-  );
-INSERT INTO
-  `permissions` (
-    `id`,
-    `role_id`,
-    `menu_id`,
-    `created_at`,
-    `updated_at`
-  )
-VALUES
-  (
-    725,
-    3,
-    2,
-    '2020-11-17 17:03:42',
-    '2020-11-17 17:03:42'
-  );
-INSERT INTO
-  `permissions` (
-    `id`,
-    `role_id`,
-    `menu_id`,
-    `created_at`,
-    `updated_at`
-  )
-VALUES
-  (
-    726,
-    3,
-    10,
-    '2020-11-17 17:03:42',
-    '2020-11-17 17:03:42'
-  );
-INSERT INTO
-  `permissions` (
-    `id`,
-    `role_id`,
-    `menu_id`,
-    `created_at`,
-    `updated_at`
-  )
-VALUES
-  (
-    727,
-    3,
-    11,
-    '2020-11-17 17:03:42',
-    '2020-11-17 17:03:42'
-  );
-INSERT INTO
-  `permissions` (
-    `id`,
-    `role_id`,
-    `menu_id`,
-    `created_at`,
-    `updated_at`
-  )
-VALUES
-  (
-    728,
-    3,
-    3,
-    '2020-11-17 17:03:42',
-    '2020-11-17 17:03:42'
-  );
-INSERT INTO
-  `permissions` (
-    `id`,
-    `role_id`,
-    `menu_id`,
-    `created_at`,
-    `updated_at`
-  )
-VALUES
-  (
-    729,
-    2,
-    1,
-    '2021-07-05 20:00:38',
-    '2021-07-05 20:00:38'
-  );
-INSERT INTO
-  `permissions` (
-    `id`,
-    `role_id`,
-    `menu_id`,
-    `created_at`,
-    `updated_at`
-  )
-VALUES
-  (
-    730,
-    2,
-    9,
-    '2021-07-05 20:00:38',
-    '2021-07-05 20:00:38'
-  );
-INSERT INTO
-  `permissions` (
-    `id`,
-    `role_id`,
-    `menu_id`,
-    `created_at`,
-    `updated_at`
-  )
-VALUES
-  (
-    731,
-    2,
-    8,
-    '2021-07-05 20:00:38',
-    '2021-07-05 20:00:38'
-  );
-INSERT INTO
-  `permissions` (
-    `id`,
-    `role_id`,
-    `menu_id`,
-    `created_at`,
-    `updated_at`
-  )
-VALUES
-  (
-    732,
-    2,
-    7,
-    '2021-07-05 20:00:38',
-    '2021-07-05 20:00:38'
-  );
-INSERT INTO
-  `permissions` (
-    `id`,
-    `role_id`,
-    `menu_id`,
-    `created_at`,
-    `updated_at`
-  )
-VALUES
-  (
-    733,
-    2,
-    2,
-    '2021-07-05 20:00:38',
-    '2021-07-05 20:00:38'
-  );
-INSERT INTO
-  `permissions` (
-    `id`,
-    `role_id`,
-    `menu_id`,
-    `created_at`,
-    `updated_at`
-  )
-VALUES
-  (
-    734,
-    2,
-    10,
-    '2021-07-05 20:00:38',
-    '2021-07-05 20:00:38'
-  );
-INSERT INTO
-  `permissions` (
-    `id`,
-    `role_id`,
-    `menu_id`,
-    `created_at`,
-    `updated_at`
-  )
-VALUES
-  (
-    735,
-    2,
-    11,
-    '2021-07-05 20:00:38',
-    '2021-07-05 20:00:38'
-  );
-INSERT INTO
-  `permissions` (
-    `id`,
-    `role_id`,
-    `menu_id`,
-    `created_at`,
-    `updated_at`
-  )
-VALUES
-  (
-    736,
-    2,
-    3,
-    '2021-07-05 20:00:38',
-    '2021-07-05 20:00:38'
-  );
-INSERT INTO
-  `permissions` (
-    `id`,
-    `role_id`,
-    `menu_id`,
-    `created_at`,
-    `updated_at`
-  )
-VALUES
-  (
-    737,
-    2,
-    12,
-    '2021-07-05 20:00:38',
-    '2021-07-05 20:00:38'
-  );
-INSERT INTO
-  `permissions` (
-    `id`,
-    `role_id`,
-    `menu_id`,
-    `created_at`,
-    `updated_at`
-  )
-VALUES
-  (
-    738,
-    2,
-    13,
-    '2021-07-05 20:00:38',
-    '2021-07-05 20:00:38'
-  );
-INSERT INTO
-  `permissions` (
-    `id`,
-    `role_id`,
-    `menu_id`,
-    `created_at`,
-    `updated_at`
-  )
-VALUES
-  (
-    739,
-    2,
-    4,
-    '2021-07-05 20:00:38',
-    '2021-07-05 20:00:38'
-  );
-INSERT INTO
-  `permissions` (
-    `id`,
-    `role_id`,
-    `menu_id`,
-    `created_at`,
-    `updated_at`
-  )
-VALUES
-  (
-    740,
-    2,
-    5,
-    '2021-07-05 20:00:38',
-    '2021-07-05 20:00:38'
-  );
-INSERT INTO
-  `permissions` (
-    `id`,
-    `role_id`,
-    `menu_id`,
-    `created_at`,
-    `updated_at`
-  )
-VALUES
-  (
-    741,
-    2,
-    14,
-    '2021-07-05 20:00:38',
-    '2021-07-05 20:00:38'
-  );
-INSERT INTO
-  `permissions` (
-    `id`,
-    `role_id`,
-    `menu_id`,
-    `created_at`,
-    `updated_at`
-  )
-VALUES
-  (
-    742,
-    2,
-    15,
-    '2021-07-05 20:00:38',
-    '2021-07-05 20:00:38'
-  );
-INSERT INTO
-  `permissions` (
-    `id`,
-    `role_id`,
-    `menu_id`,
-    `created_at`,
-    `updated_at`
-  )
-VALUES
-  (
-    743,
-    2,
-    6,
-    '2021-07-05 20:00:38',
-    '2021-07-05 20:00:38'
-  );
+--
+-- AUTO_INCREMENT de la tabla `recibos`
+--
+ALTER TABLE `recibos`
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=119;
 
-# ------------------------------------------------------------
-# DATA DUMP FOR TABLE: products
-# ------------------------------------------------------------
+--
+-- AUTO_INCREMENT de la tabla `roles`
+--
+ALTER TABLE `roles`
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
-INSERT INTO
-  `products` (
-    `id`,
-    `category_id`,
-    `product_name`,
-    `details`,
-    `status`,
-    `created_at`,
-    `updated_at`
-  )
-VALUES
-  (
-    1,
-    2,
-    'Acer Nitro QG240YS',
-    '2.8\" LED FULL HD',
-    1,
-    '2023-10-16 22:09:33',
-    '2023-10-16 22:46:40'
-  );
-INSERT INTO
-  `products` (
-    `id`,
-    `category_id`,
-    `product_name`,
-    `details`,
-    `status`,
-    `created_at`,
-    `updated_at`
-  )
-VALUES
-  (
-    2,
-    2,
-    'Alurin CoreVision 27 FHD',
-    '27\" LED IPS FullHD 100Hz',
-    1,
-    '2023-10-16 22:11:16',
-    '2023-10-16 22:46:27'
-  );
-INSERT INTO
-  `products` (
-    `id`,
-    `category_id`,
-    `product_name`,
-    `details`,
-    `status`,
-    `created_at`,
-    `updated_at`
-  )
-VALUES
-  (
-    3,
-    2,
-    'HP M24fwa',
-    '2.8\" LED IPS FullHD 75Hz',
-    1,
-    '2023-10-16 22:12:31',
-    '2023-10-16 22:45:23'
-  );
-INSERT INTO
-  `products` (
-    `id`,
-    `category_id`,
-    `product_name`,
-    `details`,
-    `status`,
-    `created_at`,
-    `updated_at`
-  )
-VALUES
-  (
-    4,
-    2,
-    'LG Ultragear',
-    '24GQ50F-B 24\" LED FullHD 165Hz',
-    1,
-    '2023-10-16 22:14:09',
-    '2023-10-16 22:44:32'
-  );
-INSERT INTO
-  `products` (
-    `id`,
-    `category_id`,
-    `product_name`,
-    `details`,
-    `status`,
-    `created_at`,
-    `updated_at`
-  )
-VALUES
-  (
-    5,
-    2,
-    'Samsung Essential Monitor',
-    'LS27C310EAUXEN 27\" LED IPS FullHD 75Hz',
-    1,
-    '2023-10-16 22:15:43',
-    '2023-10-16 22:44:18'
-  );
-INSERT INTO
-  `products` (
-    `id`,
-    `category_id`,
-    `product_name`,
-    `details`,
-    `status`,
-    `created_at`,
-    `updated_at`
-  )
-VALUES
-  (
-    6,
-    1,
-    'DELL 10105',
-    'Intel Core i3 8GB/500GB SSD',
-    1,
-    '2023-10-16 22:19:41',
-    '2023-10-16 22:45:59'
-  );
-INSERT INTO
-  `products` (
-    `id`,
-    `category_id`,
-    `product_name`,
-    `details`,
-    `status`,
-    `created_at`,
-    `updated_at`
-  )
-VALUES
-  (
-    7,
-    1,
-    'Ryzen 5 5600',
-    '8GB/1TB SSD',
-    1,
-    '2023-10-16 22:22:33',
-    '2023-10-16 22:44:54'
-  );
-INSERT INTO
-  `products` (
-    `id`,
-    `category_id`,
-    `product_name`,
-    `details`,
-    `status`,
-    `created_at`,
-    `updated_at`
-  )
-VALUES
-  (
-    8,
-    1,
-    'DELL Intel 13400',
-    'Core i5 8GB/1TB SSD',
-    1,
-    '2023-10-16 22:49:39',
-    '2023-10-16 22:49:39'
-  );
-INSERT INTO
-  `products` (
-    `id`,
-    `category_id`,
-    `product_name`,
-    `details`,
-    `status`,
-    `created_at`,
-    `updated_at`
-  )
-VALUES
-  (
-    9,
-    1,
-    'PcCom Ready 13400',
-    'Intel Core i5 16GB/500GB SSD/RTX 3060 - Blanco',
-    1,
-    '2023-10-16 22:51:30',
-    '2023-10-16 22:51:30'
-  );
-INSERT INTO
-  `products` (
-    `id`,
-    `category_id`,
-    `product_name`,
-    `details`,
-    `status`,
-    `created_at`,
-    `updated_at`
-  )
-VALUES
-  (
-    10,
-    4,
-    'AMD Radeon RX 6650 XT GAMING X',
-    '8GB GDDR6',
-    1,
-    '2023-10-16 22:53:53',
-    '2023-10-16 22:53:53'
-  );
-INSERT INTO
-  `products` (
-    `id`,
-    `category_id`,
-    `product_name`,
-    `details`,
-    `status`,
-    `created_at`,
-    `updated_at`
-  )
-VALUES
-  (
-    11,
-    4,
-    'Samsung 980 Pro SSD',
-    '2TB PCIe 4.0 NVMe M2',
-    1,
-    '2023-10-16 22:55:32',
-    '2023-10-16 22:55:32'
-  );
-INSERT INTO
-  `products` (
-    `id`,
-    `category_id`,
-    `product_name`,
-    `details`,
-    `status`,
-    `created_at`,
-    `updated_at`
-  )
-VALUES
-  (
-    12,
-    3,
-    'Teclado Mecánico Tempest Diablo',
-    'Gaming RGB Switch Red',
-    1,
-    '2023-10-16 22:57:16',
-    '2023-10-16 22:57:16'
-  );
-INSERT INTO
-  `products` (
-    `id`,
-    `category_id`,
-    `product_name`,
-    `details`,
-    `status`,
-    `created_at`,
-    `updated_at`
-  )
-VALUES
-  (
-    13,
-    3,
-    'Mouse Newskill Habrok',
-    'Gaming RGB 16000 DPI',
-    1,
-    '2023-10-16 22:59:33',
-    '2023-10-16 22:59:33'
-  );
-INSERT INTO
-  `products` (
-    `id`,
-    `category_id`,
-    `product_name`,
-    `details`,
-    `status`,
-    `created_at`,
-    `updated_at`
-  )
-VALUES
-  (
-    14,
-    3,
-    'Mouse Logitech LightSync',
-    'Gaming 8000DPI Negro',
-    1,
-    '2023-10-16 23:00:28',
-    '2023-10-16 23:05:32'
-  );
-INSERT INTO
-  `products` (
-    `id`,
-    `category_id`,
-    `product_name`,
-    `details`,
-    `status`,
-    `created_at`,
-    `updated_at`
-  )
-VALUES
-  (
-    15,
-    5,
-    'Silla Owlotech',
-    'Gamer Hergonómica V2',
-    1,
-    '2023-10-16 23:04:58',
-    '2023-10-16 23:04:58'
-  );
+--
+-- AUTO_INCREMENT de la tabla `users`
+--
+ALTER TABLE `users`
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
-# ------------------------------------------------------------
-# DATA DUMP FOR TABLE: roles
-# ------------------------------------------------------------
+--
+-- Restricciones para tablas volcadas
+--
 
-INSERT INTO
-  `roles` (`id`, `role_name`, `created_at`, `updated_at`)
-VALUES
-  (
-    2,
-    'Superadministrador',
-    '2019-02-12 03:59:54',
-    '2023-04-17 04:53:28'
-  );
-INSERT INTO
-  `roles` (`id`, `role_name`, `created_at`, `updated_at`)
-VALUES
-  (
-    3,
-    'Gerente',
-    '2019-02-13 00:07:41',
-    '2023-04-17 04:35:56'
-  );
-INSERT INTO
-  `roles` (`id`, `role_name`, `created_at`, `updated_at`)
-VALUES
-  (
-    4,
-    'Vendedor',
-    '2019-02-13 01:34:11',
-    '2023-04-17 04:36:08'
-  );
-INSERT INTO
-  `roles` (`id`, `role_name`, `created_at`, `updated_at`)
-VALUES
-  (
-    5,
-    'Controlador',
-    '2019-02-13 05:53:15',
-    '2023-04-17 04:41:36'
-  );
+--
+-- Filtros para la tabla `model_has_permissions`
+--
+ALTER TABLE `model_has_permissions`
+  ADD CONSTRAINT `model_has_permissions_permission_id_foreign` FOREIGN KEY (`permission_id`) REFERENCES `permissions` (`id`) ON DELETE CASCADE;
 
-# ------------------------------------------------------------
-# DATA DUMP FOR TABLE: sell_details
-# ------------------------------------------------------------
+--
+-- Filtros para la tabla `model_has_roles`
+--
+ALTER TABLE `model_has_roles`
+  ADD CONSTRAINT `model_has_roles_role_id_foreign` FOREIGN KEY (`role_id`) REFERENCES `roles` (`id`) ON DELETE CASCADE;
 
-INSERT INTO
-  `sell_details` (
-    `id`,
-    `stock_id`,
-    `sell_id`,
-    `product_id`,
-    `category_id`,
-    `vendor_id`,
-    `user_id`,
-    `chalan_no`,
-    `selling_date`,
-    `customer_id`,
-    `sold_quantity`,
-    `buy_price`,
-    `sold_price`,
-    `total_buy_price`,
-    `total_sold_price`,
-    `discount`,
-    `discount_type`,
-    `discount_amount`,
-    `created_at`,
-    `updated_at`
-  )
-VALUES
-  (
-    1,
-    2,
-    1,
-    4,
-    2,
-    2,
-    1,
-    '2023-10-16',
-    '2023-10-16',
-    '8',
-    1,
-    2100,
-    2100,
-    2100,
-    2100,
-    0,
-    1,
-    0,
-    '2023-10-16 23:11:16',
-    '2023-10-16 23:11:16'
-  );
+--
+-- Filtros para la tabla `role_has_permissions`
+--
+ALTER TABLE `role_has_permissions`
+  ADD CONSTRAINT `role_has_permissions_permission_id_foreign` FOREIGN KEY (`permission_id`) REFERENCES `permissions` (`id`) ON DELETE CASCADE,
+  ADD CONSTRAINT `role_has_permissions_role_id_foreign` FOREIGN KEY (`role_id`) REFERENCES `roles` (`id`) ON DELETE CASCADE;
+COMMIT;
 
-# ------------------------------------------------------------
-# DATA DUMP FOR TABLE: sells
-# ------------------------------------------------------------
-
-INSERT INTO
-  `sells` (
-    `id`,
-    `user_id`,
-    `customer_id`,
-    `branch_id`,
-    `total_amount`,
-    `paid_amount`,
-    `sell_date`,
-    `discount_amount`,
-    `payment_method`,
-    `payment_status`,
-    `created_at`,
-    `updated_at`
-  )
-VALUES
-  (
-    1,
-    1,
-    8,
-    1,
-    2100,
-    2100,
-    '2023-10-16',
-    0,
-    2,
-    1,
-    '2023-10-16 23:11:16',
-    '2023-10-16 23:11:16'
-  );
-
-# ------------------------------------------------------------
-# DATA DUMP FOR TABLE: stocks
-# ------------------------------------------------------------
-
-INSERT INTO
-  `stocks` (
-    `id`,
-    `product_code`,
-    `product_id`,
-    `category_id`,
-    `vendor_id`,
-    `user_id`,
-    `chalan_no`,
-    `buying_price`,
-    `selling_price`,
-    `discount`,
-    `stock_quantity`,
-    `current_quantity`,
-    `note`,
-    `status`,
-    `created_at`,
-    `updated_at`
-  )
-VALUES
-  (
-    1,
-    '1697515675',
-    1,
-    2,
-    1,
-    1,
-    '2023-10-16',
-    2700,
-    2700,
-    0,
-    10,
-    10,
-    NULL,
-    1,
-    '2023-10-16 23:07:55',
-    '2023-10-16 23:07:55'
-  );
-INSERT INTO
-  `stocks` (
-    `id`,
-    `product_code`,
-    `product_id`,
-    `category_id`,
-    `vendor_id`,
-    `user_id`,
-    `chalan_no`,
-    `buying_price`,
-    `selling_price`,
-    `discount`,
-    `stock_quantity`,
-    `current_quantity`,
-    `note`,
-    `status`,
-    `created_at`,
-    `updated_at`
-  )
-VALUES
-  (
-    2,
-    '1697515782',
-    4,
-    2,
-    2,
-    1,
-    '2023-10-16',
-    2100,
-    2100,
-    0,
-    5,
-    4,
-    NULL,
-    1,
-    '2023-10-16 23:09:42',
-    '2023-10-16 23:11:16'
-  );
-
-# ------------------------------------------------------------
-# DATA DUMP FOR TABLE: users
-# ------------------------------------------------------------
-
-INSERT INTO
-  `users` (
-    `id`,
-    `name`,
-    `email`,
-    `password`,
-    `branch_id`,
-    `role_id`,
-    `remember_token`,
-    `created_at`,
-    `updated_at`
-  )
-VALUES
-  (
-    1,
-    'Ariel',
-    'ariel@gmail.com',
-    '$2y$10$BXFbgRPHobyYMs1ZZ93LeezSAxlAd1QQoW7oc.4WJfdIC1jB2EcIy',
-    1,
-    2,
-    'Y9eAGj2XVD98hkDczgoocHw6e3u5piiKy6hKWL0Y7oqoMNJBZFvMCCCz0Y2v',
-    '2023-10-15 23:17:37',
-    '2023-10-15 23:33:35'
-  );
-
-# ------------------------------------------------------------
-# DATA DUMP FOR TABLE: vendors
-# ------------------------------------------------------------
-
-INSERT INTO
-  `vendors` (
-    `id`,
-    `name`,
-    `phone`,
-    `email`,
-    `address`,
-    `created_at`,
-    `updated_at`
-  )
-VALUES
-  (
-    1,
-    'HANSA',
-    '7234-5678',
-    'contacto@hansa.com.bo',
-    'Av. 16 de Julio 1647, Lado Col. San José',
-    '2023-04-16 21:44:30',
-    '2023-04-16 21:44:30'
-  );
-INSERT INTO
-  `vendors` (
-    `id`,
-    `name`,
-    `phone`,
-    `email`,
-    `address`,
-    `created_at`,
-    `updated_at`
-  )
-VALUES
-  (
-    2,
-    'BoliviaTech',
-    '7765-4321',
-    'info@boliviatech.com.bo',
-    'Calle Gral. Emiliano Zapata #54',
-    '2023-04-16 21:44:30',
-    '2023-04-16 21:44:30'
-  );
-INSERT INTO
-  `vendors` (
-    `id`,
-    `name`,
-    `phone`,
-    `email`,
-    `address`,
-    `created_at`,
-    `updated_at`
-  )
-VALUES
-  (
-    3,
-    'BHENEZ',
-    '7733-3333',
-    'ventas@bhenez.com.bo',
-    'Calle Sinaloa 1437, Col. Providencia, Guadalajara, Jalisco',
-    '2023-04-16 21:44:30',
-    '2023-04-16 21:44:30'
-  );
-
-/*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
-/*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
-/*!40014 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS */;
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;

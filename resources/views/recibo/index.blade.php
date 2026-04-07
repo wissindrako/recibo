@@ -76,8 +76,8 @@
                                                 </div>
                                                 @endif
                                                 <div class="px-1">
-                                                    <a target="_blank" href="{{ route('recibo.show', [$recibo->id, 'reporte' => 'html']) }}" class="font-bold text-indigo-500">
-                                                        <x-icon-file color="#7985f1" ancho="36" alto="36"/>
+                                                    <a target="_blank" href="{{ route('recibo.show', [$recibo->id, 'reporte' => 'hoja-entera']) }}" class="font-bold text-indigo-500">
+                                                        <x-icon-library color="#7985f1" ancho="36" alto="36" />
                                                     </a>
                                                 </div>
                                                 <div class="px-1">

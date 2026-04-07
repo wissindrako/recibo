@@ -5,6 +5,7 @@ use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\InicioController;
 use App\Http\Controllers\PersonaController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\ContratoController;
 use App\Http\Controllers\ReciboController;
 use Illuminate\Support\Facades\Route;
 
@@ -51,6 +52,8 @@ Route::middleware('splade')->group(function () {
             Route::put('/user/{id}', [UserController::class, 'update'])->name('user.update');
             Route::get('/user/{id}/email_confirm', [UserController::class, 'email_confirm'])->name('user.email_confirm');
             Route::get('/user/{id}/active', [UserController::class, 'active'])->name('user.active');
+            Route::post('/user/{id}/persona', [UserController::class, 'storePersona'])->name('user.persona.store');
+            Route::put('/user/{id}/persona', [UserController::class, 'updatePersona'])->name('user.persona.update');
 
             Route::get('/roles', RoleController::class)->name('roles');
             Route::get('/rol/{rol}', [RoleController::class, 'show'])->name('rol.show');
@@ -65,6 +68,17 @@ Route::middleware('splade')->group(function () {
         Route::post('/persona', [PersonaController::class, 'store'])->name('persona.store');
         Route::get('/persona/{id}/edit', [PersonaController::class, 'edit'])->name('persona.edit');
         Route::put('/persona/{id}', [PersonaController::class, 'update'])->name('persona.update');
+
+        Route::get('/contratos', [ContratoController::class, 'index'])->name('contratos');
+        Route::get('/contrato/create', [ContratoController::class, 'create'])->name('contrato.create');
+        Route::post('/contrato', [ContratoController::class, 'store'])->name('contrato.store');
+        Route::withoutMiddleware('splade')->group(function () {
+            Route::get('/contrato/{id}', [ContratoController::class, 'show'])->name('contrato.show');
+        });
+        Route::get('/contrato/{id}/edit', [ContratoController::class, 'edit'])->name('contrato.edit');
+        Route::put('/contrato/{id}', [ContratoController::class, 'update'])->name('contrato.update');
+        Route::get('/contrato/{id}/anular', [ContratoController::class, 'anular'])->name('contrato.anular');
+        Route::get('/contrato/{id}/renovar', [ContratoController::class, 'renovar'])->name('contrato.renovar');
 
         Route::get('/recibos', [ReciboController::class, 'index'])->name('recibos');
 

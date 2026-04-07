@@ -42,7 +42,6 @@ class PersonaController extends Controller
             'personas' => SpladeTable::for($personas)
             ->defaultSort('nombres')
             ->withGlobalSearch()
-            ->column('rude', searchable: false, hidden:true,  label:'Rude')
             ->column('nombres', sortable: true, searchable: true)
             ->column('ap_paterno', sortable: true, searchable: true)
             ->column('ap_materno', sortable: true, searchable: true)
@@ -118,9 +117,10 @@ class PersonaController extends Controller
      * @param  \App\Models\Persona  $persona
      * @return \Illuminate\Http\Response
      */
-    public function show(Persona $persona)
+    public function show($id)
     {
-        //
+        $persona = Persona::findOrFail($id);
+        return view('persona.show', compact('persona'));
     }
 
     /**

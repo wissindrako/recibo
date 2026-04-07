@@ -18,12 +18,14 @@
                 <div class="p-6 bg-white border-b border-gray-200">
                     <x-splade-table :for="$personas">
                         @cell('action', $persona)
-                            <Link href="{{ route('persona.show', $persona->id) }}" class="font-bold text-gray-500">
-                                Mostrar
-                            </Link>
-                            <Link href="{{ route('persona.edit', $persona->id) }}" class="font-bold text-indigo-500">
-                                Editar
-                            </Link>
+                            <div class="flex flex-row items-center gap-1">
+                                <Link href="{{ route('persona.show', $persona->id) }}" title="Ver detalle">
+                                    <x-icon-user color="#6b7280" ancho="28" alto="28"/>
+                                </Link>
+                                <Link href="{{ route('persona.edit', $persona->id) }}" title="Editar">
+                                    <x-icon-edit color="#114ff1" ancho="28" alto="28"/>
+                                </Link>
+                            </div>
                         @endcell
                     </x-splade-table>
                 </div>

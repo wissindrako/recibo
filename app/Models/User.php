@@ -42,4 +42,19 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
+    public function arrendador()
+    {
+        return $this->hasOne(Arrendador::class);
+    }
+
+    public function persona()
+    {
+        return $this->hasOne(Persona::class);
+    }
+
+    public function getNombreCompletoAttribute(): string
+    {
+        return $this->persona?->nombre_completo ?? $this->name;
+    }
 }

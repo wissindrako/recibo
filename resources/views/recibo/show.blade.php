@@ -61,4 +61,4 @@
             </tr>
         </table>
     </footer>
-</x-app-layout>
+</x-empty>

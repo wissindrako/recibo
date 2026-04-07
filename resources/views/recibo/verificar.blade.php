@@ -46,13 +46,21 @@
       <div class="results-summary-container__options">
         <div class="heading-secondary heading-secondary--blue">Resumen</div>
         <div class="summary-result-options">
+          @php $pagador = $recibo->pagadorEfectivo; @endphp
+          <div class="result-option result-option-reaction">
+            <div class="result-box"><span>Pagador: </span></div>
+            <div class="icon-box">
+              <span class="reaction-icon-text">{{ $pagador->titulo }} {{ $pagador->nombres }} {{ $pagador->ap_paterno }} {{ $pagador->ap_materno }}</span>
+            </div>
+          </div>
+          @if($recibo->pagador_id && $recibo->pagador_id != $recibo->cliente_id)
           <div class="result-option result-option-reaction">
             <div class="result-box"><span>Cliente: </span></div>
             <div class="icon-box">
               <span class="reaction-icon-text">{{ $recibo->cliente->titulo }} {{ $recibo->cliente->nombres }} {{ $recibo->cliente->ap_paterno }} {{ $recibo->cliente->ap_materno }}</span>
             </div>
-            
           </div>
+          @endif
           <div class="result-option result-option-verbal" style="display: flex; align-items: flex-start; min-height: 120px;">
             <div class="result-box"><span>Detalle: </span></div>
             <div style="margin-left:auto; text-align:right; max-width:250px; min-height:40px; white-space:pre-line; word-break:break-word; display:flex; align-items:flex-start;">

@@ -11,6 +11,12 @@ class Persona extends Model
 {
     use HasFactory;
 
+    protected $fillable = [
+        'user_id', 'nombres', 'ap_paterno', 'ap_materno', 'titulo', 'genero',
+        'ci', 'complemento', 'expedido', 'fecha_nacimiento', 'domicilio',
+        'telefono', 'ocupacion_profesion', 'foto', 'active',
+    ];
+
     protected $casts = [
         'nombres'  => CapitalizeWordsCast::class,
         'ap_paterno'  => CapitalizeWordsCast::class,
@@ -21,6 +27,11 @@ class Persona extends Model
     public function estudiante()
     {
         return $this->hasOne(Estudiante::class);
+    }
+
+    public function user()
+    {
+        return $this->belongsTo(User::class);
     }
 
     /**

@@ -16,6 +16,7 @@ use Spatie\QueryBuilder\QueryBuilder;
 use Illuminate\Support\Facades\Hash;
 
 use App\Helpers\FormatoFecha;
+use App\Models\Persona;
 
 class UserController extends Controller
 {
@@ -53,7 +54,11 @@ class UserController extends Controller
                 ->defaultSort('name')
                 ->withGlobalSearch()
                 ->column('name', label: 'Nombre', sortable: true, searchable: true)
-                ->column('roles.name', label: 'Roles')
+                ->column(
+                    key: 'roles',
+                    as: fn($roles) => $roles->pluck('name')->join(', '),
+                    label: 'Roles'
+                )
                 ->column('email', sortable: true, searchable: true)
                 ->column(
                     key: 'email_verified_at',
@@ -140,11 +145,57 @@ class UserController extends Controller
      */
     public function edit($id)
     {
-        $user = User::with('roles')->findOrFail($id);
+        $user = User::with(['roles', 'persona'])->findOrFail($id);
         $roles = Role::all();
         $userRoleIds = $user->roles->pluck('id')->toArray();
-        // Retornar la vista con el usuario
         return view('admin.users.edit', compact('user', 'roles', 'userRoleIds'));
+    }
+
+    public function storePersona(Request $request, $id)
+    {
+        $user = User::findOrFail($id);
+
+        $data = $request->validate([
+            'nombres'    => 'required|string|max:60',
+            'ap_paterno' => 'nullable|string|max:40',
+            'ap_materno' => 'nullable|string|max:40',
+            'titulo'     => 'nullable|string|max:10',
+            'genero'     => 'nullable|in:M,F',
+            'ci'         => 'nullable|integer',
+            'complemento'=> 'nullable|string|max:4',
+            'expedido'   => 'nullable|string|max:3',
+            'domicilio'  => 'nullable|string|max:300',
+            'telefono'   => 'nullable|string|max:15',
+        ]);
+
+        $data['user_id'] = $user->id;
+        Persona::create($data);
+
+        Splade::toast('Datos personales guardados.')->autoDismiss(5);
+        return redirect()->route('user.edit', $id);
+    }
+
+    public function updatePersona(Request $request, $id)
+    {
+        $user = User::with('persona')->findOrFail($id);
+
+        $data = $request->validate([
+            'nombres'    => 'required|string|max:60',
+            'ap_paterno' => 'nullable|string|max:40',
+            'ap_materno' => 'nullable|string|max:40',
+            'titulo'     => 'nullable|string|max:10',
+            'genero'     => 'nullable|in:M,F',
+            'ci'         => 'nullable|integer',
+            'complemento'=> 'nullable|string|max:4',
+            'expedido'   => 'nullable|string|max:3',
+            'domicilio'  => 'nullable|string|max:300',
+            'telefono'   => 'nullable|string|max:15',
+        ]);
+
+        $user->persona->update($data);
+
+        Splade::toast('Datos personales actualizados.')->autoDismiss(5);
+        return redirect()->route('user.edit', $id);
     }
 
     /**

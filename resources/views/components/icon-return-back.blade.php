@@ -1,3 +1,4 @@
+@props(["color" => "#000000", "ancho" => "24", "alto" => "24"])
 <!--begin::Svg Icon | path: assets/media/icons/duotone/Navigation/Left-3.svg-->
 <span class="svg-icon svg-icon-muted svg-icon-2hx"><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="{{$ancho}}px" height="{{$alto}}px" viewBox="0 0 24 24" version="1.1">
     <path d="M4.7071045,12.7071045 C4.3165802,13.0976288 3.68341522,13.0976288 3.29289093,12.7071045 C2.90236664,12.3165802 2.90236664,11.6834152 3.29289093,11.2928909 L9.29289093,5.29289093 C9.67146987,4.914312 10.2810563,4.90106637 10.6757223,5.26284357 L16.6757223,10.7628436 C17.0828413,11.136036 17.1103443,11.7686034 16.7371519,12.1757223 C16.3639594,12.5828413 15.7313921,12.6103443 15.3242731,12.2371519 L10.0300735,7.38413553 L4.7071045,12.7071045 Z" fill="{{$color}}" fill-rule="nonzero" transform="translate(10.000001, 8.999997) scale(-1, -1) rotate(90.000000) translate(-10.000001, -8.999997) "/>

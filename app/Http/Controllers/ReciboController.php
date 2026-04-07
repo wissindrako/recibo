@@ -112,6 +112,7 @@ class ReciboController extends Controller
     {
         $data = $request->validate([
             'cliente_id' => 'required|integer',
+            'pagador_id'  => 'nullable|integer|exists:personas,id',
             'fecha' => 'required|date_format:Y-m-d',
             'cantidad' => 'numeric|min:0|max:9999999',
             'concepto' => 'required|max:240',
@@ -128,6 +129,7 @@ class ReciboController extends Controller
             $recibo->nro_serie = $nro_serie;
             $recibo->hash = md5($nro_serie . $request->fecha . $request->cliente_id . $request->cantidad . $request->concepto);
             $recibo->cliente_id = $request->cliente_id;
+            $recibo->pagador_id = $request->pagador_id ?: null;
             $recibo->fecha = $request->fecha;
             $recibo->cantidad = $request->cantidad;
             $recibo->cantidad_literal = $literal->toInvoice($request->cantidad, 2, 'Bs');
@@ -163,7 +165,7 @@ class ReciboController extends Controller
     public function show($id, Request $request)
     {
         $recibo = Recibo::findOrFail($id);
-        $recibo->load(['usuario', 'cliente']);
+        $recibo->load(['usuario', 'cliente', 'pagador']);
 
         // return Pdf::loadView('recibo.reporte', ['recibo' => $recibo])->save(public_path().'/myfile.pdf')->stream('download.pdf', array("Attachment" => 0));
 
@@ -197,6 +199,8 @@ class ReciboController extends Controller
                 ])->setPaper($carta_en_cuatro, 'landscape');
                 $pdf->render();
                 return $pdf->stream('Recibo.pdf', array("Attachment" => false));
+            } elseif ($request->reporte == 'hoja-entera') {
+                return view('recibo.hoja-entera', compact('recibo'));
             } else {
                 return view('recibo.show', compact('recibo'));
             }
@@ -209,7 +213,7 @@ class ReciboController extends Controller
      */
     public function verificar($hash)
     {
-        $recibo = Recibo::where('hash', $hash)->with(['cliente'])->first();
+        $recibo = Recibo::where('hash', $hash)->with(['cliente', 'pagador'])->first();
         if (!$recibo) {
             abort(404, 'Recibo no encontrado');
         }
@@ -263,6 +267,7 @@ class ReciboController extends Controller
         }
         $data = $request->validate([
             'cliente_id' => 'required|integer',
+            'pagador_id'  => 'nullable|integer|exists:personas,id',
             'fecha' => 'required|date_format:Y-m-d',
             'cantidad' => 'numeric|min:0|max:9999999',
             'concepto' => 'required|max:240',
@@ -276,6 +281,7 @@ class ReciboController extends Controller
 
             $recibo = Recibo::findOrFail($id);
             $recibo->cliente_id = $request->cliente_id;
+            $recibo->pagador_id = $request->pagador_id ?: null;
             $recibo->hash = md5($recibo->nro_serie . $request->fecha . $request->cliente_id . $request->cantidad . $request->concepto);
             $recibo->fecha = $request->fecha;
             $recibo->cantidad = $request->cantidad;

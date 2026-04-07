@@ -22,11 +22,14 @@
                         <x-nav-link :href="route('roles')" :active="request()->routeIs('roles')">
                             {{ __('Roles') }}
                         </x-nav-link>
-                        <x-nav-link :href="route('personas')" :active="request()->routeIs('personas')">
+<x-nav-link :href="route('personas')" :active="request()->routeIs('personas')">
                             {{ __('Clientes') }}
                         </x-nav-link>
                         <x-nav-link :href="route('recibos')" :active="request()->routeIs('recibos')">
                             {{ __('Recibos') }}
+                        </x-nav-link>
+                        <x-nav-link :href="route('contratos')" :active="request()->routeIs('contratos')">
+                            {{ __('Contratos') }}
                         </x-nav-link>
                         {{-- <x-nav-link :href="route('materias')" :active="request()->routeIs('materias')">
                             {{ __('Materias') }}

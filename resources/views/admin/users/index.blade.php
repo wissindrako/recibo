@@ -16,22 +16,16 @@
                 <div class="p-6 bg-white mx-auto border-b border-gray-200 gap-2">
                     <x-splade-table :for="$users" search-debounce="900">
                         @cell('action', $user)
-                        <div class="flex justify-between w-24">
-                            <div>
-                                <Link href="{{ route('user.edit', $user) }}" class="font-bold text-indigo-500">
-                                    <x-icon-edit color="#114ff1" ancho="24" alto="24"/>
-                                </Link>
-                            </div>
-                            <div>
-                                <Link href="{{ route('user.email_confirm', $user) }}" confirm class="font-bold text-indigo-500">
-                                    <x-icon-chat-check color="#fce343" ancho="24" alto="24"/>
-                                </Link>
-                            </div>
-                            <div>
-                                <Link href="{{ route('user.active', $user) }}" confirm class="font-bold text-indigo-500">
-                                    <x-icon-double-check color="#0bb005" ancho="24" alto="24"/>
-                                </Link>
-                            </div>
+                        <div class="flex flex-row items-center gap-1">
+                            <Link href="{{ route('user.edit', $user) }}" title="Editar usuario">
+                                <x-icon-edit color="#114ff1" ancho="28" alto="28"/>
+                            </Link>
+                            <Link href="{{ route('user.email_confirm', $user) }}" confirm title="Confirmar email">
+                                <x-icon-chat-check color="#f59e0b" ancho="28" alto="28"/>
+                            </Link>
+                            <Link href="{{ route('user.active', $user) }}" confirm title="{{ $user->is_active ? 'Desactivar usuario' : 'Activar usuario' }}">
+                                <x-icon-double-check color="{{ $user->is_active ? '#10b981' : '#9ca3af' }}" ancho="28" alto="28"/>
+                            </Link>
                         </div>
                         @endcell
                     </x-splade-table>

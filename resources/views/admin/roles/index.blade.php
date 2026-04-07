@@ -11,12 +11,14 @@
                 <div class="p-6 bg-white border-b border-gray-200">
                     <x-splade-table :for="$roles">
                         @cell('action', $rol)
-                            <Link href="/admin/rol/{{ $rol->id}}" class="font-bold text-gray-500">
-                                Mostrar
-                            </Link>
-                            <Link href="/admin/rol/{{ $rol->id}}/edit" class="font-bold text-indigo-500">
-                                Editar
-                            </Link>
+                            <div class="flex flex-row items-center gap-1">
+                                <Link href="{{ route('rol.show', $rol->id) }}" title="Ver detalle">
+                                    <x-icon-list color="#6b7280" ancho="28" alto="28"/>
+                                </Link>
+                                <Link href="{{ route('rol.edit', $rol->id) }}" title="Editar">
+                                    <x-icon-edit color="#114ff1" ancho="28" alto="28"/>
+                                </Link>
+                            </div>
                         @endcell
                     </x-splade-table>
                 </div>

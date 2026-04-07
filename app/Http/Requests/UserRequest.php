@@ -27,13 +27,29 @@ class UserRequest extends FormRequest
      */
     public function rules()
     {
+        $userId = $this->route('id');
+
         $usuario = [
-            'name' => ['string', 'max:255'],
-            'email' => ['email', 'max:255', Rule::unique(User::class)->ignore($this->user()->id)],
-            'is_ctive' => ['boolean'],
+            'name'      => ['required', 'string', 'max:255'],
+            'email'     => ['required', 'email', 'max:255', Rule::unique(User::class)->ignore($userId)],
+            'is_active' => ['boolean'],
         ];
-        $rol =  ['roles' =>  ['required', 'array', new ValidarUserRol]];
+        $rol = ['roles' => ['required', 'array', new ValidarUserRol]];
 
         return Arr::collapse([$usuario, $rol]);
+    }
+
+    public function messages()
+    {
+        return [
+            'name.required'    => 'El nombre es obligatorio.',
+            'name.max'         => 'El nombre no puede superar los 255 caracteres.',
+            'email.required'   => 'El correo electrónico es obligatorio.',
+            'email.email'      => 'El correo electrónico no tiene un formato válido.',
+            'email.max'        => 'El correo no puede superar los 255 caracteres.',
+            'email.unique'     => 'Este correo ya está en uso por otro usuario.',
+            'roles.required'   => 'Debe asignar al menos un rol.',
+            'roles.array'      => 'El campo roles debe ser un arreglo.',
+        ];
     }
 }

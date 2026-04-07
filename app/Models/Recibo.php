@@ -16,9 +16,22 @@ class Recibo extends Model
         return $this->belongsTo(Persona::class);
     }
 
+    public function pagador()
+    {
+        return $this->belongsTo(Persona::class, 'pagador_id');
+    }
+
     public function usuario()
     {
         return $this->belongsTo(User::class, 'user_id', 'id');
+    }
+
+    /**
+     * Retorna el pagador si está definido, de lo contrario retorna el cliente.
+     */
+    public function getPagadorEfectivoAttribute(): Persona
+    {
+        return $this->pagador ?? $this->cliente;
     }
 
     /**
