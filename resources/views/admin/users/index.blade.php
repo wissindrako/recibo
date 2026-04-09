@@ -1,19 +1,19 @@
 <x-app-layout>
     <x-slot name="header">
-        <h2 class="font-semibold text-xl text-gray-800 dark:text-gray-300 leading-tight">
+        <h2 class="font-semibold text-xl text-gray-800 dark:text-gray-100 leading-tight">
             {{ __('Usuarios') }}
         </h2>
     </x-slot>
 
     <div class="py-12">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
-            <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
-                <div class="p-3 pl-6">
-                    <Link href="{{ route('user.create')}}" class="font-bold text-gray-500">
-                        Nuevo Usuario (+)
+            <div class="bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg">
+                <div class="p-3 pl-6 border-b border-gray-100 dark:border-gray-700">
+                    <Link href="{{ route('user.create')}}" class="font-bold text-indigo-500 hover:text-indigo-700 dark:text-indigo-400 dark:hover:text-indigo-300">
+                        + Nuevo Usuario
                     </Link>
                 </div>
-                <div class="p-6 bg-white mx-auto border-b border-gray-200 gap-2">
+                <div class="p-6 border-b border-gray-200 dark:border-gray-700">
                     <x-splade-table :for="$users" search-debounce="900">
                         @cell('action', $user)
                         <div class="flex flex-row items-center gap-1">

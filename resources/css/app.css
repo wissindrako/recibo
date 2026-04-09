@@ -1,3 +1,94 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+/* ── Dark mode: Splade form inputs ─────────────────────────── */
+.dark input:not([type='checkbox']):not([type='radio']):not([type='submit']),
+.dark select,
+.dark textarea {
+    background-color: theme('colors.gray.700') !important;
+    border-color: theme('colors.gray.600') !important;
+    color: theme('colors.gray.100') !important;
+}
+
+.dark input::placeholder,
+.dark textarea::placeholder {
+    color: theme('colors.gray.400') !important;
+}
+
+.dark input:focus,
+.dark select:focus,
+.dark textarea:focus {
+    border-color: theme('colors.indigo.500') !important;
+    --tw-ring-color: theme('colors.indigo.500') !important;
+}
+
+.dark label {
+    color: theme('colors.gray.300') !important;
+}
+
+/* ── Dark mode: Splade tables ───────────────────────────────── */
+.dark table {
+    color: theme('colors.gray.200');
+}
+
+.dark table thead th {
+    background-color: theme('colors.gray.700') !important;
+    color: theme('colors.gray.300') !important;
+    border-color: theme('colors.gray.600') !important;
+}
+
+.dark table tbody tr {
+    border-color: theme('colors.gray.700') !important;
+}
+
+.dark table tbody tr:hover {
+    background-color: theme('colors.gray.700') !important;
+}
+
+.dark table tbody td {
+    border-color: theme('colors.gray.700') !important;
+    color: theme('colors.gray.200') !important;
+}
+
+.dark table tbody tr:nth-child(even) {
+    background-color: theme('colors.gray.800') !important;
+}
+
+/* ── Dark mode: Splade pagination ───────────────────────────── */
+.dark nav[aria-label] span,
+.dark nav[aria-label] a {
+    background-color: theme('colors.gray.800') !important;
+    border-color: theme('colors.gray.700') !important;
+    color: theme('colors.gray.300') !important;
+}
+
+.dark nav[aria-label] a:hover {
+    background-color: theme('colors.gray.700') !important;
+}
+
+/* ── Dark mode: Choices.js (Splade select) ──────────────────── */
+.dark .choices__inner {
+    background-color: theme('colors.gray.700') !important;
+    border-color: theme('colors.gray.600') !important;
+    color: theme('colors.gray.100') !important;
+}
+
+.dark .choices__list--dropdown,
+.dark .choices__list[aria-expanded] {
+    background-color: theme('colors.gray.700') !important;
+    border-color: theme('colors.gray.600') !important;
+}
+
+.dark .choices__item {
+    color: theme('colors.gray.100') !important;
+}
+
+.dark .choices__item--selectable.is-highlighted {
+    background-color: theme('colors.indigo.600') !important;
+}
+
+.dark .choices__input {
+    background-color: theme('colors.gray.700') !important;
+    color: theme('colors.gray.100') !important;
+}

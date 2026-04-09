@@ -1,6 +1,6 @@
 <x-app-layout>
     <x-slot name="header">
-        <h2 class="font-semibold text-xl text-gray-800 leading-tight">
+        <h2 class="font-semibold text-xl text-gray-800 dark:text-gray-100 leading-tight">
             @isset($origen)
                 Renovar Contrato — basado en #{{ $origen->nro_serie }}
             @else
@@ -11,10 +11,10 @@
 
     <div class="py-12">
         <div class="max-w-4xl mx-auto sm:px-6 lg:px-8">
-            <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg p-6">
+            <div class="bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg p-6">
 
                 @isset($origen)
-                <div class="mb-4 p-3 bg-indigo-50 border border-indigo-200 rounded text-sm text-indigo-700">
+                <div class="mb-4 p-3 bg-indigo-50 dark:bg-indigo-900/30 border border-indigo-200 dark:border-indigo-700 rounded text-sm text-indigo-700 dark:text-indigo-300">
                     Renovación basada en contrato <strong>#{{ $origen->nro_serie }}</strong> —
                     {{ $origen->persona->nombre_completo }} —
                     {{ $origen->fecha_inicio->format('d/m/Y') }} al {{ $origen->fecha_fin ? $origen->fecha_fin->format('d/m/Y') : 'indefinido' }}
@@ -35,7 +35,6 @@
                     ]">
 
                     <input type="hidden" name="contrato_origen_id" value="{{ $origen->id ?? '' }}"/>
-
                     @include('contrato.form')
                 </x-splade-form>
             </div>

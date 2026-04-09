@@ -1,6 +1,6 @@
 <x-app-layout>
     <x-slot name="header">
-        <h2 class="font-semibold text-xl text-gray-800 leading-tight">
+        <h2 class="font-semibold text-xl text-gray-800 dark:text-gray-100 leading-tight">
             {{ __('Editar Usuario') }} — {{ $user->name }}
         </h2>
     </x-slot>
@@ -9,16 +9,16 @@
         <div class="max-w-3xl mx-auto sm:px-6 lg:px-8 space-y-6">
 
             {{-- Cuenta de usuario --}}
-            <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg p-6">
-                <h3 class="font-semibold text-slate-700 mb-4">Cuenta</h3>
+            <div class="bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg p-6">
+                <h3 class="font-semibold text-slate-700 dark:text-gray-200 mb-4">Cuenta</h3>
                 <x-splade-form method="put" :default="$user" :action="route('user.update', $user)" class="space-y-4">
                     @include('admin.users.form')
                 </x-splade-form>
             </div>
 
             {{-- Datos personales --}}
-            <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg p-6">
-                <h3 class="font-semibold text-slate-700 mb-4">Datos personales</h3>
+            <div class="bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg p-6">
+                <h3 class="font-semibold text-slate-700 dark:text-gray-200 mb-4">Datos personales</h3>
 
                 @if($user->persona)
                     <x-splade-form method="put"
