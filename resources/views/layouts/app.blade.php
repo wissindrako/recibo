@@ -9,7 +9,7 @@
     </header>
 
     <!-- Page Content -->
-    <main>
+    <main class="bg-gray-100 dark:bg-gray-950 min-h-screen">
         {{ $slot }}
     </main>
 </div>
