@@ -58,8 +58,7 @@ class ReciboController extends Controller
             });
         });
 
-        $mis_recibos = Recibo::orderBy('created_at', 'desc');
-        $mis_recibos->with(['cliente']);
+        $mis_recibos = Recibo::with(['cliente'])->orderBy('created_at', 'desc');
 
         $fecha = new FormatoFecha();
 
@@ -97,8 +96,8 @@ class ReciboController extends Controller
      */
     public function create()
     {
-        $clientes = Persona::get();
-        $usuarios = User::get();
+        $clientes = Persona::select('id', 'nombres', 'ap_paterno', 'ap_materno')->orderBy('nombres')->get();
+        $usuarios = User::select('id', 'name')->orderBy('name')->get();
         return view('recibo.create', compact('clientes', 'usuarios'));
     }
 
@@ -173,26 +172,22 @@ class ReciboController extends Controller
         // 4.251969 x 5.51181 pulg. = 306.1 x 396.85 puntos
         $carta_en_cuatro = array(0, 0, 306.1, 396.85);
 
-        // URL de verificación
-        $url = url('/verificar/' . $recibo->hash);
-
-        // Generar QR en base64 usando chillerlan/php-qrcode
-        $options = new QROptions([
-            'outputType' => QRCode::OUTPUT_IMAGE_PNG,
-            'scale' => 4, // tamaño del QR
-            'imageBase64' => false,
-        ]);
-        $qr = (new QRCode($options))->render($url);
-        $qr_base64 = 'data:image/png;base64,' . base64_encode($qr);
-
         if ($request->has('reporte')) {
             if ($request->reporte == 'pdf') {
-                // ob_end_clean();
                 $pdf = Pdf::loadView('recibo.reporte', ['recibo' => $recibo])
                     ->setPaper($carta_en_cuatro, 'landscape');
                 $pdf->render();
                 return $pdf->stream('Recibo.pdf', array("Attachment" => false));
             } elseif ($request->reporte == 'pdf-codigo') {
+                $url = url('/verificar/' . $recibo->hash);
+                $options = new QROptions([
+                    'outputType' => QRCode::OUTPUT_IMAGE_PNG,
+                    'scale' => 4,
+                    'imageBase64' => false,
+                ]);
+                $qr = (new QRCode($options))->render($url);
+                $qr_base64 = 'data:image/png;base64,' . base64_encode($qr);
+
                 $pdf = Pdf::loadView('recibo.reporte-codigo', [
                     'recibo' => $recibo,
                     'qr_base64' => $qr_base64
@@ -228,8 +223,8 @@ class ReciboController extends Controller
      */
     public function edit($id)
     {
-        $clientes = Persona::get();
-        $usuarios = User::get();
+        $clientes = Persona::select('id', 'nombres', 'ap_paterno', 'ap_materno')->orderBy('nombres')->get();
+        $usuarios = User::select('id', 'name')->orderBy('name')->get();
         $recibo = Recibo::findOrFail($id);
         return view('recibo.edit', compact('recibo', 'clientes', 'usuarios'));
     }

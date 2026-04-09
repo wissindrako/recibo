@@ -19,10 +19,10 @@
                     <x-splade-table :for="$personas">
                         @cell('action', $persona)
                             <div class="flex flex-row items-center gap-1">
-                                <Link href="{{ route('persona.show', $persona->id) }}" title="Ver detalle">
+                                <Link href="{{ route('persona.show', $persona) }}" title="Ver detalle">
                                     <x-icon-user color="#6b7280" ancho="28" alto="28"/>
                                 </Link>
-                                <Link href="{{ route('persona.edit', $persona->id) }}" title="Editar">
+                                <Link href="{{ route('persona.edit', $persona) }}" title="Editar">
                                     <x-icon-edit color="#114ff1" ancho="28" alto="28"/>
                                 </Link>
                             </div>

@@ -13,9 +13,11 @@
 
                     <!-- Navigation Links -->
                     <div class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
-                        {{-- <x-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">
-                            {{ __('Dashboard') }}
-                        </x-nav-link> --}}
+                        @role('admin')
+                        <x-nav-link :href="route('admin.dashboard')" :active="request()->routeIs('admin.dashboard')">
+                            Panel
+                        </x-nav-link>
+                        @endrole
                         <x-nav-link :href="route('users')" :active="request()->routeIs('users')">
                             {{ __('Users') }}
                         </x-nav-link>
@@ -84,9 +86,11 @@
         <!-- Responsive Navigation Menu -->
         <div v-bind:class="{ block: toggled, hidden: !toggled }" class="sm:hidden">
             <div class="pt-2 pb-3 space-y-1">
-                <x-responsive-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">
-                    {{ __('Dashboard') }}
+                @role('admin')
+                <x-responsive-nav-link :href="route('admin.dashboard')" :active="request()->routeIs('admin.dashboard')">
+                    Panel Admin
                 </x-responsive-nav-link>
+                @endrole
             </div>
 
             <!-- Responsive Settings Options -->

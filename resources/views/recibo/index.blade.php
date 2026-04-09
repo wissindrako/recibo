@@ -54,18 +54,18 @@
                                             <div class="flex flex-row items-center h-14">
                                                 @if ($recibo->estado === 1)
                                                 <div class="px-1">
-                                                    <a href="{{ route('recibo.edit-estado', $recibo->id) }}" class="font-bold text-indigo-500">
+                                                    <a href="{{ route('recibo.edit-estado', $recibo) }}" class="font-bold text-indigo-500">
                                                         <x-icon-unlock color="#114ff1" ancho="36" alto="36"/>
                                                     </a>
                                                 </div>
                                                 <div class="px-1">
-                                                    <Link href="{{ route('recibo.edit', $recibo->id) }}" class="font-bold text-indigo-500">
+                                                    <Link href="{{ route('recibo.edit', $recibo) }}" class="font-bold text-indigo-500">
                                                         Editar
                                                     </Link>
                                                 </div>
                                                 @else
                                                 <div class="px-1">
-                                                    <a href="{{ route('recibo.edit-estado', $recibo->id) }}" class="font-bold text-indigo-500">
+                                                    <a href="{{ route('recibo.edit-estado', $recibo) }}" class="font-bold text-indigo-500">
                                                         <x-icon-chat-locked color="#04b834" ancho="36" alto="36"/>
                                                     </a>
                                                 </div>
@@ -76,17 +76,17 @@
                                                 </div>
                                                 @endif
                                                 <div class="px-1">
-                                                    <a target="_blank" href="{{ route('recibo.show', [$recibo->id, 'reporte' => 'hoja-entera']) }}" class="font-bold text-indigo-500">
+                                                    <a target="_blank" href="{{ route('recibo.show', [$recibo->getRouteKey(), 'reporte' => 'hoja-entera']) }}" class="font-bold text-indigo-500">
                                                         <x-icon-library color="#7985f1" ancho="36" alto="36" />
                                                     </a>
                                                 </div>
                                                 <div class="px-1">
-                                                    <a target="_blank" href="{{ route('recibo.show', [$recibo->id, 'reporte' => 'pdf']) }}" class="font-bold text-indigo-500">
+                                                    <a target="_blank" href="{{ route('recibo.show', [$recibo->getRouteKey(), 'reporte' => 'pdf']) }}" class="font-bold text-indigo-500">
                                                         <x-icon-file-download color="#114ff1" ancho="36" alto="36"/>
                                                     </a>
                                                 </div>
                                                 <div class="px-1">
-                                                    <a target="_blank" href="{{ route('recibo.show', [$recibo->id, 'reporte' => 'pdf-codigo']) }}" class="font-bold text-indigo-500">
+                                                    <a target="_blank" href="{{ route('recibo.show', [$recibo->getRouteKey(), 'reporte' => 'pdf-codigo']) }}" class="font-bold text-indigo-500">
                                                         <x-icon-file-done color="#114ff1" ancho="36" alto="36"/>
                                                     </a>
                                                 </div>

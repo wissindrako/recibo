@@ -352,7 +352,7 @@
     <div class="topbar">
         <a href="{{ route('contratos') }}">← Volver a contratos</a>
         <div class="actions">
-            <a href="{{ route('contrato.show', [$contrato->id, 'reporte' => 'pdf']) }}" target="_blank" class="btn btn-primary">
+            <a href="{{ route('contrato.show', [$contrato->getRouteKey(), 'reporte' => 'pdf']) }}" target="_blank" class="btn btn-primary">
                 ↓ Descargar PDF
             </a>
             @if($contrato->archivo)
@@ -361,10 +361,10 @@
             </a>
             @endif
             @if($estado !== 0)
-            <a href="{{ route('contrato.edit', $contrato->id) }}" class="btn btn-secondary">
+            <a href="{{ route('contrato.edit', $contrato) }}" class="btn btn-secondary">
                 ✏ Editar
             </a>
-            <a href="{{ route('contrato.renovar', $contrato->id) }}" class="btn btn-success">
+            <a href="{{ route('contrato.renovar', $contrato) }}" class="btn btn-success">
                 ↺ Renovar
             </a>
             @endif
@@ -505,7 +505,7 @@
             <hr class="divider"/>
             <div class="section">
                 <div class="section-title">Historial</div>
-                <a href="{{ route('contrato.show', $contrato->contratoOrigen->id) }}" class="renovacion-link">
+                <a href="{{ route('contrato.show', $contrato->contratoOrigen) }}" class="renovacion-link">
                     ↩ Renovación del contrato #{{ $contrato->contratoOrigen->nro_serie }}
                 </a>
             </div>

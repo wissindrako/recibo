@@ -172,7 +172,7 @@ class UserController extends Controller
         Persona::create($data);
 
         Splade::toast('Datos personales guardados.')->autoDismiss(5);
-        return redirect()->route('user.edit', $id);
+        return redirect()->route('user.edit', hid($id));
     }
 
     public function updatePersona(Request $request, $id)
@@ -195,7 +195,7 @@ class UserController extends Controller
         $user->persona->update($data);
 
         Splade::toast('Datos personales actualizados.')->autoDismiss(5);
-        return redirect()->route('user.edit', $id);
+        return redirect()->route('user.edit', hid($id));
     }
 
     /**

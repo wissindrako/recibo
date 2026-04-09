@@ -3,13 +3,14 @@
 namespace App\Models;
 
 use App\Casts\CapitalizeWordsCast;
+use App\Models\Traits\HasHashid;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
 class Persona extends Model
 {
-    use HasFactory;
+    use HasFactory, HasHashid;
 
     protected $fillable = [
         'user_id', 'nombres', 'ap_paterno', 'ap_materno', 'titulo', 'genero',
@@ -27,6 +28,11 @@ class Persona extends Model
     public function estudiante()
     {
         return $this->hasOne(Estudiante::class);
+    }
+
+    public function recibos()
+    {
+        return $this->hasMany(Recibo::class, 'cliente_id');
     }
 
     public function user()

@@ -8,7 +8,7 @@
     <div class="py-12">
         <div class="max-w-4xl mx-auto sm:px-6 lg:px-8">
             <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg p-6">
-                <x-splade-form action="{{ route('contrato.update', $contrato->id) }}" method="PUT"
+                <x-splade-form action="{{ route('contrato.update', $contrato) }}" method="PUT"
                     :default="[
                         'tipo'             => $contrato->tipo,
                         'arrendador_id'    => $contrato->arrendador_id,

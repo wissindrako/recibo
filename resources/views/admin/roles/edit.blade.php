@@ -10,7 +10,7 @@
             <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
                 <div class="p-6 bg-white border-b border-gray-200">
                     <h1>Rol</h1>
-                    <x-splade-form :default="$rol" method="put" :action="route('rol.update', $rol)" class="space-y-4">
+                    <x-splade-form :default="$rol" method="put" :action="route('rol.update', hid($rol->id))" class="space-y-4">
                         <x-splade-input name="name" label="Nombre"/>
                         <x-splade-input name="guard_name" label="Slug"/>
                         <x-splade-submit/>

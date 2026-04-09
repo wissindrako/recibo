@@ -65,18 +65,18 @@
                                         </td>
                                         <td class="border px-2">
                                             <div class="flex flex-row items-center gap-1 h-14">
-                                                <a target="_blank" href="{{ route('contrato.show', $contrato->id) }}" class="text-indigo-500 font-bold px-1">
+                                                <a target="_blank" href="{{ route('contrato.show', $contrato) }}" class="text-indigo-500 font-bold px-1">
                                                     <x-icon-file color="#7985f1" ancho="32" alto="32"/>
                                                 </a>
                                                 @if($contrato->calcularEstado() !== 0)
-                                                <Link href="{{ route('contrato.edit', $contrato->id) }}" class="text-indigo-500 font-bold px-1">
+                                                <Link href="{{ route('contrato.edit', $contrato) }}" class="text-indigo-500 font-bold px-1">
                                                     <x-icon-edit color="#114ff1" ancho="32" alto="32"/>
                                                 </Link>
-                                                <a href="{{ route('contrato.renovar', $contrato->id) }}" class="text-emerald-500 font-bold px-1" title="Renovar">
+                                                <a href="{{ route('contrato.renovar', $contrato) }}" class="text-emerald-500 font-bold px-1" title="Renovar">
                                                     <x-icon-return-back color="#10b981" ancho="32" alto="32"/>
                                                 </a>
                                                 @if($contrato->calcularEstado() !== 0)
-                                                <a href="{{ route('contrato.anular', $contrato->id) }}"
+                                                <a href="{{ route('contrato.anular', $contrato) }}"
                                                    onclick="return confirm('¿Anular este contrato?')"
                                                    class="text-red-500 font-bold px-1" title="Anular">
                                                     <x-icon-delete color="#ef4444" ancho="32" alto="32"/>

@@ -22,14 +22,14 @@
 
                 @if($user->persona)
                     <x-splade-form method="put"
-                        :action="route('user.persona.update', $user->id)"
+                        :action="route('user.persona.update', $user)"
                         :default="$user->persona"
                         class="space-y-4">
                         @include('admin.users.persona-form')
                     </x-splade-form>
                 @else
                     <x-splade-form method="post"
-                        :action="route('user.persona.store', $user->id)"
+                        :action="route('user.persona.store', $user)"
                         class="space-y-4">
                         @include('admin.users.persona-form')
                     </x-splade-form>

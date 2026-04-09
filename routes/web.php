@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\RoleController;
 use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\InicioController;
@@ -44,6 +45,7 @@ Route::middleware('splade')->group(function () {
         Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 
         Route::group(['prefix' => 'admin'], function () {
+            Route::get('/dashboard', DashboardController::class)->name('admin.dashboard');
             Route::get('/users', UserController::class)->name('users')->middleware('can:users');
             Route::get('/user/create', [UserController::class, 'create'])->name('user.create')->middleware('can:user.create');
             Route::post('/user', [UserController::class, 'store'])->name('user.store')->middleware('can:user.store');

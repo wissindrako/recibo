@@ -6,6 +6,7 @@ use Illuminate\Cache\RateLimiting\Limit;
 use Illuminate\Foundation\Support\Providers\RouteServiceProvider as ServiceProvider;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\RateLimiter;
+use App\Helpers\Hashid;
 use Illuminate\Support\Facades\Route;
 
 class RouteServiceProvider extends ServiceProvider
@@ -27,6 +28,12 @@ class RouteServiceProvider extends ServiceProvider
     public function boot()
     {
         $this->configureRateLimiting();
+
+        Route::bind('id', function ($value) {
+            $decoded = Hashid::decode((string) $value);
+            abort_if($decoded === 0, 404);
+            return $decoded;
+        });
 
         $this->routes(function () {
             Route::middleware('api')

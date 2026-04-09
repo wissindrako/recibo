@@ -15,7 +15,7 @@
                                 <Link href="{{ route('rol.show', $rol->id) }}" title="Ver detalle">
                                     <x-icon-list color="#6b7280" ancho="28" alto="28"/>
                                 </Link>
-                                <Link href="{{ route('rol.edit', $rol->id) }}" title="Editar">
+                                <Link href="{{ route('rol.edit', hid($rol->id)) }}" title="Editar">
                                     <x-icon-edit color="#114ff1" ancho="28" alto="28"/>
                                 </Link>
                             </div>

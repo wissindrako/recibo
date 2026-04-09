@@ -3,12 +3,13 @@
 namespace App\Models;
 
 use App\Helpers\FormatoTexto;
+use App\Models\Traits\HasHashid;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
 class Contrato extends Model
 {
-    use HasFactory;
+    use HasFactory, HasHashid;
 
     protected $casts = [
         'fecha_inicio' => 'date',

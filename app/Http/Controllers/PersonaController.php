@@ -119,7 +119,9 @@ class PersonaController extends Controller
      */
     public function show($id)
     {
-        $persona = Persona::findOrFail($id);
+        $persona = Persona::with(['user', 'recibos' => function ($q) {
+            $q->orderBy('fecha', 'desc')->limit(10);
+        }])->findOrFail($id);
         return view('persona.show', compact('persona'));
     }
 

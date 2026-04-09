@@ -17,7 +17,7 @@ class CapitalizeWordsCast implements CastsAttributes
      */
     public function get($model, string $key, $value, array $attributes)
     {
-        return ucwords($value);
+        return $value !== null ? ucwords($value) : null;
     }
 
     /**
@@ -31,6 +31,6 @@ class CapitalizeWordsCast implements CastsAttributes
      */
     public function set($model, string $key, $value, array $attributes)
     {
-        return ucwords(strtolower($value));
+        return $value !== null ? ucwords(strtolower($value)) : null;
     }
 }
