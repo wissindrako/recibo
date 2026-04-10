@@ -81,6 +81,7 @@ Route::middleware('splade')->group(function () {
         Route::put('/contrato/{id}', [ContratoController::class, 'update'])->name('contrato.update');
         Route::get('/contrato/{id}/anular', [ContratoController::class, 'anular'])->name('contrato.anular');
         Route::get('/contrato/{id}/renovar', [ContratoController::class, 'renovar'])->name('contrato.renovar');
+        Route::delete('/contrato/{id}/archivos/{index}', [ContratoController::class, 'deleteArchivo'])->name('contrato.archivos.delete');
 
         Route::get('/recibos', [ReciboController::class, 'index'])->name('recibos');
 
@@ -98,4 +99,9 @@ Route::middleware('splade')->group(function () {
 
 
     require __DIR__ . '/auth.php';
+});
+
+// Fuera del grupo splade para permitir multipart/form-data sin intercepción de Splade
+Route::middleware(['web', 'auth'])->group(function () {
+    Route::post('/contrato/{id}/archivos', [ContratoController::class, 'uploadArchivos'])->name('contrato.archivos.upload');
 });

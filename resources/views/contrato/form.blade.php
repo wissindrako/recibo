@@ -46,9 +46,5 @@
     <x-splade-textarea name="notas" label="Notas / cláusulas adicionales" rows="3"/>
 </div>
 
-{{-- Archivo adjunto --}}
-<div class="mb-4">
-    <x-splade-file name="archivo" label="Archivo del contrato (PDF/Word, opcional)" filepond/>
-</div>
 
 <x-splade-submit label="Guardar"/>

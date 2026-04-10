@@ -356,8 +356,8 @@
                 ↓ Descargar PDF
             </a>
             @if($contrato->archivo)
-            <a href="{{ asset('storage/' . $contrato->archivo) }}" target="_blank" class="btn btn-secondary">
-                📎 Adjunto
+            <a href="{{ route('contrato.edit', $contrato) }}#archivos" class="btn btn-secondary">
+                📎 {{ count($contrato->archivo) }} documento(s)
             </a>
             @endif
             @if($estado !== 0)

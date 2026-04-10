@@ -14,6 +14,7 @@ class Contrato extends Model
     protected $casts = [
         'fecha_inicio' => 'date',
         'fecha_fin'    => 'date',
+        'archivo'      => 'array',
     ];
 
     public function persona()
