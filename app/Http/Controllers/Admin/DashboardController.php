@@ -73,11 +73,14 @@ class DashboardController extends Controller
 
         // ── MORA ─────────────────────────────────────────────────────
         // Clientes con recibos en estado=1 (Registrado) cuya fecha es anterior al mes actual
-        $enMora = Persona::select('personas.*')
-            ->join('recibos', 'recibos.cliente_id', '=', 'personas.id')
-            ->where('recibos.estado', 1)
-            ->where('recibos.fecha', '<', $inicioMes)
-            ->groupBy('personas.id')
+        $idsEnMora = \DB::table('recibos')
+            ->select('cliente_id')
+            ->where('estado', 1)
+            ->where('fecha', '<', $inicioMes)
+            ->distinct()
+            ->pluck('cliente_id');
+
+        $enMora = Persona::whereIn('id', $idsEnMora)
             ->with(['recibos' => fn($q) => $q->where('estado', 1)->where('fecha', '<', $inicioMes)])
             ->get()
             ->map(function ($persona) use ($hoy) {
