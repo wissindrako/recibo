@@ -16,7 +16,7 @@
       "_nprogress.5288ad3d.js"
     ],
     "css": [
-      "assets/app.418090ed.css"
+      "assets/app.5118b2d1.css"
     ]
   },
   "node_modules/filepond-plugin-image-preview/dist/filepond-plugin-image-preview.esm.js": {
@@ -74,7 +74,7 @@
     ]
   },
   "resources/js/app.css": {
-    "file": "assets/app.418090ed.css",
+    "file": "assets/app.5118b2d1.css",
     "src": "resources/js/app.css"
   }
 }
