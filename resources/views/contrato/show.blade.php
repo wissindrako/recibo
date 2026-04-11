@@ -465,9 +465,16 @@
                 @endif
                 @endif
                 @if($contrato->descripcion_alquiler)
+                @php
+                    $etiquetasSvcs = ['agua'=>'agua','luz'=>'luz','gas'=>'gas domiciliario','alcantarillado'=>'alcantarillado','internet'=>'internet'];
+                    $svcsCont = is_array($contrato->servicios_contrato) ? $contrato->servicios_contrato : [];
+                    $svcsTexto = !empty($svcsCont)
+                        ? ' con servicios de ' . implode(', ', array_map(fn($s) => $etiquetasSvcs[$s] ?? $s, $svcsCont))
+                        : '';
+                @endphp
                 <div class="desc-box">
                     <div class="desc-label">Lo que se {{ $contrato->tipo === 'venta' ? 'vende' : 'alquila' }}</div>
-                    <div class="desc-text destacado">{{ $contrato->descripcion_alquiler }}</div>
+                    <div class="desc-text destacado">{{ $contrato->descripcion_alquiler }}{{ $svcsTexto }}</div>
                 </div>
                 @endif
             </div>
@@ -494,10 +501,16 @@
                         <div class="condicion-valor">Día {{ $contrato->dia_limite_pago }}</div>
                     </div>
                     @endif
-                    @if($contrato->garantia)
+                    @if(!is_null($contrato->garantia))
                     <div class="condicion-item">
                         <div class="condicion-label">Garantía Bs.</div>
-                        <div class="condicion-valor">{{ number_format($contrato->garantia, 2) }}</div>
+                        <div class="condicion-valor">
+                            @if($contrato->garantia > 0)
+                                {{ number_format($contrato->garantia, 2) }}
+                            @else
+                                <span style="font-size:13px; color:#6b7280;">Sin garantía</span>
+                            @endif
+                        </div>
                     </div>
                     @endif
                 </div>

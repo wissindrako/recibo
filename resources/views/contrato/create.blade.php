@@ -23,15 +23,16 @@
 
                 <x-splade-form action="{{ route('contrato.store') }}" method="POST"
                     :default="[
-                        'tipo'               => $origen->tipo ?? ($ultimo->tipo ?? 'alquiler'),
-                        'arrendador_id'      => $origen->arrendador_id ?? ($ultimo->arrendador_id ?? null),
-                        'persona_id'         => $origen->persona_id ?? null,
-                        'inmueble_id'        => $origen->inmueble_id ?? null,
-                        'descripcion_alquiler' => $origen->descripcion_alquiler ?? '',
-                        'monto'              => $origen->monto ?? '',
-                        'garantia'           => $origen->garantia ?? '',
-                        'dia_limite_pago'    => $origen->dia_limite_pago ?? '',
-                        'contrato_origen_id' => $origen->id ?? null,
+                        'tipo'                => $origen->tipo ?? ($ultimo->tipo ?? 'alquiler'),
+                        'arrendador_id'       => $origen->arrendador_id ?? ($ultimo->arrendador_id ?? null),
+                        'persona_id'          => $origen->persona_id ?? null,
+                        'inmueble_id'         => $origen->inmueble_id ?? null,
+                        'descripcion_alquiler'=> $origen->descripcion_alquiler ?? '',
+                        'monto'               => $origen->monto ?? '',
+                        'garantia'            => $origen->garantia ?? '',
+                        'dia_limite_pago'     => $origen->dia_limite_pago ?? '',
+                        'contrato_origen_id'  => $origen->id ?? null,
+                        'servicios_contrato'  => [],
                     ]">
 
                     <input type="hidden" name="contrato_origen_id" value="{{ $origen->id ?? '' }}"/>

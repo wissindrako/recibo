@@ -38,25 +38,28 @@
 
 <p>
     @php
-        $arr = $contrato->arrendador->persona;
-        $arrEsFemenino = $arr->genero === 'F';
-        $arrTrato = $arr->titulo ?: ($arrEsFemenino ? 'Sra.' : 'Sr.');
-        $arrCI = $arr->ci . ($arr->complemento ? ' '.$arr->complemento : '') . ($arr->expedido ? ' '.$arr->expedido : '');
+        $arr          = $contrato->arrendador?->persona;
+        $arrEsFemenino = $arr?->genero === 'F';
+        $arrTrato     = $arr?->titulo ?: ($arrEsFemenino ? 'Sra.' : 'Sr.');
+        $arrNombre    = $arr ? strtoupper($arr->nombre_completo) : strtoupper($contrato->arrendador?->name ?? '');
+        $arrCI        = $arr ? ($arr->ci . ($arr->complemento ? ' '.$arr->complemento : '') . ($arr->expedido ? ' '.$arr->expedido : '')) : '';
+        $per          = $contrato->persona;
+        $perEsFemenino = $per?->genero === 'F';
     @endphp
     Conste por el presente contrato que celebran de una parte como
     @if($arrEsFemenino)
-        LA ARRENDADORA la {{ $arrTrato }} <strong>{{ strtoupper($arr->nombre_completo) }}</strong>
+        LA ARRENDADORA la {{ $arrTrato }} <strong>{{ $arrNombre }}</strong>
     @else
-        EL ARRENDADOR el {{ $arrTrato }} <strong>{{ strtoupper($arr->nombre_completo) }}</strong>
+        EL ARRENDADOR el {{ $arrTrato }} <strong>{{ $arrNombre }}</strong>
     @endif
-    identificado con la cédula de identidad <strong>{{ $arrCI }}</strong>
-    @if($arr->domicilio) con domicilio en {{ $arr->domicilio }} @endif;
+    @if($arrCI) identificado con la cédula de identidad <strong>{{ $arrCI }}</strong> @endif
+    @if($arr?->domicilio) con domicilio en {{ $arr->domicilio }} @endif;
     y de otra parte como
-    @if($contrato->persona->genero === 'F') LA ARRENDATARIA @else EL ARRENDATARIO @endif,
-    {{ $contrato->persona->genero === 'F' ? 'la señora' : 'el señor' }}
-    <strong>{{ strtoupper($contrato->persona->nombre_completo) }}</strong>
-    @if($contrato->persona->ci)
-        identificado con la cédula de identidad <strong>{{ $contrato->persona->ci }}{{ $contrato->persona->complemento ? ' '.$contrato->persona->complemento : '' }}{{ $contrato->persona->expedido ? ' '.$contrato->persona->expedido : '' }}</strong>
+    @if($perEsFemenino) LA ARRENDATARIA @else EL ARRENDATARIO @endif,
+    {{ $perEsFemenino ? 'la señora' : 'el señor' }}
+    <strong>{{ strtoupper($per?->nombre_completo ?? '') }}</strong>
+    @if($per?->ci)
+        identificado con la cédula de identidad <strong>{{ $per->ci }}{{ $per->complemento ? ' '.$per->complemento : '' }}{{ $per->expedido ? ' '.$per->expedido : '' }}</strong>
     @endif
    ; quienes convienen de mutuo acuerdo y regulado por las leyes vigentes sobre la materia, en los términos y condiciones siguientes:
 </p>
@@ -64,19 +67,17 @@
 <p class="clausula-titulo">ANTECEDENTES:</p>
 
 <p>
-    @php $inmueble = $contrato->inmueble; @endphp
     @php
+        $inmueble = $contrato->inmueble;
         $etiquetas = ['agua' => 'agua', 'luz' => 'luz', 'gas' => 'gas domiciliario', 'alcantarillado' => 'alcantarillado', 'internet' => 'internet'];
-        $svcsSeleccionados = !empty($contrato->servicios_contrato)
+        $svcsSeleccionados = is_array($contrato->servicios_contrato)
             ? $contrato->servicios_contrato
             : ($inmueble?->servicios ?? []);
-        if ($inmueble?->descripcion) {
-            $svcsStr = !empty($svcsSeleccionados) ? ' con servicios de ' . implode(', ', array_map(fn($s) => $etiquetas[$s] ?? $s, $svcsSeleccionados)) : '';
-            $descInmueble = $inmueble->descripcion . $svcsStr;
-        } else {
-            $svcsStr = !empty($svcsSeleccionados) ? ' con servicios de ' . implode(', ', array_map(fn($s) => $etiquetas[$s] ?? $s, $svcsSeleccionados)) : '';
-            $descInmueble = ($inmueble->patrimonio ?? 'Inmueble') . ' ubicado en ' . ($inmueble->ubicacion ?? '') . $svcsStr;
-        }
+        $descInmueble = $inmueble?->descripcion
+            ?: (($inmueble->patrimonio ?? 'Inmueble') . ' ubicado en ' . ($inmueble->ubicacion ?? ''));
+        $svcsStr = !empty($svcsSeleccionados)
+            ? ' con servicios de ' . implode(', ', array_map(fn($s) => $etiquetas[$s] ?? $s, $svcsSeleccionados))
+            : '';
     @endphp
     <strong>PRIMERA.-</strong>
     @if($arrEsFemenino) LA ARRENDADORA es propietaria @else EL ARRENDADOR es propietario @endif
@@ -87,8 +88,8 @@
     <strong>SEGUNDA.-</strong> Mediante el presente contrato
     @if($arrEsFemenino) LA ARRENDADORA @else EL ARRENDADOR @endif
     da en {{ strtolower($contrato->tipoTexto) }} a
-    @if($contrato->persona->genero === 'F') LA ARRENDATARIA @else EL ARRENDATARIO @endif
-    {{ $contrato->descripcion_alquiler }} en el inmueble descrito en la cláusula anterior destinada exclusivamente para vivienda, a partir del
+    @if($perEsFemenino) LA ARRENDATARIA @else EL ARRENDATARIO @endif
+    {{ $contrato->descripcion_alquiler }}{{ $svcsStr }} en el inmueble descrito en la cláusula anterior destinada exclusivamente para vivienda, a partir del
     @php $mesesN = ['Enero','Febrero','Marzo','Abril','Mayo','Junio','Julio','Agosto','Septiembre','Octubre','Noviembre','Diciembre']; @endphp
     <strong>{{ $contrato->fecha_inicio->format('d') }} de {{ $mesesN[$contrato->fecha_inicio->month - 1] }} de {{ $contrato->fecha_inicio->format('Y') }}</strong>
     @if($contrato->fecha_fin)
@@ -102,7 +103,7 @@
 
 <p>
     <strong>TERCERA.-</strong> Las partes acuerdan que el monto de la renta que pagará
-    @if($contrato->persona->genero === 'F') LA ARRENDATARIA @else EL ARRENDATARIO @endif
+    @if($perEsFemenino) LA ARRENDATARIA @else EL ARRENDATARIO @endif
     asciende a la suma de <strong>{{ number_format($contrato->monto, 2) }} bolivianos por mes</strong>,
     cantidad que será cancelada
     @if($contrato->dia_limite_pago)
@@ -110,22 +111,26 @@
     @else
         de manera puntual cada mes.
     @endif
-    @if($contrato->garantia)
-        Asimismo, @if($contrato->persona->genero === 'F') LA ARRENDATARIA @else EL ARRENDATARIO @endif
-        deberá dejar un importe de <strong>{{ number_format($contrato->garantia, 2) }} bolivianos</strong> por concepto de garantía.
+    @if(!is_null($contrato->garantia))
+        @if($contrato->garantia > 0)
+            Asimismo, @if($perEsFemenino) LA ARRENDATARIA @else EL ARRENDATARIO @endif
+            deberá dejar un importe de <strong>{{ number_format($contrato->garantia, 2) }} bolivianos</strong> por concepto de garantía.
+        @else
+            Tambien aclarar que, NO se deja ningún monto para la garantía.
+        @endif
     @endif
 </p>
 
 <p>
     <strong>CUARTA.-</strong> Asimismo,
-    @if($contrato->persona->genero === 'F') LA ARRENDATARIA está obligada @else EL ARRENDATARIO está obligado @endif
+    @if($perEsFemenino) LA ARRENDATARIA está obligada @else EL ARRENDATARIO está obligado @endif
     a pagar puntualmente el importe de todos los servicios públicos,
     tales como agua y energía eléctrica, obligando a entregar el inmueble con sus cuentas al día.
 </p>
 
 <p>
     <strong>QUINTA.-</strong>
-    @if($contrato->persona->genero === 'F') LA ARRENDATARIA queda prohibida @else EL ARRENDATARIO queda prohibido @endif
+    @if($perEsFemenino) LA ARRENDATARIA queda prohibida @else EL ARRENDATARIO queda prohibido @endif
     de introducir mejoras, cambios o modificaciones internas y externas en el bien arrendado,
     sin el consentimiento expreso de
     @if($arrEsFemenino) LA ARRENDADORA @else EL ARRENDADOR @endif.
@@ -136,7 +141,7 @@
 
 <p>
     <strong>SEXTA.-</strong>
-    @if($contrato->persona->genero === 'F') LA ARRENDATARIA no podrá @else EL ARRENDATARIO no podrá @endif
+    @if($perEsFemenino) LA ARRENDATARIA no podrá @else EL ARRENDATARIO no podrá @endif
     ceder a terceros el bien inmueble del presente contrato bajo ningún título de subarriendo,
     total o parcialmente, ni ceder su posición contractual, salvo que cuente con el consentimiento
     expreso y por escrito de
@@ -180,11 +185,11 @@
             </td>
             <td width="10%"></td>
             <td class="firma-linea">
-                <strong>{{ strtoupper($contrato->persona->nombre_completo) }}</strong><br/>
-                @if($contrato->persona->ci)
-                    C.I. {{ $contrato->persona->ci }}{{ $contrato->persona->complemento ? ' '.$contrato->persona->complemento : '' }}{{ $contrato->persona->expedido ? ' '.$contrato->persona->expedido : '' }}<br/>
+                <strong>{{ strtoupper($per?->nombre_completo ?? '') }}</strong><br/>
+                @if($per?->ci)
+                    C.I. {{ $per->ci }}{{ $per->complemento ? ' '.$per->complemento : '' }}{{ $per->expedido ? ' '.$per->expedido : '' }}<br/>
                 @endif
-                <small>{{ $contrato->persona->genero === 'F' ? 'LA ARRENDATARIA' : 'EL ARRENDATARIO' }}</small>
+                <small>{{ $perEsFemenino ? 'LA ARRENDATARIA' : 'EL ARRENDATARIO' }}</small>
             </td>
         </tr>
     </table>
