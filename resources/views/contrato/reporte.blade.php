@@ -179,7 +179,7 @@
     <table>
         <tr>
             <td class="firma-linea">
-                <strong>{{ strtoupper($arr->nombre_completo) }}</strong><br/>
+                <strong>{{ strtoupper($arr?->nombre_completo ?? $contrato->arrendador?->name ?? '') }}</strong><br/>
                 C.I. {{ $arrCI }}<br/>
                 <small>{{ $arrEsFemenino ? 'LA ARRENDADORA' : 'EL ARRENDADOR' }}</small>
             </td>
