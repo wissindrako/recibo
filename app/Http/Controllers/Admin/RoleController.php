@@ -56,18 +56,23 @@ class RoleController extends Controller
      */
     public function create()
     {
-        //
+        return view('admin.roles.create');
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
     public function store(Request $request)
     {
-        //
+        $request->validate([
+            'name'       => 'required|string|max:60|unique:roles,name',
+            'guard_name' => 'required|string|max:60',
+        ]);
+
+        Role::create([
+            'name'       => $request->name,
+            'guard_name' => $request->guard_name,
+        ]);
+
+        Splade::toast('Rol creado correctamente.')->autoDismiss(5);
+        return redirect()->route('roles');
     }
 
     /**

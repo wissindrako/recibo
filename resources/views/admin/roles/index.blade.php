@@ -9,6 +9,12 @@
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
             <div class="bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg">
                 <div class="p-6 border-b border-gray-200 dark:border-gray-700">
+                    <div class="mb-4">
+                        <Link href="{{ route('rol.create') }}"
+                            class="inline-flex items-center px-4 py-2 bg-indigo-600 hover:bg-indigo-700 text-white text-sm font-semibold rounded-lg">
+                            + Nuevo rol
+                        </Link>
+                    </div>
                     <x-splade-table :for="$roles">
                         @cell('action', $rol)
                             <div class="flex flex-row items-center gap-1">

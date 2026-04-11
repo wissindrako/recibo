@@ -59,6 +59,8 @@ Route::middleware('splade')->group(function () {
             Route::put('/user/{user}/persona', [UserController::class, 'updatePersona'])->name('user.persona.update');
 
             Route::get('/roles', RoleController::class)->name('roles');
+            Route::get('/rol/create', [RoleController::class, 'create'])->name('rol.create');
+            Route::post('/rol', [RoleController::class, 'store'])->name('rol.store');
             Route::get('/rol/{rol}', [RoleController::class, 'show'])->name('rol.show');
             Route::get('/rol/{id}/edit', [RoleController::class, 'edit'])->name('rol.edit');
             Route::put('/rol/{id}', [RoleController::class, 'update'])->name('rol.update');
