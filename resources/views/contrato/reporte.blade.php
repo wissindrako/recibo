@@ -66,12 +66,16 @@
 <p>
     @php $inmueble = $contrato->inmueble; @endphp
     @php
+        $etiquetas = ['agua' => 'agua', 'luz' => 'luz', 'gas' => 'gas domiciliario', 'alcantarillado' => 'alcantarillado', 'internet' => 'internet'];
+        $svcsSeleccionados = !empty($contrato->servicios_contrato)
+            ? $contrato->servicios_contrato
+            : ($inmueble?->servicios ?? []);
         if ($inmueble?->descripcion) {
-            $descInmueble = $inmueble->descripcion;
+            $svcsStr = !empty($svcsSeleccionados) ? ' con servicios de ' . implode(', ', array_map(fn($s) => $etiquetas[$s] ?? $s, $svcsSeleccionados)) : '';
+            $descInmueble = $inmueble->descripcion . $svcsStr;
         } else {
-            $etiquetas = ['agua' => 'agua', 'luz' => 'luz', 'gas' => 'gas domiciliario', 'alcantarillado' => 'alcantarillado', 'internet' => 'internet'];
-            $svcs = !empty($inmueble?->servicios) ? ' con servicios de ' . implode(', ', array_map(fn($s) => $etiquetas[$s] ?? $s, $inmueble->servicios)) : '';
-            $descInmueble = ($inmueble->patrimonio ?? 'Inmueble') . ' ubicado en ' . ($inmueble->ubicacion ?? '') . $svcs;
+            $svcsStr = !empty($svcsSeleccionados) ? ' con servicios de ' . implode(', ', array_map(fn($s) => $etiquetas[$s] ?? $s, $svcsSeleccionados)) : '';
+            $descInmueble = ($inmueble->patrimonio ?? 'Inmueble') . ' ubicado en ' . ($inmueble->ubicacion ?? '') . $svcsStr;
         }
     @endphp
     <strong>PRIMERA.-</strong>

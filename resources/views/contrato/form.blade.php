@@ -19,8 +19,38 @@
 <div class="mb-4">
     <x-splade-select name="inmueble_id" label="Inmueble"
         :options="$inmuebles" option-label="nombre" option-value="id"
-        placeholder="Seleccionar inmueble..." required/>
+        placeholder="Seleccionar inmueble..." required
+        @change="form.servicios_contrato = []"/>
 </div>
+
+{{-- Servicios del inmueble seleccionado --}}
+@php
+$serviciosLabels = [
+    'agua'          => 'Agua',
+    'luz'           => 'Luz eléctrica',
+    'gas'           => 'Gas domiciliario',
+    'alcantarillado'=> 'Alcantarillado',
+    'internet'      => 'Internet',
+];
+@endphp
+@foreach($inmuebles as $inmueble)
+    @if(!empty($inmueble->servicios))
+    <div v-if="form.inmueble_id == {{ $inmueble->id }}" class="mb-4 p-4 bg-gray-50 dark:bg-gray-700/50 rounded-lg border border-gray-200 dark:border-gray-600">
+        <p class="text-sm font-medium text-gray-700 dark:text-gray-300 mb-3">Servicios incluidos en el contrato:</p>
+        <div class="flex flex-wrap gap-4">
+            @foreach($inmueble->servicios as $servicio)
+            <label class="flex items-center gap-2 cursor-pointer text-sm text-gray-700 dark:text-gray-300">
+                <input type="checkbox"
+                       v-model="form.servicios_contrato"
+                       value="{{ $servicio }}"
+                       class="rounded border-gray-300 text-indigo-600 focus:ring-indigo-500"/>
+                {{ $serviciosLabels[$servicio] ?? $servicio }}
+            </label>
+            @endforeach
+        </div>
+    </div>
+    @endif
+@endforeach
 <div class="mb-4">
     <x-splade-textarea name="descripcion_alquiler" label="Lo que se alquila / vende (SEGUNDA cláusula)" rows="2"
         placeholder="Ej: tres cuartos  |  dos piezas (un cuarto y una cocina)"

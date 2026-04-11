@@ -83,6 +83,8 @@ class ContratoController extends Controller
             'fecha_inicio'         => 'required|date',
             'fecha_fin'            => 'nullable|date|after_or_equal:fecha_inicio',
             'fecha_documento'      => 'nullable|date',
+            'servicios_contrato'   => 'nullable|array',
+            'servicios_contrato.*' => 'string|in:agua,luz,gas,alcantarillado,internet',
             'monto'                => 'required|numeric|min:0',
             'garantia'             => 'nullable|numeric|min:0',
             'dia_limite_pago'      => 'nullable|integer|min:1|max:31',
@@ -103,6 +105,7 @@ class ContratoController extends Controller
             $contrato->fecha_inicio      = $request->fecha_inicio;
             $contrato->fecha_fin         = $request->fecha_fin;
             $contrato->fecha_documento   = $request->fecha_documento ?: null;
+            $contrato->servicios_contrato = $request->servicios_contrato ?? [];
             $contrato->monto             = $request->monto;
             $contrato->garantia          = $request->garantia;
             $contrato->dia_limite_pago   = $request->dia_limite_pago;
@@ -155,6 +158,8 @@ class ContratoController extends Controller
             'fecha_inicio'         => 'required|date',
             'fecha_fin'            => 'nullable|date|after_or_equal:fecha_inicio',
             'fecha_documento'      => 'nullable|date',
+            'servicios_contrato'   => 'nullable|array',
+            'servicios_contrato.*' => 'string|in:agua,luz,gas,alcantarillado,internet',
             'monto'                => 'required|numeric|min:0',
             'garantia'             => 'nullable|numeric|min:0',
             'dia_limite_pago'      => 'nullable|integer|min:1|max:31',
@@ -169,13 +174,14 @@ class ContratoController extends Controller
             $contrato->persona_id        = $request->persona_id;
             $contrato->inmueble_id       = $request->inmueble_id;
             $contrato->descripcion_alquiler = $request->descripcion_alquiler;
-            $contrato->fecha_inicio      = $request->fecha_inicio;
-            $contrato->fecha_fin         = $request->fecha_fin;
-            $contrato->fecha_documento   = $request->fecha_documento ?: null;
-            $contrato->monto             = $request->monto;
-            $contrato->garantia          = $request->garantia;
-            $contrato->dia_limite_pago   = $request->dia_limite_pago;
-            $contrato->notas             = $request->notas;
+            $contrato->fecha_inicio        = $request->fecha_inicio;
+            $contrato->fecha_fin           = $request->fecha_fin;
+            $contrato->fecha_documento     = $request->fecha_documento ?: null;
+            $contrato->servicios_contrato  = $request->servicios_contrato ?? [];
+            $contrato->monto               = $request->monto;
+            $contrato->garantia            = $request->garantia;
+            $contrato->dia_limite_pago     = $request->dia_limite_pago;
+            $contrato->notas               = $request->notas;
 
             $contrato->save();
 

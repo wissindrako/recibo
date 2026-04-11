@@ -12,10 +12,11 @@ class Contrato extends Model
     use HasFactory, HasHashid;
 
     protected $casts = [
-        'fecha_inicio'     => 'date',
-        'fecha_fin'        => 'date',
-        'fecha_documento'  => 'date',
-        'archivo'          => 'array',
+        'fecha_inicio'       => 'date',
+        'fecha_fin'          => 'date',
+        'fecha_documento'    => 'date',
+        'archivo'            => 'array',
+        'servicios_contrato' => 'array',
     ];
 
     public function persona()
