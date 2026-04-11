@@ -17,9 +17,9 @@
 </div>
 
 <div class="mb-4">
-    <x-splade-textarea name="descripcion_inmueble" label="Descripción del inmueble (PRIMERA cláusula)" rows="3"
-        placeholder="Ej: Inmueble ubicado en la Urbanización San Pedro, Av. Mejillones No. 24 en la ciudad de El Alto, en buen estado de habitabilidad, con servicios básicos (agua, luz y gas domiciliario)."
-        required/>
+    <x-splade-select name="inmueble_id" label="Inmueble"
+        :options="$inmuebles" option-label="nombre" option-value="id"
+        placeholder="Seleccionar inmueble..." required/>
 </div>
 <div class="mb-4">
     <x-splade-textarea name="descripcion_alquiler" label="Lo que se alquila / vende (SEGUNDA cláusula)" rows="2"
@@ -33,6 +33,10 @@
 <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
     <x-splade-input name="fecha_inicio" label="Fecha de inicio" date required/>
     <x-splade-input name="fecha_fin" label="Fecha de fin (dejar vacío si indefinido)" date/>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+    <x-splade-input name="fecha_documento" label="Fecha del documento (para el contrato impreso)" date/>
+    <div></div>
 </div>
 
 {{-- Montos --}}

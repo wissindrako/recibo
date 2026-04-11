@@ -2,14 +2,6 @@
 <x-splade-input name="nombres" label="Nombre(s)"/>
 <x-splade-input name="ap_paterno" label="Apellido paterno"/>
 <x-splade-input name="ap_materno" label="Apellido materno"/>
-
-<x-splade-toggle>
-    <div class="flex justify-end">
-        <div>
-            <button @click.prevent="toggle" class="justify-self-end text-sky-500">Mostrar / Ocultar datos opcionales</button>
-        </div>
-    </div>
-    <x-splade-transition show="toggled">
 <div class="-mx-3 md:flex my-2">
             <div class="md:w-1/3 px-3">
                 {{-- <label class="block uppercase tracking-wide text-grey-darker text-xs font-bold mb-2" for="grid-city">
@@ -35,7 +27,7 @@
                 </x-splade-select>
             </div>
         </div>
-        <div class="-mx-3 md:flex my-2">
+                <div class="-mx-3 md:flex my-2">
             <div class="md:w-1/2 px-3">
                 <x-splade-input name="fecha_nacimiento" label="Fecha de Nacimiento" date/>
             </div>
@@ -48,6 +40,15 @@
                 </x-splade-select>
             </div>
         </div>
+<x-splade-toggle>
+    <div class="flex justify-end">
+        <div>
+            <button @click.prevent="toggle" class="justify-self-end text-sky-500">Mostrar / Ocultar datos opcionales</button>
+        </div>
+    </div>
+    <x-splade-transition show="toggled">
+
+
         <div class="-mx-3 md:flex mb-2">
             <div class="md:w-1/2 px-3">
                 <x-splade-input name="domicilio" label="Domicilio"/>

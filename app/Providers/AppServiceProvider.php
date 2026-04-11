@@ -3,6 +3,7 @@
 namespace App\Providers;
 
 use Illuminate\Support\ServiceProvider;
+use ProtoneMedia\Splade\Components\Form\Input;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -23,6 +24,9 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        //
+        Input::defaultFlatpickr([
+            'altInput' => true,
+            'altFormat' => 'd/m/Y',
+        ]);
     }
 }

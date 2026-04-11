@@ -13,11 +13,6 @@ use Spatie\QueryBuilder\QueryBuilder;
 
 class PersonaController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
     public function index()
     {
         $globalSearch = AllowedFilter::callback('global', function ($query, $value) {
@@ -51,22 +46,11 @@ class PersonaController extends Controller
         ]);
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
     public function create()
     {
         return view('persona.create');
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
     public function store(Request $request)
     {
         $data = $request->validate([
@@ -108,46 +92,24 @@ class PersonaController extends Controller
             DB::rollBack();
             return $th;
         }
-
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\Models\Persona  $persona
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
+    public function show(Persona $persona)
     {
-        $persona = Persona::with(['user', 'recibos' => function ($q) {
+        $persona->load(['user', 'recibos' => function ($q) {
             $q->orderBy('fecha', 'desc')->limit(10);
-        }])->findOrFail($id);
+        }]);
         return view('persona.show', compact('persona'));
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Models\Persona  $persona
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
+    public function edit(Persona $persona)
     {
-        $persona = Persona::findOrFail($id);
-
         return view('persona.edit', compact('persona'));
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\Persona  $persona
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, $id)
+    public function update(Request $request, Persona $persona)
     {
-        $data = $request->validate([
+        $request->validate([
             'nombres' => 'required|max:40',
             'ap_paterno' => 'required_without:ap_materno|max:30',
             'ap_materno' => 'required_without:ap_paterno|max:30',
@@ -158,7 +120,6 @@ class PersonaController extends Controller
             'telefono' => 'nullable|integer|max:99999999',
         ]);
 
-        $persona = Persona::findOrFail($id);
         $persona->titulo = $request->titulo;
         $persona->nombres = $request->nombres;
         $persona->ap_paterno = $request->ap_paterno;
@@ -168,7 +129,7 @@ class PersonaController extends Controller
         $persona->expedido = $request->expedido;
         $persona->fecha_nacimiento = $request->fecha_nacimiento;
         $persona->genero = $request->genero;
-        $persona->ocupacion_profesion = 'Estudiante';
+        $persona->ocupacion_profesion = $request->ocupacion_profesion;
         $persona->domicilio = $request->domicilio;
         $persona->telefono = $request->telefono;
         $persona->update();
@@ -178,12 +139,6 @@ class PersonaController extends Controller
         return redirect()->route('personas');
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  \App\Models\Persona  $persona
-     * @return \Illuminate\Http\Response
-     */
     public function destroy(Persona $persona)
     {
         //

@@ -22,20 +22,8 @@ use chillerlan\QRCode\QROptions;
 
 class ReciboController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
     public function index()
     {
-        $user_id = auth()->user()->id;
-
-        // dd(DB::table('personas')
-        // ->select('nombres')
-        // ->first()
-        // );
-
         $globalSearch = AllowedFilter::callback('global', function ($query, $value) {
             $query->where(function ($query) use ($value) {
                 Collection::wrap($value)->each(function ($value) use ($query) {
@@ -73,7 +61,6 @@ class ReciboController extends Controller
                 ->withGlobalSearch()
                 ->column(key: 'key', label: 'Nº')
                 ->column('cliente.nombre_completo', searchable: true, label: 'Cliente')
-                //->column('fecha', sortable: false, searchable: true)
                 ->column(
                     key: 'fecha',
                     as: fn($email) => $fecha->fecha_dmy($email),
@@ -83,17 +70,9 @@ class ReciboController extends Controller
                 ->column('concepto', sortable: true, searchable: true)
                 ->column('estado', sortable: true, searchable: true)
                 ->column('action')
-            // ->rowLink(function(User $user){
-            //     return route('users.show', $user);
-            // })
         ]);
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
     public function create()
     {
         $clientes = Persona::select('id', 'nombres', 'ap_paterno', 'ap_materno')->orderBy('nombres')->get();
@@ -101,12 +80,6 @@ class ReciboController extends Controller
         return view('recibo.create', compact('clientes', 'usuarios'));
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
     public function store(Request $request)
     {
         $data = $request->validate([
@@ -133,7 +106,6 @@ class ReciboController extends Controller
             $recibo->cantidad = $request->cantidad;
             $recibo->cantidad_literal = $literal->toInvoice($request->cantidad, 2, 'Bs');
             $recibo->concepto = $request->concepto;
-
             $recibo->observaciones = $request->observaciones;
 
             if ($request->user_id) {
@@ -155,21 +127,10 @@ class ReciboController extends Controller
         }
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\Models\Recibo  $recibo
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id, Request $request)
+    public function show(Recibo $recibo, Request $request)
     {
-        $recibo = Recibo::findOrFail($id);
         $recibo->load(['usuario', 'cliente', 'pagador']);
 
-        // return Pdf::loadView('recibo.reporte', ['recibo' => $recibo])->save(public_path().'/myfile.pdf')->stream('download.pdf', array("Attachment" => 0));
-
-        // Conversion de Pulgadas a Puntos tipograficos
-        // 4.251969 x 5.51181 pulg. = 306.1 x 396.85 puntos
         $carta_en_cuatro = array(0, 0, 306.1, 396.85);
 
         if ($request->has('reporte')) {
@@ -203,9 +164,6 @@ class ReciboController extends Controller
         return response()->json(['data' => $recibo], 200);
     }
 
-    /**
-     * Verifica un recibo por hash y muestra información básica.
-     */
     public function verificar($hash)
     {
         $recibo = Recibo::where('hash', $hash)->with(['cliente', 'pagador'])->first();
@@ -215,52 +173,30 @@ class ReciboController extends Controller
         return view('recibo.verificar', compact('recibo'));
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Models\Recibo  $recibo
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
+    public function edit(Recibo $recibo)
     {
         $clientes = Persona::select('id', 'nombres', 'ap_paterno', 'ap_materno')->orderBy('nombres')->get();
         $usuarios = User::select('id', 'name')->orderBy('name')->get();
-        $recibo = Recibo::findOrFail($id);
         return view('recibo.edit', compact('recibo', 'clientes', 'usuarios'));
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Models\Recibo  $recibo
-     * @return \Illuminate\Http\Response
-     */
-    public function editEstado($id)
+    public function editEstado(Recibo $recibo)
     {
-        // Solo admin puede acceder
         if (!auth()->user() || !auth()->user()->hasRole('admin')) {
             abort(403, 'No autorizado para esta acción.');
         }
-        $recibo = Recibo::findOrFail($id);
         $recibo->estado = $recibo->estado == 1 ? 2 : 1;
         $recibo->update();
         Splade::toast('Estado del recibo actualizado correctamente!')->autoDismiss(5);
         return redirect()->route('recibos');
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\Recibo  $recibo
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, $id)
+    public function update(Request $request, Recibo $recibo)
     {
         if (!auth()->user() || !auth()->user()->hasRole('admin')) {
             abort(403, 'No autorizado para esta acción.');
         }
-        $data = $request->validate([
+        $request->validate([
             'cliente_id' => 'required|integer',
             'pagador_id'  => 'nullable|integer|exists:personas,id',
             'fecha' => 'required|date_format:Y-m-d',
@@ -272,9 +208,8 @@ class ReciboController extends Controller
             DB::beginTransaction();
 
             $literal = new NumberToWords();
-            $literal->conector = 'con'; // ['y', 'con', ''] default 'con'
+            $literal->conector = 'con';
 
-            $recibo = Recibo::findOrFail($id);
             $recibo->cliente_id = $request->cliente_id;
             $recibo->pagador_id = $request->pagador_id ?: null;
             $recibo->hash = md5($recibo->nro_serie . $request->fecha . $request->cliente_id . $request->cantidad . $request->concepto);
@@ -282,7 +217,6 @@ class ReciboController extends Controller
             $recibo->cantidad = $request->cantidad;
             $recibo->cantidad_literal = $literal->toInvoice($request->cantidad, 2, 'Bs');
             $recibo->concepto = $request->concepto;
-
             $recibo->observaciones = $request->observaciones;
 
             if ($request->user_id) {
@@ -304,12 +238,6 @@ class ReciboController extends Controller
         }
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  \App\Models\Recibo  $recibo
-     * @return \Illuminate\Http\Response
-     */
     public function destroy(Recibo $recibo)
     {
         //

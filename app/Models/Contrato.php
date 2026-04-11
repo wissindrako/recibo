@@ -12,14 +12,20 @@ class Contrato extends Model
     use HasFactory, HasHashid;
 
     protected $casts = [
-        'fecha_inicio' => 'date',
-        'fecha_fin'    => 'date',
-        'archivo'      => 'array',
+        'fecha_inicio'     => 'date',
+        'fecha_fin'        => 'date',
+        'fecha_documento'  => 'date',
+        'archivo'          => 'array',
     ];
 
     public function persona()
     {
         return $this->belongsTo(Persona::class);
+    }
+
+    public function inmueble()
+    {
+        return $this->belongsTo(\App\Models\Inmueble::class);
     }
 
     public function arrendador()

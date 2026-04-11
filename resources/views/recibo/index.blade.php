@@ -29,7 +29,7 @@
                         <x-slot name="body">
                             <tbody>
                                 @foreach($recibos->resource as $key => $recibo)
-                                    <tr class="dark:bg-gray-800 dark:hover:bg-gray-700 transition">
+                                    <tr class="transition">
                                         <td class="px-2 text-center border dark:border-gray-700">
                                             <p class="text-slate-500 dark:text-gray-400 font-semibold">{{ $key + 1 }}</p>
                                         </td>

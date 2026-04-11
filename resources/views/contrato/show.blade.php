@@ -438,10 +438,32 @@
             {{-- Inmueble --}}
             <div class="section">
                 <div class="section-title">Objeto del contrato</div>
+                @if($contrato->inmueble)
                 <div class="desc-box">
                     <div class="desc-label">Inmueble</div>
-                    <div class="desc-text">{{ $contrato->descripcion_inmueble }}</div>
+                    <div class="desc-text">{{ $contrato->inmueble->nombre }}</div>
                 </div>
+                <div class="desc-box">
+                    <div class="desc-label">Tipo</div>
+                    <div class="desc-text">{{ $contrato->inmueble->patrimonio }}</div>
+                </div>
+                <div class="desc-box">
+                    <div class="desc-label">Ubicación</div>
+                    <div class="desc-text">{{ $contrato->inmueble->ubicacion }}</div>
+                </div>
+                @if($contrato->inmueble->descripcion)
+                <div class="desc-box">
+                    <div class="desc-label">Descripción</div>
+                    <div class="desc-text">{{ $contrato->inmueble->descripcion }}</div>
+                </div>
+                @endif
+                @if(!empty($contrato->inmueble->servicios))
+                <div class="desc-box">
+                    <div class="desc-label">Servicios</div>
+                    <div class="desc-text">{{ implode(', ', $contrato->inmueble->servicios) }}</div>
+                </div>
+                @endif
+                @endif
                 @if($contrato->descripcion_alquiler)
                 <div class="desc-box">
                     <div class="desc-label">Lo que se {{ $contrato->tipo === 'venta' ? 'vende' : 'alquila' }}</div>

@@ -7,6 +7,7 @@ use App\Http\Controllers\InicioController;
 use App\Http\Controllers\PersonaController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\ContratoController;
+use App\Http\Controllers\InmuebleController;
 use App\Http\Controllers\ReciboController;
 use Illuminate\Support\Facades\Route;
 
@@ -49,13 +50,13 @@ Route::middleware('splade')->group(function () {
             Route::get('/users', UserController::class)->name('users')->middleware('can:users');
             Route::get('/user/create', [UserController::class, 'create'])->name('user.create')->middleware('can:user.create');
             Route::post('/user', [UserController::class, 'store'])->name('user.store')->middleware('can:user.store');
-            Route::get('/user/{id}', [UserController::class, 'show'])->name('user.show');
-            Route::get('/user/{id}/edit', [UserController::class, 'edit'])->name('user.edit');
-            Route::put('/user/{id}', [UserController::class, 'update'])->name('user.update');
-            Route::get('/user/{id}/email_confirm', [UserController::class, 'email_confirm'])->name('user.email_confirm');
-            Route::get('/user/{id}/active', [UserController::class, 'active'])->name('user.active');
-            Route::post('/user/{id}/persona', [UserController::class, 'storePersona'])->name('user.persona.store');
-            Route::put('/user/{id}/persona', [UserController::class, 'updatePersona'])->name('user.persona.update');
+            Route::get('/user/{user}', [UserController::class, 'show'])->name('user.show');
+            Route::get('/user/{user}/edit', [UserController::class, 'edit'])->name('user.edit');
+            Route::put('/user/{user}', [UserController::class, 'update'])->name('user.update');
+            Route::get('/user/{user}/email_confirm', [UserController::class, 'email_confirm'])->name('user.email_confirm');
+            Route::get('/user/{user}/active', [UserController::class, 'active'])->name('user.active');
+            Route::post('/user/{user}/persona', [UserController::class, 'storePersona'])->name('user.persona.store');
+            Route::put('/user/{user}/persona', [UserController::class, 'updatePersona'])->name('user.persona.update');
 
             Route::get('/roles', RoleController::class)->name('roles');
             Route::get('/rol/{rol}', [RoleController::class, 'show'])->name('rol.show');
@@ -66,33 +67,40 @@ Route::middleware('splade')->group(function () {
         Route::get('/personas', [PersonaController::class, 'index'])->name('personas');
 
         Route::get('/persona/create', [PersonaController::class, 'create'])->name('persona.create');
-        Route::get('/persona/{id}', [PersonaController::class, 'show'])->name('persona.show');
+        Route::get('/persona/{persona}', [PersonaController::class, 'show'])->name('persona.show');
         Route::post('/persona', [PersonaController::class, 'store'])->name('persona.store');
-        Route::get('/persona/{id}/edit', [PersonaController::class, 'edit'])->name('persona.edit');
-        Route::put('/persona/{id}', [PersonaController::class, 'update'])->name('persona.update');
+        Route::get('/persona/{persona}/edit', [PersonaController::class, 'edit'])->name('persona.edit');
+        Route::put('/persona/{persona}', [PersonaController::class, 'update'])->name('persona.update');
+
+        Route::get('/inmuebles', [InmuebleController::class, 'index'])->name('inmuebles');
+        Route::get('/inmueble/create', [InmuebleController::class, 'create'])->name('inmueble.create');
+        Route::post('/inmueble', [InmuebleController::class, 'store'])->name('inmueble.store');
+        Route::get('/inmueble/{inmueble}/edit', [InmuebleController::class, 'edit'])->name('inmueble.edit');
+        Route::put('/inmueble/{inmueble}', [InmuebleController::class, 'update'])->name('inmueble.update');
+        Route::delete('/inmueble/{inmueble}', [InmuebleController::class, 'destroy'])->name('inmueble.destroy');
 
         Route::get('/contratos', [ContratoController::class, 'index'])->name('contratos');
         Route::get('/contrato/create', [ContratoController::class, 'create'])->name('contrato.create');
         Route::post('/contrato', [ContratoController::class, 'store'])->name('contrato.store');
         Route::withoutMiddleware('splade')->group(function () {
-            Route::get('/contrato/{id}', [ContratoController::class, 'show'])->name('contrato.show');
+            Route::get('/contrato/{contrato}', [ContratoController::class, 'show'])->name('contrato.show');
         });
-        Route::get('/contrato/{id}/edit', [ContratoController::class, 'edit'])->name('contrato.edit');
-        Route::put('/contrato/{id}', [ContratoController::class, 'update'])->name('contrato.update');
-        Route::get('/contrato/{id}/anular', [ContratoController::class, 'anular'])->name('contrato.anular');
-        Route::get('/contrato/{id}/renovar', [ContratoController::class, 'renovar'])->name('contrato.renovar');
-        Route::delete('/contrato/{id}/archivos/{index}', [ContratoController::class, 'deleteArchivo'])->name('contrato.archivos.delete');
+        Route::get('/contrato/{contrato}/edit', [ContratoController::class, 'edit'])->name('contrato.edit');
+        Route::put('/contrato/{contrato}', [ContratoController::class, 'update'])->name('contrato.update');
+        Route::get('/contrato/{contrato}/anular', [ContratoController::class, 'anular'])->name('contrato.anular');
+        Route::get('/contrato/{contrato}/renovar', [ContratoController::class, 'renovar'])->name('contrato.renovar');
+        Route::delete('/contrato/{contrato}/archivos/{index}', [ContratoController::class, 'deleteArchivo'])->name('contrato.archivos.delete');
 
         Route::get('/recibos', [ReciboController::class, 'index'])->name('recibos');
 
         Route::get('/recibo/create', [ReciboController::class, 'create'])->name('recibo.create');
         Route::withoutMiddleware('splade')->group(function () {
-            Route::get('/recibo/{id}', [ReciboController::class, 'show'])->name('recibo.show');
+            Route::get('/recibo/{recibo}', [ReciboController::class, 'show'])->name('recibo.show');
         });
         Route::post('/recibo', [ReciboController::class, 'store'])->name('recibo.store');
-        Route::get('/recibo/{id}/edit', [ReciboController::class, 'edit'])->name('recibo.edit');
-        Route::get('/recibo/{id}/edit-estado', [ReciboController::class, 'editEstado'])->name('recibo.edit-estado');
-        Route::put('/recibo/{id}', [ReciboController::class, 'update'])->name('recibo.update');
+        Route::get('/recibo/{recibo}/edit', [ReciboController::class, 'edit'])->name('recibo.edit');
+        Route::get('/recibo/{recibo}/edit-estado', [ReciboController::class, 'editEstado'])->name('recibo.edit-estado');
+        Route::put('/recibo/{recibo}', [ReciboController::class, 'update'])->name('recibo.update');
     });
 
 
@@ -103,5 +111,5 @@ Route::middleware('splade')->group(function () {
 
 // Fuera del grupo splade para permitir multipart/form-data sin intercepción de Splade
 Route::middleware(['web', 'auth'])->group(function () {
-    Route::post('/contrato/{id}/archivos', [ContratoController::class, 'uploadArchivos'])->name('contrato.archivos.upload');
+    Route::post('/contrato/{contrato}/archivos', [ContratoController::class, 'uploadArchivos'])->name('contrato.archivos.upload');
 });

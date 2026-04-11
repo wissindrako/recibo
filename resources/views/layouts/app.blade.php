@@ -1,4 +1,4 @@
-<div class="min-h-screen bg-gray-100 dark:bg-gray-950">
+<div class="min-h-screen bg-gray-300 dark:bg-gray-700">
     @include('layouts.navigation')
 
     <!-- Page Heading -->
@@ -9,7 +9,7 @@
     </header>
 
     <!-- Page Content -->
-    <main class="bg-gray-100 dark:bg-gray-950 min-h-screen">
+    <main>
         {{ $slot }}
     </main>
 </div>

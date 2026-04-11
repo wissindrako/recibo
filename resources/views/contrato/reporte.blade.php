@@ -7,7 +7,7 @@
         body {
             font-family: DejaVu Sans, sans-serif;
             font-size: 11pt;
-            margin: 2cm 2.5cm;
+            margin: 1cm 1cm 1cm 1.5cm;
             color: #111;
             line-height: 1.6;
         }
@@ -34,7 +34,7 @@
 <body>
 
 <div class="titulo">CONTRATO DE {{ strtoupper($contrato->tipoTexto) }}</div>
-<div class="subtitulo">N° {{ $contrato->nro_serie }}</div>
+<div class="subtitulo">N° {{ $contrato->nro_serie }}/{{ ($contrato->fecha_documento ?? $contrato->fecha_inicio)->format('Y') }}</div>
 
 <p>
     @php
@@ -58,18 +58,25 @@
     @if($contrato->persona->ci)
         identificado con la cédula de identidad <strong>{{ $contrato->persona->ci }}{{ $contrato->persona->complemento ? ' '.$contrato->persona->complemento : '' }}{{ $contrato->persona->expedido ? ' '.$contrato->persona->expedido : '' }}</strong>
     @endif
-    ; quienes convienen de mutuo acuerdo y regulado por las leyes vigentes sobre la materia, en los términos y condiciones siguientes:
+   ; quienes convienen de mutuo acuerdo y regulado por las leyes vigentes sobre la materia, en los términos y condiciones siguientes:
 </p>
 
 <p class="clausula-titulo">ANTECEDENTES:</p>
 
 <p>
+    @php $inmueble = $contrato->inmueble; @endphp
+    @php
+        if ($inmueble?->descripcion) {
+            $descInmueble = $inmueble->descripcion;
+        } else {
+            $etiquetas = ['agua' => 'agua', 'luz' => 'luz', 'gas' => 'gas domiciliario', 'alcantarillado' => 'alcantarillado', 'internet' => 'internet'];
+            $svcs = !empty($inmueble?->servicios) ? ' con servicios de ' . implode(', ', array_map(fn($s) => $etiquetas[$s] ?? $s, $inmueble->servicios)) : '';
+            $descInmueble = ($inmueble->patrimonio ?? 'Inmueble') . ' ubicado en ' . ($inmueble->ubicacion ?? '') . $svcs;
+        }
+    @endphp
     <strong>PRIMERA.-</strong>
-    @if($arrEsFemenino)
-        LA ARRENDADORA es propietaria del inmueble o bien descrito como: {{ $contrato->descripcion_inmueble }}.
-    @else
-        EL ARRENDADOR es propietario del inmueble o bien descrito como: {{ $contrato->descripcion_inmueble }}.
-    @endif
+    @if($arrEsFemenino) LA ARRENDADORA es propietaria @else EL ARRENDADOR es propietario @endif
+    del {{ $descInmueble }}.
 </p>
 
 <p>
@@ -77,7 +84,7 @@
     @if($arrEsFemenino) LA ARRENDADORA @else EL ARRENDADOR @endif
     da en {{ strtolower($contrato->tipoTexto) }} a
     @if($contrato->persona->genero === 'F') LA ARRENDATARIA @else EL ARRENDATARIO @endif
-    {{ $contrato->descripcion_alquiler }}, a partir del
+    {{ $contrato->descripcion_alquiler }} en el inmueble descrito en la cláusula anterior destinada exclusivamente para vivienda, a partir del
     @php $mesesN = ['Enero','Febrero','Marzo','Abril','Mayo','Junio','Julio','Agosto','Septiembre','Octubre','Noviembre','Diciembre']; @endphp
     <strong>{{ $contrato->fecha_inicio->format('d') }} de {{ $mesesN[$contrato->fecha_inicio->month - 1] }} de {{ $contrato->fecha_inicio->format('Y') }}</strong>
     @if($contrato->fecha_fin)
@@ -149,11 +156,14 @@
 @endif
 
 <p style="margin-top: 20px;">
+    @php
+        $meses = ['Enero','Febrero','Marzo','Abril','Mayo','Junio','Julio','Agosto','Septiembre','Octubre','Noviembre','Diciembre'];
+        $fDoc = $contrato->fecha_documento ?? $contrato->fecha_inicio;
+    @endphp
     En señal de conformidad, las partes suscriben el presente contrato en la ciudad de El Alto,
-    a los <strong>{{ $contrato->fecha_inicio->format('d') }}</strong> días del mes de
-    @php $meses = ['Enero','Febrero','Marzo','Abril','Mayo','Junio','Julio','Agosto','Septiembre','Octubre','Noviembre','Diciembre']; @endphp
-    <strong>{{ $meses[$contrato->fecha_inicio->month - 1] }}</strong>
-    del año <strong>{{ $contrato->fecha_inicio->format('Y') }}</strong>.
+    a los <strong>{{ $fDoc->format('d') }}</strong> días del mes de
+    <strong>{{ $meses[$fDoc->month - 1] }}</strong>
+    del año <strong>{{ $fDoc->format('Y') }}</strong>.
 </p>
 
 <div class="firmas">

@@ -24,7 +24,6 @@ class UserController extends Controller
     {
         $this->middleware('can:users')->only('index', '__invoke');
         $this->middleware('can:user.show')->only('show');
-        // $this->middleware('can:user.edit')->only('edit', 'update');
     }
 
     public function __invoke(Request $request)
@@ -41,14 +40,13 @@ class UserController extends Controller
 
         $fecha = new FormatoFecha();
 
-        //$users = QueryBuilder::for(User::class)
         $users = QueryBuilder::for(User::with('roles'))
             ->defaultSort('-created_at')
             ->allowedSorts(['name', 'email', 'created_at'])
             ->allowedFilters(['name', 'email', $globalSearch])
             ->paginate()
             ->withQueryString();
-        //dd($users);
+
         return view('admin.users.index', [
             'users' => SpladeTable::for($users)
                 ->defaultSort('name')
@@ -77,43 +75,20 @@ class UserController extends Controller
                     sortable: true
                 )
                 ->column('action')
-            // ->rowLink(function(User $user){
-            //     return route('users.show', $user);
-            // })
         ]);
     }
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    // public function index()
-    // {
-    //     return view('admin.users.index');
-    // }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
     public function create()
     {
         $roles = Role::all();
         return view('admin.users.create', compact('roles'));
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
     public function store(UserRequest $request)
     {
         $roles = Role::find($request->roles)->pluck('name');
 
-        $user = User::create([
+        User::create([
             'name' => $request->name,
             'email' => $request->email,
             'is_active' => $request->is_active,
@@ -125,36 +100,21 @@ class UserController extends Controller
         return redirect()->route('users');
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
+    public function show(User $user)
     {
-        $user = User::findOrFail($id);
         return view('admin.users.show', compact('user'));
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
+    public function edit(User $user)
     {
-        $user = User::with(['roles', 'persona'])->findOrFail($id);
+        $user->load('roles', 'persona');
         $roles = Role::all();
         $userRoleIds = $user->roles->pluck('id')->toArray();
         return view('admin.users.edit', compact('user', 'roles', 'userRoleIds'));
     }
 
-    public function storePersona(Request $request, $id)
+    public function storePersona(Request $request, User $user)
     {
-        $user = User::findOrFail($id);
-
         $data = $request->validate([
             'nombres'    => 'required|string|max:60',
             'ap_paterno' => 'nullable|string|max:40',
@@ -172,12 +132,12 @@ class UserController extends Controller
         Persona::create($data);
 
         Splade::toast('Datos personales guardados.')->autoDismiss(5);
-        return redirect()->route('user.edit', hid($id));
+        return redirect()->route('user.edit', $user);
     }
 
-    public function updatePersona(Request $request, $id)
+    public function updatePersona(Request $request, User $user)
     {
-        $user = User::with('persona')->findOrFail($id);
+        $user->load('persona');
 
         $data = $request->validate([
             'nombres'    => 'required|string|max:60',
@@ -195,21 +155,12 @@ class UserController extends Controller
         $user->persona->update($data);
 
         Splade::toast('Datos personales actualizados.')->autoDismiss(5);
-        return redirect()->route('user.edit', hid($id));
+        return redirect()->route('user.edit', $user);
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function update(UserRequest $request, $id)
+    public function update(UserRequest $request, User $user)
     {
         $roles = Role::find($request->roles)->pluck('id');
-
-        $user = User::findOrFail($id);
 
         $user->name = $request->name;
         $user->email = $request->email;
@@ -228,27 +179,13 @@ class UserController extends Controller
         return redirect()->route('users');
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy($id)
+    public function destroy(User $user)
     {
         //
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function email_confirm($id)
+    public function email_confirm(User $user)
     {
-        $user = User::findOrFail($id);
-
         if (!$user->email_verified_at) {
             $user->email_verified_at = Carbon::now()->toDateTimeString();
         }
@@ -260,16 +197,8 @@ class UserController extends Controller
         return redirect()->route('users');
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function active($id)
+    public function active(User $user)
     {
-        $user = User::findOrFail($id);
-
         $user->is_active = !$user->is_active;
 
         $user->save();

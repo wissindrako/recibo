@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Contrato;
+use App\Models\Inmueble;
 use App\Models\Persona;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Collection;
@@ -66,25 +67,27 @@ class ContratoController extends Controller
     {
         $personas = $this->getPersonasClientes();
         $arrendadores = $this->getArrendadoresActivos();
+        $inmuebles = Inmueble::orderBy('nombre')->get();
         $ultimo = Contrato::orderBy('created_at', 'desc')->first();
-        return view('contrato.create', compact('personas', 'arrendadores', 'ultimo'));
+        return view('contrato.create', compact('personas', 'arrendadores', 'inmuebles', 'ultimo'));
     }
 
     public function store(Request $request)
     {
         $data = $request->validate([
-            'tipo'               => 'required|in:alquiler,venta,otro',
-            'arrendador_id'      => 'required|integer|exists:users,id',
-            'persona_id'         => 'required|integer|exists:personas,id',
-            'descripcion_inmueble'  => 'required|string',
-            'descripcion_alquiler'  => 'required|string',
-            'fecha_inicio'       => 'required|date',
-            'fecha_fin'          => 'nullable|date|after_or_equal:fecha_inicio',
-            'monto'              => 'required|numeric|min:0',
-            'garantia'           => 'nullable|numeric|min:0',
-            'dia_limite_pago'    => 'nullable|integer|min:1|max:31',
-            'notas'              => 'nullable|string',
-            'contrato_origen_id' => 'nullable|integer|exists:contratos,id',
+            'tipo'                 => 'required|in:alquiler,venta,otro',
+            'arrendador_id'        => 'required|integer|exists:users,id',
+            'persona_id'           => 'required|integer|exists:personas,id',
+            'inmueble_id'          => 'required|integer|exists:inmuebles,id',
+            'descripcion_alquiler' => 'required|string',
+            'fecha_inicio'         => 'required|date',
+            'fecha_fin'            => 'nullable|date|after_or_equal:fecha_inicio',
+            'fecha_documento'      => 'nullable|date',
+            'monto'                => 'required|numeric|min:0',
+            'garantia'             => 'nullable|numeric|min:0',
+            'dia_limite_pago'      => 'nullable|integer|min:1|max:31',
+            'notas'                => 'nullable|string',
+            'contrato_origen_id'   => 'nullable|integer|exists:contratos,id',
         ]);
 
         try {
@@ -95,10 +98,11 @@ class ContratoController extends Controller
             $contrato->tipo              = $request->tipo;
             $contrato->arrendador_id     = $request->arrendador_id;
             $contrato->persona_id        = $request->persona_id;
-            $contrato->descripcion_inmueble = $request->descripcion_inmueble;
+            $contrato->inmueble_id       = $request->inmueble_id;
             $contrato->descripcion_alquiler = $request->descripcion_alquiler;
             $contrato->fecha_inicio      = $request->fecha_inicio;
             $contrato->fecha_fin         = $request->fecha_fin;
+            $contrato->fecha_documento   = $request->fecha_documento ?: null;
             $contrato->monto             = $request->monto;
             $contrato->garantia          = $request->garantia;
             $contrato->dia_limite_pago   = $request->dia_limite_pago;
@@ -118,9 +122,9 @@ class ContratoController extends Controller
         }
     }
 
-    public function show($id, Request $request)
+    public function show(Contrato $contrato, Request $request)
     {
-        $contrato = Contrato::with(['arrendador.persona', 'persona', 'usuario', 'contratoOrigen'])->findOrFail($id);
+        $contrato->load(['arrendador.persona', 'persona', 'usuario', 'contratoOrigen', 'inmueble']);
 
         if ($request->reporte === 'pdf') {
             $pdf = Pdf::loadView('contrato.reporte', compact('contrato'))
@@ -132,41 +136,42 @@ class ContratoController extends Controller
         return view('contrato.show', compact('contrato'));
     }
 
-    public function edit($id)
+    public function edit(Contrato $contrato)
     {
         $personas = $this->getPersonasClientes();
         $arrendadores = $this->getArrendadoresActivos();
-        $contrato = Contrato::findOrFail($id);
-        return view('contrato.edit', compact('contrato', 'personas', 'arrendadores'));
+        $inmuebles = Inmueble::orderBy('nombre')->get();
+        return view('contrato.edit', compact('contrato', 'personas', 'arrendadores', 'inmuebles'));
     }
 
-    public function update(Request $request, $id)
+    public function update(Request $request, Contrato $contrato)
     {
         $data = $request->validate([
-            'tipo'               => 'required|in:alquiler,venta,otro',
-            'arrendador_id'      => 'required|integer|exists:users,id',
-            'persona_id'         => 'required|integer|exists:personas,id',
-            'descripcion_inmueble'  => 'required|string',
-            'descripcion_alquiler'  => 'required|string',
-            'fecha_inicio'       => 'required|date',
-            'fecha_fin'          => 'nullable|date|after_or_equal:fecha_inicio',
-            'monto'              => 'required|numeric|min:0',
-            'garantia'           => 'nullable|numeric|min:0',
-            'dia_limite_pago'    => 'nullable|integer|min:1|max:31',
-            'notas'              => 'nullable|string',
+            'tipo'                 => 'required|in:alquiler,venta,otro',
+            'arrendador_id'        => 'required|integer|exists:users,id',
+            'persona_id'           => 'required|integer|exists:personas,id',
+            'inmueble_id'          => 'required|integer|exists:inmuebles,id',
+            'descripcion_alquiler' => 'required|string',
+            'fecha_inicio'         => 'required|date',
+            'fecha_fin'            => 'nullable|date|after_or_equal:fecha_inicio',
+            'fecha_documento'      => 'nullable|date',
+            'monto'                => 'required|numeric|min:0',
+            'garantia'             => 'nullable|numeric|min:0',
+            'dia_limite_pago'      => 'nullable|integer|min:1|max:31',
+            'notas'                => 'nullable|string',
         ]);
 
         try {
             DB::beginTransaction();
 
-            $contrato = Contrato::findOrFail($id);
             $contrato->tipo              = $request->tipo;
             $contrato->arrendador_id     = $request->arrendador_id;
             $contrato->persona_id        = $request->persona_id;
-            $contrato->descripcion_inmueble = $request->descripcion_inmueble;
+            $contrato->inmueble_id       = $request->inmueble_id;
             $contrato->descripcion_alquiler = $request->descripcion_alquiler;
             $contrato->fecha_inicio      = $request->fecha_inicio;
             $contrato->fecha_fin         = $request->fecha_fin;
+            $contrato->fecha_documento   = $request->fecha_documento ?: null;
             $contrato->monto             = $request->monto;
             $contrato->garantia          = $request->garantia;
             $contrato->dia_limite_pago   = $request->dia_limite_pago;
@@ -185,18 +190,28 @@ class ContratoController extends Controller
     }
 
     /** Sube uno o varios archivos al contrato (acumula, no reemplaza). */
-    public function uploadArchivos(Request $request, $id)
+    public function uploadArchivos(Request $request, Contrato $contrato)
     {
+        $allowedExts = ['pdf', 'doc', 'docx', 'jpg', 'jpeg', 'png', 'webp', 'gif'];
+
         $request->validate([
             'archivos'   => 'required|array|min:1',
-            'archivos.*' => 'file|mimes:pdf,doc,docx,jpg,jpeg,png,webp,gif|max:20480',
+            'archivos.*' => [
+                'file',
+                'max:51200',
+                function ($attribute, $value, $fail) use ($allowedExts) {
+                    $ext = strtolower($value->getClientOriginalExtension());
+                    if (!in_array($ext, $allowedExts)) {
+                        $fail('Solo se permiten PDF, Word e imágenes (jpg, png, gif, webp).');
+                    }
+                },
+            ],
         ], [
-            'archivos.required'   => 'Selecciona al menos un archivo.',
-            'archivos.*.mimes'    => 'Solo se permiten PDF, Word e imágenes.',
-            'archivos.*.max'      => 'Cada archivo no puede superar 20 MB.',
+            'archivos.required' => 'Selecciona al menos un archivo.',
+            'archivos.*.file'   => 'Uno de los archivos no pudo subirse (puede ser demasiado grande o estar corrupto).',
+            'archivos.*.max'    => 'Cada archivo no puede superar 50 MB.',
         ]);
 
-        $contrato  = Contrato::findOrFail($id);
         $existentes = (array) ($contrato->archivo ?? []);
 
         foreach ($request->file('archivos') as $file) {
@@ -214,9 +229,8 @@ class ContratoController extends Controller
     }
 
     /** Elimina un archivo específico del contrato por su índice. */
-    public function deleteArchivo(Request $request, $id, $index)
+    public function deleteArchivo(Request $request, Contrato $contrato, $index)
     {
-        $contrato  = Contrato::findOrFail($id);
         $archivos  = (array) ($contrato->archivo ?? []);
 
         if (!isset($archivos[$index])) {
@@ -249,25 +263,26 @@ class ContratoController extends Controller
             ->get();
     }
 
-    public function anular($id)
+    public function anular(Contrato $contrato)
     {
-        $contrato = Contrato::findOrFail($id);
         $contrato->estado = 0;
         $contrato->save();
         Splade::toast('Contrato anulado.')->autoDismiss(5);
         return redirect()->route('contratos');
     }
 
-    public function renovar($id)
+    public function renovar(Contrato $contrato)
     {
         $personas = $this->getPersonasClientes();
         $arrendadores = $this->getArrendadoresActivos();
-        $origen = Contrato::with('persona')->findOrFail($id);
+        $inmuebles = Inmueble::orderBy('nombre')->get();
+        $origen = $contrato->load('persona');
         return view('contrato.create', [
-            'personas'    => $personas,
-            'arrendadores'=> $arrendadores,
-            'ultimo'      => null,
-            'origen'      => $origen,
+            'personas'     => $personas,
+            'arrendadores' => $arrendadores,
+            'inmuebles'    => $inmuebles,
+            'ultimo'       => null,
+            'origen'       => $origen,
         ]);
     }
 

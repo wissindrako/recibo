@@ -10,4 +10,9 @@ trait HasHashid
     {
         return Hashid::encode($this->getKey());
     }
+
+    public function resolveRouteBinding($value, $field = null)
+    {
+        return $this->findOrFail(Hashid::decode($value));
+    }
 }

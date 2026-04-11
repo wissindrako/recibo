@@ -38,8 +38,17 @@
     border-color: theme('colors.gray.600') !important;
 }
 
+.dark table tbody {
+    background-color: theme('colors.gray.800') !important;
+}
+
 .dark table tbody tr {
+    background-color: theme('colors.gray.800') !important;
     border-color: theme('colors.gray.700') !important;
+}
+
+.dark table tbody tr:nth-child(even) {
+    background-color: theme('colors.gray.900') !important;
 }
 
 .dark table tbody tr:hover {
@@ -49,10 +58,6 @@
 .dark table tbody td {
     border-color: theme('colors.gray.700') !important;
     color: theme('colors.gray.200') !important;
-}
-
-.dark table tbody tr:nth-child(even) {
-    background-color: theme('colors.gray.800') !important;
 }
 
 /* ── Dark mode: Splade pagination ───────────────────────────── */

@@ -29,7 +29,7 @@
                         <x-slot name="body">
                             <tbody>
                                 @foreach($contratos->resource as $contrato)
-                                    <tr class="dark:bg-gray-800 dark:hover:bg-gray-700 transition">
+                                    <tr class="transition">
                                         <td class="px-2 text-center border dark:border-gray-700">
                                             <span class="text-slate-500 dark:text-gray-400 font-semibold">{{ $contrato->nro_serie }}</span>
                                         </td>

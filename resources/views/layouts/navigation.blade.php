@@ -33,6 +33,9 @@
                         <x-nav-link :href="route('contratos')" :active="request()->routeIs('contratos')">
                             {{ __('Contratos') }}
                         </x-nav-link>
+                        <x-nav-link :href="route('inmuebles')" :active="request()->routeIs('inmuebles', 'inmueble.*')">
+                            {{ __('Inmuebles') }}
+                        </x-nav-link>
                         {{-- <x-nav-link :href="route('materias')" :active="request()->routeIs('materias')">
                             {{ __('Materias') }}
                         </x-nav-link> --}}
