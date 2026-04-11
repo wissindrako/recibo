@@ -27,7 +27,8 @@ class UserRequest extends FormRequest
      */
     public function rules()
     {
-        $userId = $this->route('id');
+        $user   = $this->route('user');
+        $userId = $user instanceof \App\Models\User ? $user->id : $user;
 
         $usuario = [
             'name'      => ['required', 'string', 'max:255'],
