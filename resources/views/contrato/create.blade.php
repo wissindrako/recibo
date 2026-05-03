@@ -31,6 +31,7 @@
                         'monto'               => $origen->monto ?? '',
                         'garantia'            => $origen->garantia ?? '',
                         'dia_limite_pago'     => $origen->dia_limite_pago ?? '',
+                        'notas'               => $origen->notas ?? '',
                         'contrato_origen_id'  => $origen->id ?? null,
                         'servicios_contrato'  => [],
                     ]">
